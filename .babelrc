@@ -1,0 +1,20 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "compact" : true,
+  "plugins": [
+    ["transform-inline-environment-variables", {
+      "exclude": [
+        "NODE_TLS_REJECT_UNAUTHORIZED"
+      ]
+    }]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "clientApi": "testClientApi",
+  "companyName": "Pizza",
+  "apiBasePath": "/api",
+  "internalApi": true,
+  "authApiBaseUrl": "unknown",
+  "logger": {
+    "level": "warn",
+    "consoleEnabled": true,
+    "fileEnabled": true,
+    "logFile": "logs/api.log"
+  }
+}

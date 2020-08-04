@@ -1,0 +1,27 @@
+import { createServer } from 'http';
+import express from 'express';
+import config from 'config';
+import cors from 'cors';
+import path from 'path';
+const bodyParser = require('body-parser');
+
+import logger from './logger';
+import appRouters from './routers';
+import { apiUrlResolver } from './services';
+
+const expressApp = express();
+const corsOptions = { origin: '*' };
+
+export const startHttpServer = () => new Promise((resolve) => {
+    expressApp.use(cors(corsOptions));
+    expressApp.use(bodyParser.json());
+    expressApp.use(express.static(path.join(__dirname, '../views')));
+    appRouters(expressApp);
+
+    const server = createServer(expressApp)
+        .listen(process.env.PORT || config.port, config.host, () => {
+            logger.info(`Server is listening: ${apiUrlResolver.getHost()}`);
+        });
+
+    resolve(server);
+});
