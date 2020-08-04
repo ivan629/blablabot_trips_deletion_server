@@ -7,6 +7,9 @@
     "dev": "cross-env NODE_ENV=development babel-node src/index.js",
     "pretest": "eslint --ignore-path .gitignore ."
   },
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
