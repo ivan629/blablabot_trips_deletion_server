@@ -1,5 +1,7 @@
+import DataGeneratingController from '../controllers/DataGeneratingController';
+
 const appRouters = (expressApp) => {
-    expressApp.get('/', (req, res) => res.send('Hello, world!'));
+    expressApp.get('/generate', DataGeneratingController);
 };
 
 export default appRouters;
