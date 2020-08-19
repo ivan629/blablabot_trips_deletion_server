@@ -6,8 +6,8 @@ import path from 'path';
 const bodyParser = require('body-parser');
 
 import logger from './logger';
-import appRouters from './routers';
-import { apiUrlResolver } from './services';
+import telegramBotControllers from './controllers/telegramBotControllers';
+import { apiUrlResolver, telegramBot } from './services';
 
 const expressApp = express();
 const corsOptions = { origin: '*' };
@@ -16,7 +16,8 @@ export const startHttpServer = () => new Promise((resolve) => {
     expressApp.use(cors(corsOptions));
     expressApp.use(bodyParser.json());
     expressApp.use(express.static(path.join(__dirname, '../views')));
-    appRouters(expressApp);
+
+    telegramBotControllers(telegramBot);
 
     const server = createServer(expressApp)
         .listen(process.env.PORT || config.port, config.host, () => {

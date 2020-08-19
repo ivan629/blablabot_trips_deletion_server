@@ -1,0 +1,3121 @@
+{
+    "pronto_pizza": {
+        "restaurant_id": "pronto_pizza",
+        "pizzas": {
+            "salami": {
+                "id": "salami",
+                "name": "Салямі",
+                "addition": false,
+                "price": [
+                    "128",
+                    "179"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "390",
+                    "725"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "салямі"
+                ],
+                "price_without_kap": []
+            },
+            "kapri": {
+                "id": "kapri",
+                "name": "Капрічоза",
+                "addition": false,
+                "price": [
+                    "146",
+                    "207"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "610",
+                    "935"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "шинка",
+                    "гриби",
+                    "помідори",
+                    "салямі"
+                ],
+                "price_without_kap": []
+            },
+            "caprese": {
+                "id": "caprese",
+                "name": "Капрезе",
+                "addition": false,
+                "price": [
+                    "145",
+                    "201"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "580",
+                    "915"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "помідори",
+                    "курка",
+                    "шинка"
+                ],
+                "price_without_kap": []
+            },
+            "havai": {
+                "id": "havai",
+                "name": "Гавайська",
+                "addition": false,
+                "price": [
+                    "157",
+                    "229"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "590",
+                    "985"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "ананас",
+                    "кукурудза",
+                    "курка",
+                    "оливки"
+                ],
+                "price_without_kap": []
+            },
+            "milano": {
+                "id": "milano",
+                "name": "Мілано",
+                "addition": false,
+                "price": [
+                    "139",
+                    "197"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "550",
+                    "950"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "курка",
+                    "мисливська ковбаска",
+                    "гриби"
+                ],
+                "price_without_kap": []
+            },
+            "4seas": {
+                "id": "4seas",
+                "name": "4 Сезони",
+                "addition": false,
+                "price": [
+                    "127",
+                    "188"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "535",
+                    "890"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "гриби",
+                    "салямі",
+                    "кукурудза",
+                    "болгарський перець"
+                ],
+                "price_without_kap": []
+            },
+            "kozak": {
+                "id": "kozak",
+                "name": "Козацька",
+                "addition": false,
+                "price": [
+                    "149",
+                    "208"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "535",
+                    "950"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "мисливська ковбаска",
+                    "шинка",
+                    "салямі",
+                    "чілі",
+                    "часник",
+                    "цибуля"
+                ],
+                "price_without_kap": []
+            },
+            "mega": {
+                "id": "mega",
+                "name": "Мега Піца",
+                "addition": false,
+                "price": [
+                    "172",
+                    "234"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "645",
+                    "950"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "салямі",
+                    "шинка",
+                    "гриби",
+                    "кукурудза",
+                    "мисливська ковбаска",
+                    "оливки"
+                ],
+                "price_without_kap": []
+            },
+            "4cheeses": {
+                "id": "4cheeses",
+                "name": "4 Сири",
+                "addition": false,
+                "price": [
+                    "157",
+                    "229"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "430",
+                    "725"
+                ],
+                "ingredients": [
+                    "Oснова",
+                    "вершковий соус",
+                    "моцарелла",
+                    "пармезан",
+                    "горгонзола",
+                    "королівський си"
+                ],
+                "price_without_kap": []
+            },
+            "margarita": {
+                "id": "margarita",
+                "name": "Маргарита",
+                "addition": false,
+                "price": [
+                    "93",
+                    "136"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "430",
+                    "730"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "помідори"
+                ],
+                "price_without_kap": []
+            },
+            "vegetarian": {
+                "id": "vegetarian",
+                "name": "Вегетаріана",
+                "addition": false,
+                "price": [
+                    "99",
+                    "156"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "585",
+                    "890"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "гриби",
+                    "помідори",
+                    "кукурудза",
+                    "болгарський перець",
+                    "оливки"
+                ],
+                "price_without_kap": []
+            },
+            "picantna": {
+                "id": "picantna",
+                "name": "Пікантна",
+                "addition": false,
+                "price": [
+                    "112",
+                    "168"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "510",
+                    "880"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "чілі",
+                    "мисливська ковбаска",
+                    "цибуля",
+                    "болгарський перець"
+                ],
+                "price_without_kap": []
+            },
+            "pancheta": {
+                "id": "pancheta",
+                "name": "Панчета",
+                "addition": false,
+                "price": [
+                    "123",
+                    "176"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "549",
+                    "825"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "бекон",
+                    "гриби",
+                    "помідори"
+                ],
+                "price_without_kap": []
+            },
+            "romana": {
+                "id": "romana",
+                "name": "Романа",
+                "addition": false,
+                "price": [
+                    "132",
+                    "181"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "470",
+                    "800"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "вершковий соус",
+                    "сир",
+                    "курка",
+                    "гриби"
+                ],
+                "price_without_kap": []
+            },
+            "primavera": {
+                "id": "primavera",
+                "name": "Прімавера",
+                "addition": false,
+                "price": [
+                    "137",
+                    "183"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "585",
+                    "950"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "кукурудза",
+                    "болгарський перець",
+                    "шинка",
+                    "гриби"
+                ],
+                "price_without_kap": []
+            },
+            "tonno": {
+                "id": "tonno",
+                "name": "Тонно",
+                "addition": false,
+                "price": [
+                    "151",
+                    "199"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "480",
+                    "790"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "тунець",
+                    "італійські спеції"
+                ],
+                "price_without_kap": []
+            },
+            "peperoni": {
+                "id": "peperoni",
+                "name": "Папероні",
+                "addition": false,
+                "price": [
+                    "125",
+                    "186"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "410",
+                    "700"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томати",
+                    "сир",
+                    "папероні"
+                ],
+                "price_without_kap": []
+            },
+            "pollo": {
+                "id": "pollo",
+                "name": "Полло",
+                "addition": false,
+                "price": [
+                    "139",
+                    "189"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "540",
+                    "800"
+                ],
+                "ingredients": [
+                    "Вершкова основа",
+                    "моцарелла",
+                    "курка",
+                    "кукурудза",
+                    "помідори"
+                ],
+                "price_without_kap": []
+            },
+            "napoletana": {
+                "id": "napoletana",
+                "name": "Наполетана",
+                "addition": false,
+                "price": [
+                    "123",
+                    "173"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "540",
+                    "800"
+                ],
+                "ingredients": [
+                    "Часникова основа",
+                    "моцарелла",
+                    "бекон",
+                    "гриби",
+                    "огірок маринований"
+                ],
+                "price_without_kap": []
+            },
+            "palermo": {
+                "id": "palermo",
+                "name": "Палермо",
+                "addition": false,
+                "price": [
+                    "158",
+                    "214"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "515",
+                    "850"
+                ],
+                "ingredients": [
+                    "Томатна основа",
+                    "моцарелла",
+                    "фета",
+                    "вялені помідори",
+                    "чилі",
+                    "курка"
+                ],
+                "price_without_kap": []
+            },
+            "perduzka": {
+                "id": "perduzka",
+                "name": "Перуджа",
+                "addition": false,
+                "price": [
+                    "126",
+                    "177"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "500",
+                    "850"
+                ],
+                "ingredients": [
+                    "Томатна основа",
+                    "моцарелла",
+                    "мисливські ковбаски",
+                    "гриби",
+                    "оливки"
+                ],
+                "price_without_kap": []
+            },
+            "z_rukolou": {
+                "id": "z_rukolou",
+                "name": "З Руколою",
+                "addition": false,
+                "price": [
+                    "117",
+                    "183"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "490",
+                    "860"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "томатний соус",
+                    "сир",
+                    "рукола",
+                    "пармезан",
+                    "помідор чері"
+                ],
+                "price_without_kap": []
+            },
+            "litnua": {
+                "id": "litnua",
+                "name": "Літня",
+                "addition": false,
+                "price": [
+                    "117",
+                    "183"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "600",
+                    "960"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "соус томатний",
+                    "сир",
+                    "курка",
+                    "стручкова квасоля",
+                    "помідор чері",
+                    "фета"
+                ],
+                "price_without_kap": []
+            },
+            "zezar": {
+                "id": "zezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "117",
+                    "183"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "680",
+                    "110"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "сир",
+                    "соус томатний",
+                    "курка",
+                    "яйце варене",
+                    "помідор",
+                    "мікс пекінка-айсберг",
+                    "соус цезар"
+                ],
+                "price_without_kap": []
+            },
+            "salmone": {
+                "id": "salmone",
+                "name": "Сальмоне",
+                "addition": false,
+                "price": [
+                    "139",
+                    "219"
+                ],
+                "sizes": [
+                    "30",
+                    "40"
+                ],
+                "weight": [
+                    "450",
+                    "860"
+                ],
+                "ingredients": [
+                    "Основа",
+                    "соус вершковий",
+                    "сир",
+                    "лосось",
+                    "тим'ян",
+                    "лимон"
+                ],
+                "price_without_kap": []
+            }
+        }
+    },
+    "sho_sho": {
+        "restaurant_id": "sho_sho",
+        "pizzas": {
+            "сhicken_fillet_pineapple_and_mozzarella": {
+                "id": "сhicken_fillet_pineapple_and_mozzarella",
+                "name": "З курячим філе, ананасом та моцарелою",
+                "addition": false,
+                "price": [
+                    "80"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "моцарела"
+                ],
+                "price_without_kap": []
+            },
+            "salami_mushrooms_and_sweet_peppers": {
+                "id": "salami_mushrooms_and_sweet_peppers",
+                "name": "З салямі, грибами та солодким перцем",
+                "addition": false,
+                "price": [
+                    "68"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "перець свіжий"
+                ],
+                "price_without_kap": []
+            },
+            "with_ham_mushrooms_and_tomatoes": {
+                "id": "with_ham_mushrooms_and_tomatoes",
+                "name": "З шинкою, грибами та томатами",
+                "addition": false,
+                "price": [
+                    "68"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "печериці свіжі",
+                    "помідор"
+                ],
+                "price_without_kap": []
+            },
+            "pizza_with_cherry_tomatoes_and_mozzarella": {
+                "id": "pizza_with_cherry_tomatoes_and_mozzarella",
+                "name": "Піца з помідорами чері та моцарелою",
+                "addition": false,
+                "price": [
+                    "108",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "помідори чері",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "diablo": {
+                "id": "diablo",
+                "name": "Діаболо",
+                "addition": false,
+                "price": [
+                    "80",
+                    "155"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "перець чилі",
+                    "печериці свіжі",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "zezar": {
+                "id": "zezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "105",
+                    "185"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "бекон",
+                    "помідор",
+                    "мікс салатів",
+                    "соус \"Цезар\"",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "kaprichoza": {
+                "id": "kaprichoza",
+                "name": "Капрічоза",
+                "addition": false,
+                "price": [
+                    "87",
+                    "169"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "моцарела",
+                    "печериці свіжі",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "158"
+                ]
+            },
+            "vegeteriano": {
+                "id": "vegeteriano",
+                "name": "Вегетаріано",
+                "addition": false,
+                "price": [
+                    "85",
+                    "157"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "печериці свіжі",
+                    "маслини",
+                    "перець свіжий",
+                    "кукурудза",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "margarita": {
+                "id": "margarita",
+                "name": "Маргарита",
+                "addition": false,
+                "price": [
+                    "70",
+                    "139"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "proshuto": {
+                "id": "proshuto",
+                "name": "Прошуто",
+                "addition": false,
+                "price": [
+                    "99",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "моцарела",
+                    "печериці свіжі",
+                    "прошуто",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "europe": {
+                "id": "europe",
+                "name": "Європейська",
+                "addition": false,
+                "price": [
+                    "87",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "каперси",
+                    "мисливські ковбаски",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "143"
+                ]
+            },
+            "gavaiska": {
+                "id": "gavaiska",
+                "name": "Гавайська",
+                "addition": false,
+                "price": [
+                    "108",
+                    "189"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "оливки",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "karbonara": {
+                "id": "karbonara",
+                "name": "Карбонара",
+                "addition": false,
+                "price": [
+                    "89",
+                    "168"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "бекон",
+                    "перепелині яйця",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "tonno": {
+                "id": "tonno",
+                "name": "Тонно",
+                "addition": false,
+                "price": [
+                    "110",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "тунець",
+                    "цибуля кримська",
+                    "оливки",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "paperoni": {
+                "id": "paperoni",
+                "name": "Папероні",
+                "addition": false,
+                "price": [
+                    "90",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "ковбаса папероні",
+                    "моцарелла",
+                    "базилік"
+                ],
+                "price_without_kap": []
+            },
+            "fruti_de_mare": {
+                "id": "fruti_de_mare",
+                "name": "Фруті де маре",
+                "addition": false,
+                "price": [
+                    "125",
+                    "250"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "Тісто",
+                    "соус",
+                    "сир",
+                    "морепродукти",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "4cheeses": {
+                "id": "4cheeses",
+                "name": "Чотири сири",
+                "addition": false,
+                "price": [
+                    "118",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "моцарела",
+                    "фета",
+                    "горгонзола",
+                    "базилік",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "pica_fri": {
+                "id": "pica_fri",
+                "name": "Піца Фрі",
+                "addition": false,
+                "price": [
+                    "105",
+                    "195"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [
+                    "400",
+                    "600"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "картопля фрі",
+                    "мисливські ковбаски",
+                    "салямі",
+                    "моцарела",
+                    "помідори",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            }
+        }
+    },
+    "new_york_street_pizza_holovna_6": {
+        "restaurant_id": "new_york_street_pizza_holovna_6",
+        "pizzas": {
+            "kaltsone_di_vento": {
+                "id": "kaltsone_di_vento",
+                "name": "Кальцоне Ді-венто",
+                "addition": false,
+                "price": [
+                    "80"
+                ],
+                "sizes": [],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "моцарела"
+                ],
+                "price_without_kap": []
+            },
+            "vegeteriano": {
+                "id": "vegeteriano",
+                "name": "Вегетаріано",
+                "addition": false,
+                "price": [
+                    "80",
+                    "157"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "печериці свіжі",
+                    "перець свіжий",
+                    "мислини",
+                    "кукурудза",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "bazilik": {
+                "id": "bazilik",
+                "name": "базилік",
+                "addition": true,
+                "price": [
+                    "8"
+                ],
+                "sizes": [],
+                "weight": [
+                    "5"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "choturu_sura": {
+                "id": "choturu_sura",
+                "name": "Чотири сира",
+                "addition": false,
+                "price": [
+                    "115",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "моцарела",
+                    "фета",
+                    "горгонзола",
+                    "базилік",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "tonno": {
+                "id": "tonno",
+                "name": "Тонно",
+                "addition": false,
+                "price": [
+                    "105",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "тунець",
+                    "цибуля кримська",
+                    "оливки",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "gavaiskaa": {
+                "id": "gavaiskaa",
+                "name": "Гавайська",
+                "addition": false,
+                "price": [
+                    "108",
+                    "189"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "оливки",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "pizza_fri": {
+                "id": "pizza_fri",
+                "name": "Піца Фрі",
+                "addition": false,
+                "price": [
+                    "105",
+                    "195"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "Тісто",
+                    "вершковий соус",
+                    "сир твердий",
+                    "картопля фрі",
+                    "мисливські ковбаски",
+                    "салямі",
+                    "моцарела",
+                    "помідори",
+                    "сир пармезан",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "tsezar": {
+                "id": "tsezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "105",
+                    "185"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "бекон",
+                    "помідор",
+                    "мікс салатів",
+                    "соус «Цезар»",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "bicon": {
+                "id": "bicon",
+                "name": "бекон",
+                "addition": true,
+                "price": [
+                    "20"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "tsibula": {
+                "id": "tsibula",
+                "name": "цибуля",
+                "addition": true,
+                "price": [
+                    "3"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "petcheritci_svizi": {
+                "id": "petcheritci_svizi",
+                "name": "печериці свіжі",
+                "addition": true,
+                "price": [
+                    "9"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pomidori": {
+                "id": "pomidori",
+                "name": "помідори",
+                "addition": true,
+                "price": [
+                    "10"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kapersi": {
+                "id": "kapersi",
+                "name": "каперси",
+                "addition": true,
+                "price": [
+                    "37"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "gostre_salami": {
+                "id": "gostre_salami",
+                "name": "гостре салямі",
+                "addition": true,
+                "price": [
+                    "29"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "shinka": {
+                "id": "shinka",
+                "name": "шинка",
+                "addition": true,
+                "price": [
+                    "17"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kuratche_file": {
+                "id": "kuratche_file",
+                "name": "куряче філе",
+                "addition": true,
+                "price": [
+                    "22"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "musluvski_kovbaski": {
+                "id": "musluvski_kovbaski",
+                "name": "мисливські ковбаски",
+                "addition": true,
+                "price": [
+                    "17"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "salami": {
+                "id": "salami",
+                "name": "салямі",
+                "addition": true,
+                "price": [
+                    "18"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "motsarela": {
+                "id": "motsarela",
+                "name": "моцарела",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "sur": {
+                "id": "sur",
+                "name": "сир",
+                "addition": true,
+                "price": [
+                    "17"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "evropeiska": {
+                "id": "evropeiska",
+                "name": "Європейська",
+                "addition": false,
+                "price": [
+                    "87",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "каперси",
+                    "мисливські ковбаски",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "margarita": {
+                "id": "margarita",
+                "name": "Маргарита",
+                "addition": false,
+                "price": [
+                    "70.139"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідори",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "europeiska": {
+                "id": "europeiska",
+                "name": "Європейська",
+                "addition": false,
+                "price": [
+                    "87",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "каперси",
+                    "мисливські ковбаски",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "mozarella": {
+                "id": "mozarella",
+                "name": "моцарела",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "chicken_fille": {
+                "id": "chicken_fille",
+                "name": "куряче філе",
+                "addition": true,
+                "price": [
+                    "22"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "gostre_salumi": {
+                "id": "gostre_salumi",
+                "name": "гостре салямі",
+                "addition": true,
+                "price": [
+                    "29"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kaperses": {
+                "id": "kaperses",
+                "name": "каперси",
+                "addition": true,
+                "price": [
+                    "37"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pomidory": {
+                "id": "pomidory",
+                "name": "помідори",
+                "addition": true,
+                "price": [
+                    "10"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pecherutsy_svigy": {
+                "id": "pecherutsy_svigy",
+                "name": "печериці свіжі",
+                "addition": true,
+                "price": [
+                    "9"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "tzibulia": {
+                "id": "tzibulia",
+                "name": "цибуля",
+                "addition": true,
+                "price": [
+                    "3"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "bekon": {
+                "id": "bekon",
+                "name": "бекон",
+                "addition": true,
+                "price": [
+                    "20"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "zezar": {
+                "id": "zezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "105",
+                    "185"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "бекон",
+                    "помідор",
+                    "мікс салатів",
+                    "соус «Цезар»"
+                ],
+                "price_without_kap": []
+            },
+            "diablo": {
+                "id": "diablo",
+                "name": "Діаболо",
+                "addition": false,
+                "price": [
+                    "85",
+                    "155"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "перець чилі",
+                    "печериці свіжі",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "frutti_de_mari": {
+                "id": "frutti_de_mari",
+                "name": "Фруті де Маре",
+                "addition": false,
+                "price": [
+                    "125",
+                    "250"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "морепродукти",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            }
+        }
+    },
+    "new_york_street_pizza_prospect_": {
+        "restaurant_id": "new_york_street_pizza_prospect_",
+        "pizzas": {
+            "pizza_with_tomatos_cheri_and_mozarella": {
+                "id": "pizza_with_tomatos_cheri_and_mozarella",
+                "name": "Піца з помідорами чері та моцарелою",
+                "addition": false,
+                "price": [
+                    "108",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "помідори чері",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "diablo": {
+                "id": "diablo",
+                "name": "Діаболо",
+                "addition": false,
+                "price": [
+                    "85",
+                    "175"
+                ],
+                "sizes": [],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "перець чилі",
+                    "печериці свіжі",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "krevetki": {
+                "id": "krevetki",
+                "name": "Креветки",
+                "addition": true,
+                "price": [
+                    "75"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "cheese_parmazan": {
+                "id": "cheese_parmazan",
+                "name": "Сир пармезан",
+                "addition": true,
+                "price": [
+                    "22"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "tzezar": {
+                "id": "tzezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "105",
+                    "185"
+                ],
+                "sizes": [],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "бекон",
+                    "помідор",
+                    "мікс салатів",
+                    "соус \"Цезар\"",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "bazilik": {
+                "id": "bazilik",
+                "name": "Базилік",
+                "addition": true,
+                "price": [
+                    "8"
+                ],
+                "sizes": [],
+                "weight": [
+                    "5"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "losos": {
+                "id": "losos",
+                "name": "Лосось",
+                "addition": true,
+                "price": [
+                    "87"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "ogirki_quascheni": {
+                "id": "ogirki_quascheni",
+                "name": "Огірки квашені",
+                "addition": true,
+                "price": [
+                    "5"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "gostre_salami": {
+                "id": "gostre_salami",
+                "name": "Гостре салямі",
+                "addition": true,
+                "price": [
+                    "29"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "listua_salatu": {
+                "id": "listua_salatu",
+                "name": "Листя салату",
+                "addition": true,
+                "price": [
+                    "10"
+                ],
+                "sizes": [],
+                "weight": [
+                    "15"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pomidori_chery": {
+                "id": "pomidori_chery",
+                "name": "Помідори чері",
+                "addition": true,
+                "price": [
+                    "10"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "new_york": {
+                "id": "new_york",
+                "name": "Нью Йорк",
+                "addition": false,
+                "price": [
+                    "87",
+                    "169"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "моцарела",
+                    "печериці свіжі",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "158"
+                ]
+            },
+            "vegeteriano": {
+                "id": "vegeteriano",
+                "name": "Вегетаріано",
+                "addition": false,
+                "price": [
+                    "85",
+                    "157"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "печериці свіжі",
+                    "маслини",
+                    "перець свіжий",
+                    "кукурудза",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "margarita": {
+                "id": "margarita",
+                "name": "Маргарита",
+                "addition": false,
+                "price": [
+                    "70",
+                    "139"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "prochuto": {
+                "id": "prochuto",
+                "name": "Прошуто",
+                "addition": false,
+                "price": [
+                    "99",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "моцарела",
+                    "печериці свіжі",
+                    "прошуто",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "eropeiska": {
+                "id": "eropeiska",
+                "name": "Європейська",
+                "addition": false,
+                "price": [
+                    "87",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "каперси",
+                    "мисливські ковбаски",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "143"
+                ]
+            },
+            "gavaiska": {
+                "id": "gavaiska",
+                "name": "Гавайська",
+                "addition": false,
+                "price": [
+                    "108",
+                    "189"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "оливки",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "karbonara": {
+                "id": "karbonara",
+                "name": "Карбонара",
+                "addition": false,
+                "price": [
+                    "89",
+                    "168"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "бекон",
+                    "перепелині яйця",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "zelen": {
+                "id": "zelen",
+                "name": "Зелень",
+                "addition": true,
+                "price": [
+                    "3"
+                ],
+                "sizes": [],
+                "weight": [
+                    "5"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kukurudza": {
+                "id": "kukurudza",
+                "name": "Кукурудза",
+                "addition": true,
+                "price": [
+                    "8"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kaperses": {
+                "id": "kaperses",
+                "name": "Каперси",
+                "addition": true,
+                "price": [
+                    "37"
+                ],
+                "sizes": [],
+                "weight": [
+                    "20"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "zibulia": {
+                "id": "zibulia",
+                "name": "Цибуля",
+                "addition": true,
+                "price": [
+                    "3"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "cheese_mozarella": {
+                "id": "cheese_mozarella",
+                "name": "Сир моцарела",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "cheese_phetta": {
+                "id": "cheese_phetta",
+                "name": "Сир фета",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "salami": {
+                "id": "salami",
+                "name": "Салямі",
+                "addition": true,
+                "price": [
+                    "18"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "mislivski_kovbasi": {
+                "id": "mislivski_kovbasi",
+                "name": "Мисливські ковбаски",
+                "addition": true,
+                "price": [
+                    "17"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "shinka": {
+                "id": "shinka",
+                "name": "Шинка",
+                "addition": true,
+                "price": [
+                    "17"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "bekon": {
+                "id": "bekon",
+                "name": "Бекон",
+                "addition": true,
+                "price": [
+                    "20"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "chiken_file": {
+                "id": "chiken_file",
+                "name": "Куряче філе",
+                "addition": true,
+                "price": [
+                    "22"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "proshuto": {
+                "id": "proshuto",
+                "name": "Прошуто",
+                "addition": true,
+                "price": [
+                    "44"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "tunets": {
+                "id": "tunets",
+                "name": "Тунець",
+                "addition": true,
+                "price": [
+                    "51"
+                ],
+                "sizes": [],
+                "weight": [
+                    "80"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "moreproducti": {
+                "id": "moreproducti",
+                "name": "Морепродукти",
+                "addition": true,
+                "price": [
+                    "49"
+                ],
+                "sizes": [],
+                "weight": [
+                    "100"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "crabovi_palichki": {
+                "id": "crabovi_palichki",
+                "name": "Крабові палички",
+                "addition": true,
+                "price": [
+                    "13"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pomidori": {
+                "id": "pomidori",
+                "name": "Помідори",
+                "addition": true,
+                "price": [
+                    "10"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "prets_bolgarski": {
+                "id": "prets_bolgarski",
+                "name": "Перець болгарський",
+                "addition": true,
+                "price": [
+                    "16"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "pecherutsi_svizi": {
+                "id": "pecherutsi_svizi",
+                "name": "Печериці свіжі",
+                "addition": true,
+                "price": [
+                    "9"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "perets_paperoni": {
+                "id": "perets_paperoni",
+                "name": "Перець папероні",
+                "addition": true,
+                "price": [
+                    "13"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "perets_chilly": {
+                "id": "perets_chilly",
+                "name": "Перець чилі",
+                "addition": true,
+                "price": [
+                    "18"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "maslini": {
+                "id": "maslini",
+                "name": "Маслини",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "olivki": {
+                "id": "olivki",
+                "name": "Оливки",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "ananas": {
+                "id": "ananas",
+                "name": "Ананас",
+                "addition": true,
+                "price": [
+                    "15"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "tonno": {
+                "id": "tonno",
+                "name": "Тонно",
+                "addition": false,
+                "price": [
+                    "110",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "тунець",
+                    "цибуля кримська",
+                    "оливки",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "paperonni": {
+                "id": "paperonni",
+                "name": "Папероні",
+                "addition": false,
+                "price": [
+                    "90",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "печериці свіжі",
+                    "папероні",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "froti_de_mare": {
+                "id": "froti_de_mare",
+                "name": "Фруті де маре",
+                "addition": false,
+                "price": [
+                    "125",
+                    "250"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "Тісто",
+                    "соус",
+                    "сир",
+                    "морепродукти",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "4cheeses": {
+                "id": "4cheeses",
+                "name": "Чотири сири",
+                "addition": false,
+                "price": [
+                    "118",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "моцарела",
+                    "фета",
+                    "горгонзола",
+                    "базилік",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "kalzone_di_vento": {
+                "id": "kalzone_di_vento",
+                "name": "Кальцоне Ді-венто",
+                "addition": false,
+                "price": [
+                    "80"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "моцарела"
+                ],
+                "price_without_kap": []
+            },
+            "pizza_fri": {
+                "id": "pizza_fri",
+                "name": "Піца Фрі",
+                "addition": false,
+                "price": [
+                    "105",
+                    "195"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "картопля фрі",
+                    "мисливські ковбаски",
+                    "салямі",
+                    "моцарела",
+                    "помідори",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "sir_gorgonzolla": {
+                "id": "sir_gorgonzolla",
+                "name": "Сир горгонзола",
+                "addition": true,
+                "price": [
+                    "39"
+                ],
+                "sizes": [],
+                "weight": [
+                    "50"
+                ],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "перець свіжий"
+                ],
+                "price_without_kap": []
+            },
+            "kalzone_millano": {
+                "id": "kalzone_millano",
+                "name": "Кальцоне Мілано",
+                "addition": true,
+                "price": [
+                    "68"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            },
+            "kalzone_verona": {
+                "id": "kalzone_verona",
+                "name": "Кальцоне Верона",
+                "addition": true,
+                "price": [
+                    "68"
+                ],
+                "sizes": [],
+                "weight": [
+                    "30"
+                ],
+                "ingredients": [],
+                "price_without_kap": []
+            }
+        }
+    },
+    "new_york_street_pizza_vladislav": {
+        "restaurant_id": "new_york_street_pizza_vladislav",
+        "pizzas": {
+            "papperoni": {
+                "id": "papperoni",
+                "name": "Папероні",
+                "addition": false,
+                "price": [
+                    "90",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "печериці свіжі",
+                    "пепероні",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "kalzone_di_vento": {
+                "id": "kalzone_di_vento",
+                "name": "Кальцоне Ді-венто",
+                "addition": false,
+                "price": [
+                    "80"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "моцарела"
+                ],
+                "price_without_kap": []
+            },
+            "kalzone_milano": {
+                "id": "kalzone_milano",
+                "name": "Кальцоне Мілано",
+                "addition": false,
+                "price": [
+                    "68"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "перець свіжий"
+                ],
+                "price_without_kap": []
+            },
+            "kalzone_verona": {
+                "id": "kalzone_verona",
+                "name": "Кальцоне Верона",
+                "addition": false,
+                "price": [
+                    "68"
+                ],
+                "sizes": [
+                    "30"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "печериці свіжі",
+                    "помідор"
+                ],
+                "price_without_kap": []
+            },
+            "pomodrami_cheri_and_mozarella": {
+                "id": "pomodrami_cheri_and_mozarella",
+                "name": "З помідорами чері та моцарелою",
+                "addition": false,
+                "price": [
+                    "108",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "чері",
+                    "італійська моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "eropeiska": {
+                "id": "eropeiska",
+                "name": "Європейська",
+                "addition": false,
+                "price": [
+                    "87",
+                    "160"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "салямі",
+                    "печериці свіжі",
+                    "каперси",
+                    "мисливські ковбаски",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "143"
+                ]
+            },
+            "4cheeses": {
+                "id": "4cheeses",
+                "name": "Чотири сири",
+                "addition": false,
+                "price": [
+                    "118",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "моцарела",
+                    "фета",
+                    "горгонзола",
+                    "базилік",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "new_york": {
+                "id": "new_york",
+                "name": "New York",
+                "addition": false,
+                "price": [
+                    "87",
+                    "169"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "шинка",
+                    "моцарела",
+                    "печериці свіжі",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": [
+                    "80",
+                    "158"
+                ]
+            },
+            "margarita": {
+                "id": "margarita",
+                "name": "Маргарита",
+                "addition": false,
+                "price": [
+                    "70",
+                    "139"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "tonno": {
+                "id": "tonno",
+                "name": "Тонно",
+                "addition": false,
+                "price": [
+                    "105",
+                    "198"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "тунець",
+                    "цибуля кримська",
+                    "оливки",
+                    "каперси",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "gavaiska": {
+                "id": "gavaiska",
+                "name": "Гавайська",
+                "addition": false,
+                "price": [
+                    "108",
+                    "189"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "вершковий соус",
+                    "сир",
+                    "куряче філе",
+                    "ананас",
+                    "оливки",
+                    "моцарела",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "vegeteriano": {
+                "id": "vegeteriano",
+                "name": "Вегетеріано",
+                "addition": false,
+                "price": [
+                    "85",
+                    "157"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "помідор",
+                    "печериці свіжі",
+                    "маслини",
+                    "перець свіжий",
+                    "кукурудза",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "diablo": {
+                "id": "diablo",
+                "name": "Діаболо",
+                "addition": false,
+                "price": [
+                    "85",
+                    "155"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "гостре салямі",
+                    "перець чилі",
+                    "печериці свіжі",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "fruti_de_mare": {
+                "id": "fruti_de_mare",
+                "name": "Фруті де Маре",
+                "addition": false,
+                "price": [
+                    "125",
+                    "250"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "морепродукти",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "karbonara": {
+                "id": "karbonara",
+                "name": "Карбонара",
+                "addition": false,
+                "price": [
+                    "89",
+                    "168"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "бекон",
+                    "перепелині яйця",
+                    "пармезан",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "pizza_fri": {
+                "id": "pizza_fri",
+                "name": "Піца Фрі",
+                "addition": false,
+                "price": [
+                    "105",
+                    "195"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "Тісто",
+                    "вершковий соус",
+                    "сир твердий",
+                    "картопля фрі",
+                    "мисливські ковбаски",
+                    "салямі",
+                    "моцарела",
+                    "помідори",
+                    "сир пармезан",
+                    "зелень"
+                ],
+                "price_without_kap": []
+            },
+            "proshuto": {
+                "id": "proshuto",
+                "name": "Прошуто",
+                "addition": false,
+                "price": [
+                    "99",
+                    "178"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "моцарела",
+                    "печериці свіжі",
+                    "прошуто",
+                    "зелень",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            },
+            "zezar": {
+                "id": "zezar",
+                "name": "Цезар",
+                "addition": false,
+                "price": [
+                    "105",
+                    "185"
+                ],
+                "sizes": [
+                    "30",
+                    "50"
+                ],
+                "weight": [],
+                "ingredients": [
+                    "тісто",
+                    "соус",
+                    "сир",
+                    "куряче філе",
+                    "бекон",
+                    "помідор",
+                    "мікс салатів",
+                    "соус \"Цезар\"",
+                    "пармезан"
+                ],
+                "price_without_kap": []
+            }
+        }
+    }
+}

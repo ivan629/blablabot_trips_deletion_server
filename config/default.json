@@ -9,5 +9,18 @@
     "consoleEnabled": true,
     "fileEnabled": true,
     "logFile": "logs/api.log"
+  },
+  "telegramBotConfig": {
+    "token": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
+  },
+  "firebaseConfig": {
+    "apiKey": "AIzaSyBjzPgjs7toJzQKnVliA69BnoXZ3zIXJJM",
+    "authDomain": "havchik.firebaseapp.com",
+    "databaseURL": "https://havchik.firebaseio.com",
+    "projectId": "havchik",
+    "storageBucket": "havchik.appspot.com",
+    "messagingSenderId": "625302334157",
+    "appId": "1:625302334157:web:2a7bd17f986d64b26a5784",
+    "measurementId": "G-912VJ9HWQ3"
   }
 }
