@@ -10,6 +10,6 @@ class TripCitiesModule {
     setListeners(bot) {
         citiesListeners(bot)
     }
-};
+}
 
 export default TripCitiesModule;

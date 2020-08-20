@@ -35,6 +35,7 @@ export const getTripObject = ({
                                   start_date_day = null,
                                   stop_date_day = null,
                                   is_creation_completed = false,
+                                  is_start_date_completed = null,
                                   trip_id = null,
                               } ) => ({
 
@@ -46,6 +47,7 @@ export const getTripObject = ({
     start_date_milliseconds,
     is_creation_completed,
     start_date: {
+        is_start_date_completed,
         start_date_month,
         start_date_year,
         start_date_hour,

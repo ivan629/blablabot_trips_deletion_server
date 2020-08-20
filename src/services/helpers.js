@@ -33,9 +33,33 @@ export const updateFieldDb = (docName, fieldPath, data) => {
         .catch(error => console.error('Error writing document: ', error));
 };
 
-export const getCurrentStartTripDate = async chat_id => {
+export const getCurrentTripDate = async chat_id => {
     const data = await getNotCompletedTrip(chat_id);
-    return get(data, 'start_date', {});
+    const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
+    const dateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
+
+    console.log(data);
+
+    const {
+        start_date_day,
+        start_date_hour,
+        start_date_year,
+        start_date_month,
+        start_date_minutes,
+        stop_date_day,
+        stop_date_hour,
+        stop_date_year,
+        stop_date_month,
+        stop_date_minutes,
+    } = get(data, dateType,{});
+
+    const day = start_date_day || stop_date_day;
+    const hour = start_date_hour || stop_date_hour;
+    const year = start_date_year || stop_date_year;
+    const month = start_date_month || stop_date_month;
+    const minutes = start_date_minutes || stop_date_minutes;
+
+    return { day, hour, year, month, minutes }
 };
 
 export const getIsTripCitiesCreating = async docName => {
@@ -46,19 +70,13 @@ export const getIsTripCitiesCreating = async docName => {
     return get(data, 'bot.is_trip_cities_creating');
 };
 
-export const getCurrentStartTripDateText = async (docName) => {
-    const {
-        start_date_day,
-        start_date_hour,
-        start_date_year,
-        start_date_month,
-        start_date_minutes,
-    } = await getCurrentStartTripDate(docName);
+export const getCurrentTripDateText = async (docName) => {
+    const { day, hour, month, minutes } = await getCurrentTripDate(docName);
 
-    const formattedDay = start_date_day < 10 ? `0${start_date_day}` : start_date_day;
-    const formattedHour = isNil(start_date_hour) ? 0 : start_date_hour < 10 ? `0${start_date_hour}` : start_date_hour;
-    const formattedMonth = start_date_month < 10 ? `0${start_date_month}` : start_date_month;
-    const formattedMinutes = isNil(start_date_minutes) ? 0 : start_date_minutes < 10 ? `0${start_date_minutes} хв` : `${start_date_minutes} хв`;
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedMinutes = isNil(minutes) ? 0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
 
     return `<strong>Дата: </strong>${formattedDay}/${formattedMonth}   <strong>Час: </strong>${formattedHour}:${formattedMinutes}`;
 };
@@ -113,6 +131,20 @@ export const setKeyboardMessageToDb = (chat_id, message_id) => {
     updateFieldDb(chat_id, `bot.keyboard_message_id`, message_id);
 };
 
-export const getKeyboardMessageId = (chat_id) => {
-    getFieldFromDoc(chat_id,`bot.keyboard_message_id`);
+export const getKeyboardMessageId = async (chat_id) => {
+    await getFieldFromDoc(chat_id,`bot.keyboard_message_id`);
+};
+
+export const toggleIsTripStartDateCompleted = async chat_id => {
+    const trip = await getNotCompletedTrip(chat_id);
+
+    if (isNil(trip)) return;
+    updateFieldDb(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`, true);
+};
+
+export const getIsStartDateCreatingCompleted = async chat_id => {
+    const trip = await getNotCompletedTrip(chat_id);
+
+    if (isNil(trip)) return;
+    return await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`);
 };
