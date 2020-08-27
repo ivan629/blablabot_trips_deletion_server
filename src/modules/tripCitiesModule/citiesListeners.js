@@ -10,7 +10,7 @@ const citiesListeners = bot => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
 
         if (shouldListen) {
-            await citiesComponent.handleShowCities(msg, bot);
+            await citiesComponent.handleShowCities(bot, msg);
         }
     });
 

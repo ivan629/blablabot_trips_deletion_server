@@ -2,11 +2,12 @@ import shortid from 'shortid';
 import {
     getIfExistDoc,
     addNewTripToDb,
-    setNewDocToCollection,
     getKeyboardMessageId,
-    resetSessionDataInDb
+    resetSessionDataInDb,
+    setNewDocToCollection,
+    addSessionMessagesIdsToDb,
 } from '../../services/helpers';
-import { initialKeyboard } from '../../modules/keyboards/keyboards';
+import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
 import {
     CHOOSE_CITY_MESSAGE,
     CHOOSE_ROLE_MESSAGE,
@@ -17,6 +18,7 @@ import {
     FINAL_CITY_IN_THE_TRIP,
     PROPOSE_TRIP,
 } from '../../common/constants/commonСonstants';
+import {isNil} from "lodash";
 
 export const getTripObject = ({
                                   stop_city = null,
@@ -36,16 +38,20 @@ export const getTripObject = ({
                                   stop_date_day = null,
                                   is_creation_completed = false,
                                   is_start_date_completed = null,
+                                  trip_price = null,
+                                  available_seats_count = null,
                                   trip_id = null,
                               } ) => ({
 
     trip_id,
     start_city,
+    trip_price,
     stop_city,
     trip_creation_date,
     stop_date_milliseconds,
     start_date_milliseconds,
     is_creation_completed,
+    available_seats_count,
     start_date: {
         is_start_date_completed,
         start_date_month,
@@ -72,7 +78,8 @@ const getCarrierObject = ({
                           }) => ({
     bot: {
         is_trip_cities_creating: false,
-        keyboard_message_id: null
+        keyboard_message_id: null,
+        session_messages_ids: {},
     },
     carrier: {
         chat_id,
@@ -83,7 +90,7 @@ const getCarrierObject = ({
     trips: {}
 });
 
-export const createAction = (type, payload) => JSON.stringify({ type, payload });
+export const createAction = (type, payload) => JSON.stringify(Object.assign({}, { type, payload }));
 
 export const parseData = data => JSON.parse(data);
 
@@ -101,6 +108,8 @@ export const addNewUserToDb = async query => {
 
 export const addNewTrip = async msg => {
     const { chat: { id: chat_id } } = msg;
+
+    // console.log(msg);
 
     const trip_id = shortid.generate();
     const tripObject = getTripObject({ trip_id });
@@ -128,8 +137,7 @@ export const removeKeyboard = (bot, msg) => {
 
 
 export const goToTheMainMenu = async (bot, id) => {
-    resetSessionDataInDb(id);
-    bot.sendMessage(id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
+    sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
 };
 
 export const getIsBotMessage = messageText => [
@@ -143,4 +151,16 @@ export const getIsBotMessage = messageText => [
 ].includes(messageText);
 
 export const sendMessageAndRemoveKeyboard = (bot, id, msg) =>
-    bot.sendMessage(id, msg, { reply_markup: { remove_keyboard: true } });
+    sendMessage(bot, id, msg, { parse_mode: 'HTML', ...calendarNotCompletedKeyboard });
+
+export const getFormattedData = ({ day, hour, month, minutes }) => {
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedMinutes = isNil(minutes) ? 0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
+
+    return `Дата:  ${formattedDay}/${formattedMonth},  Година: ${formattedHour}:${formattedMinutes}`;
+};
+
+export const sendMessage = (bot, id, message, config) => bot.sendMessage(id, message, config)
+    .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));

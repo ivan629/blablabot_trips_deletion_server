@@ -38,8 +38,6 @@ export const getCurrentTripDate = async chat_id => {
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const dateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
 
-    console.log(data);
-
     const {
         start_date_day,
         start_date_hour,
@@ -78,7 +76,7 @@ export const getCurrentTripDateText = async (docName) => {
     const formattedMonth = month < 10 ? `0${month}` : month;
     const formattedMinutes = isNil(minutes) ? 0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
 
-    return `<strong>Дата: </strong>${formattedDay}/${formattedMonth}   <strong>Час: </strong>${formattedHour}:${formattedMinutes}`;
+    return `📅 ${formattedDay}/${formattedMonth}   ⏰ ${formattedHour}:${formattedMinutes}`;
 };
 
 export const toggleIsTripCitiesCreating = async (id, data) => {
@@ -90,7 +88,9 @@ export const resetSessionDataInDb = async id => {
 
     if (alreadyExists) {
         await toggleIsTripCitiesCreating(id, false);
+        await toggleIsTripPriceCreating(id, false);
         await removeNotCompletedTripsFromDb(id);
+        await clearSessionMessagesIdsInDb(id);
     }
 };
 
@@ -147,4 +147,51 @@ export const getIsStartDateCreatingCompleted = async chat_id => {
 
     if (isNil(trip)) return;
     return await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`);
+};
+
+export const setAvailableSeatsDataInDB = async (chat_id, data) => {
+    const trip = await getNotCompletedTrip(chat_id);
+    if (isNil(trip)) return;
+
+    await updateFieldDb(chat_id,`trips.${trip.trip_id}.available_seats_count`, data);
+};
+
+export const getIsTripPriceSettings = async (chat_id) => {
+    const trip = await getNotCompletedTrip(chat_id);
+    if (isNil(trip)) return;
+
+    return await getFieldFromDoc(chat_id,`bot.is_trip_price_creating`);
+};
+
+export const toggleIsTripPriceCreating = async (chat_id, data) => {
+    const trip = await getNotCompletedTrip(chat_id);
+    if (isNil(trip)) return;
+
+    await updateFieldDb(chat_id, 'bot.is_trip_price_creating', data)
+};
+
+export const setTripPrice = async (chat_id, data) => {
+    const trip = await getNotCompletedTrip(chat_id);
+    if (isNil(trip)) return;
+
+    await updateFieldDb(chat_id, `trips.${trip.trip_id}.trip_price`, data)
+};
+
+export const addSessionMessagesIdsToDb = async (chat_id, message_id) => {
+    await updateFieldDb(chat_id,`bot.session_messages_ids.${message_id}`, message_id);
+};
+
+export const getSessionMessagesIds = async chat_id => await getFieldFromDoc(chat_id,`bot.session_messages_ids`);
+
+export const clearSessionMessagesIdsInDb = async chat_id => await updateFieldDb(chat_id,`bot.session_messages_ids`, {});
+
+export const removeSessionMessagesIds = async (bot, chat_id) => {
+    const messagesIds = await getSessionMessagesIds(chat_id);
+    const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
+    console.log(messagesIds);
+    try {
+        await Promise.all(deleteMessagesReqs);
+    } catch (error) {
+        // console.log(error);
+    }
 };

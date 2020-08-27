@@ -4,14 +4,13 @@ import { getMonthNumberByValue, sendCurrentDateHtml } from './tripDateUtils';
 import CalendarComponent from './calendarComponent';
 import timeComponent from './timeComponent';
 import { calendarKeyboard } from '../keyboards/keyboards';
-import { parseData } from '../../common/utils/utils';
+import { parseData, sendMessage } from '../../common/utils/utils';
 import { getTripObject } from '../../common/utils/utils';
 import {
     TIME_CHOOSING_MESSAGE,
     CONFIRM_TRIP_DATE,
     GO_TO_TIME_PICKER,
     GO_TO_TRIP_END_TIME_PICKER,
-    TRIP_END_TIME_PICKER_MESSAGE,
     GO_TO_AVAILABLE_SEATS_SETTING,
 } from '../../common/constants/commonСonstants';
 import {
@@ -23,32 +22,14 @@ import {
 
 const calendarComponent = new CalendarComponent();
 
-const confirmTimeKeyboard = {
-    reply_markup: {
-        keyboard: [
-            [
-                {
-                    text: 'data',
-                    callback_data: 'edit_trip_date'
-                },
-                {
-                    text: CONFIRM_TRIP_DATE,
-                },
-            ]
-        ]
-    }
-};
-
-
 export const showTripEndCalendarComponent = async (msg, bot) => {
     const { chat: { id } } = msg;
     await toggleIsTripStartDateCompleted(id);
-    bot.sendMessage(id, TRIP_END_TIME_PICKER_MESSAGE, timeComponent())
 };
 
 export const showTimeComponent = (msg, bot) => {
     const { chat: { id } } = msg;
-    bot.sendMessage(id, TIME_CHOOSING_MESSAGE, timeComponent())
+    sendMessage(bot, id, TIME_CHOOSING_MESSAGE, timeComponent())
 };
 
 const setDatePickerDataToDb = async (chat_id, field, data) => {

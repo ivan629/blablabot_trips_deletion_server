@@ -1,7 +1,7 @@
 import { isNil, isEmpty } from 'lodash';
 import fetch from 'node-fetch';
 import config from 'config';
-import { createAction, getIsBotMessage } from '../../common/utils/utils';
+import { createAction, getIsBotMessage, sendMessage } from '../../common/utils/utils';
 import {
     CHOOSE_CITY_MESSAGE,
     NOT_FOUND_CITY_MESSAGE,
@@ -25,8 +25,7 @@ class CitiesComponent {
         return result;
     };
 
-    async handleShowCities(msg, bot) {
-        console.log(msg.text);
+    async handleShowCities(bot, msg) {
         if (getIsBotMessage(msg.text)) return;
 
         this.fetchCitiesAutocomplete(msg.text);
@@ -44,9 +43,9 @@ class CitiesComponent {
     };
 
         if (isCityFounded) {
-            await bot.sendMessage(msg.chat.id, CHOOSE_CITY_MESSAGE, citiesButtons);
+            await sendMessage(bot, msg.chat.id, CHOOSE_CITY_MESSAGE, citiesButtons);
         } else {
-            await bot.sendMessage(msg.chat.id, NOT_FOUND_CITY_MESSAGE);
+            await sendMessage(bot, msg.chat.id, NOT_FOUND_CITY_MESSAGE);
         }
     }
 }
