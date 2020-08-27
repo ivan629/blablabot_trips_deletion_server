@@ -27,9 +27,11 @@ export const showTripEndCalendarComponent = async (msg, bot) => {
     await toggleIsTripStartDateCompleted(id);
 };
 
-export const showTimeComponent = (msg, bot) => {
+export const showTimeComponent = async (msg, bot) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, TIME_CHOOSING_MESSAGE, timeComponent())
+    const timePicker = await timeComponent(id);
+
+    sendMessage(bot, id, TIME_CHOOSING_MESSAGE, timePicker)
 };
 
 const setDatePickerDataToDb = async (chat_id, field, data) => {

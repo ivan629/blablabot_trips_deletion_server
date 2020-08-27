@@ -90,7 +90,6 @@ export const resetSessionDataInDb = async id => {
         await toggleIsTripCitiesCreating(id, false);
         await toggleIsTripPriceCreating(id, false);
         await removeNotCompletedTripsFromDb(id);
-        await clearSessionMessagesIdsInDb(id);
     }
 };
 
@@ -194,4 +193,18 @@ export const removeSessionMessagesIds = async (bot, chat_id) => {
     } catch (error) {
         // console.log(error);
     }
+};
+
+export const setMainMenuMessageIdToDb = async (chat_id, messageId) => {
+    await updateFieldDb(chat_id,`bot.main_menu_message_id`, messageId);
+};
+
+export const getMainMenuMessageId = async chat_id => await getFieldFromDoc(chat_id,`bot.main_menu_message_id`);
+
+export const getTripCities = async chat_id => {
+    const trip = await getNotCompletedTrip(chat_id);
+    console.log(trip)
+    if (isNil(trip)) return;
+
+    return await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.cities`);
 };

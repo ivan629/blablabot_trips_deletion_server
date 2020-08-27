@@ -1,13 +1,35 @@
-import { addCityToTripInDB, toggleIsTripCitiesCreating } from '../../services/helpers';
+import { addCityToTripInDB, toggleIsTripCitiesCreating, getTripCities } from '../../services/helpers';
 import { creatingCitiesKeyboards, goToMenuKeyboard } from '../keyboards/keyboards';
-import { CITIES_INITIAL_HELP_TEXT, CITIES_ADD_NEW_HELP_TEXT } from '../../common/constants/commonСonstants';
-import { parseData, sendMessage} from '../../common/utils/utils';
+import {
+    CITIES_INITIAL_HELP_TEXT,
+    CITIES_ADD_NEW_HELP_TEXT,
+    CITY_ALREADY_EXISTS_ERROR_MESSAGE
+} from '../../common/constants/commonСonstants';
+import { parseData, sendMessage } from '../../common/utils/utils';
 
 export const addCityToTrip = async (bot, query) => {
     const { message: { chat: { id }}, data } = query;
 
-    sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT, creatingCitiesKeyboards);
-    await addCityToTripInDB(id, parseData(data).payload);
+    const newCity = parseData(data).payload;
+    const tripCities = await getTripCities(id);
+
+    const citiesList = Object.values(tripCities).map(({ name }) => name);
+    const isAlreadyAdded = citiesList.includes(newCity);
+    const canBeTheFinalCity = citiesList.length > 1 && !isAlreadyAdded;
+
+    if (isAlreadyAdded) {
+        return sendMessage(bot, id, CITY_ALREADY_EXISTS_ERROR_MESSAGE);
+    }
+
+    if (canBeTheFinalCity) {
+        sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT, creatingCitiesKeyboards);
+        await addCityToTripInDB(id, parseData(data).payload);
+    } else {
+        sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT);
+        await addCityToTripInDB(id, parseData(data).payload);
+    }
+
+    await addCityToTripInDB(id, newCity);
 };
 
 export const startCitiesCreating = async (bot, msg) => {

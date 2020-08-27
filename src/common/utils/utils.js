@@ -4,7 +4,9 @@ import {
     addNewTripToDb,
     getKeyboardMessageId,
     resetSessionDataInDb,
+    getMainMenuMessageId,
     setNewDocToCollection,
+    setMainMenuMessageIdToDb,
     addSessionMessagesIdsToDb,
 } from '../../services/helpers';
 import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
@@ -80,6 +82,7 @@ const getCarrierObject = ({
         is_trip_cities_creating: false,
         keyboard_message_id: null,
         session_messages_ids: {},
+        main_menu_message_id: null,
     },
     carrier: {
         chat_id,
@@ -127,7 +130,6 @@ export const arrToObjectMap = (arr, fieldId) => arr.reduce((result, obj) => {
 
 export const removeKeyboard = (bot, msg) => {
     const { text, chat: { id: chat_id }} = msg;
-    console.log(msg);
     const keyboardMessageId = getKeyboardMessageId(chat_id);
 
     bot.editMessageText(text, {keyboardMessageId, chat_id, reply_markup: {remove_keyboard: true}})
@@ -136,9 +138,7 @@ export const removeKeyboard = (bot, msg) => {
 };
 
 
-export const goToTheMainMenu = async (bot, id) => {
-    sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
-};
+export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
 
 export const getIsBotMessage = messageText => [
     START_MESSAGE,

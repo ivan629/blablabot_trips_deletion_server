@@ -1,4 +1,5 @@
 import { chunk, last } from 'lodash';
+import moment from 'moment';
 import { createAction } from '../../common/utils/utils';
 import { MONTHS, WEEK_DAYS } from './tripDateConstants';
 import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../common/constants/commonСonstants';
@@ -8,15 +9,20 @@ function daysInMonth(month, year) {
 }
 
 class CalendarComponent {
-    constructor() {
-    }
+    constructor() {}
 
     getCurrentMonthNumber() {
-        return new Date().getMonth();
+        return new Date().getMonth() + 1
     };
 
     getCurrentYear() {
         return new Date().getFullYear();
+    };
+
+    checkIfTimeIsValid(year, month, day, currentDateMilliseconds) {
+        const calendarItemDateMilliseconds = moment(`${day + 1}-${month}-${year}`, 'DD-MM-YYYY').valueOf();
+
+        return calendarItemDateMilliseconds > currentDateMilliseconds;
     };
 
     getCurrentMonth() {
@@ -37,14 +43,18 @@ class CalendarComponent {
         const currentMonthNumber = customMonthNumber || this.getCurrentMonthNumber();
         const currentYear = newYear || this.getCurrentYear();
 
+        console.log(currentMonthNumber)
+
         const monthButton = [{text: `${currentMonth} ${currentYear}`, callback_data: 'none'}];
         const days = daysInMonth(currentMonthNumber, currentYear);
+        const currentDateMilliseconds = Date.now();
         const daysButtons = new Array(days).fill(null).reduce((result, value, index) => {
+        const isTimeEnable = this.checkIfTimeIsValid(currentYear, currentMonthNumber, index, currentDateMilliseconds);
 
             if (index > 0) {
                 result.push({
-                    text: index,
-                    callback_data: createAction(DATE_CHANGED, index),
+                    text: isTimeEnable ? index : '🚫',
+                    callback_data: isTimeEnable ? createAction(DATE_CHANGED, index) : 'none',
                 });
             }
 

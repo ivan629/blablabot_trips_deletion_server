@@ -14,6 +14,7 @@ import {
 
 export const tripPriceSettingsKeyboardInitial = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
                 {
@@ -27,16 +28,19 @@ export const tripPriceSettingsKeyboardInitial = {
 
 export const tripPriceSettingsKeyboardFinish = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
+            [
+                {
+                    text: CONFIRM_TRIP_PRICE,
+                    callback_data: createAction(CONFIRM_TRIP_PRICE)
+                }
+            ],
             [
                 {
                     text: GO_TO_THE_MAIN_MENU,
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
-                {
-                    text: CONFIRM_TRIP_PRICE,
-                    callback_data: createAction(CONFIRM_TRIP_PRICE)
-                }
             ]
         ]
     }
@@ -57,16 +61,19 @@ export const availableSeatsKeyboard = {
 
 export const tripSummaryKeyboards = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
+            [
+                {
+                    text: FINISH_TRIP_CREATION,
+                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+                }
+            ],
             [
                 {
                     text: GO_TO_THE_MAIN_MENU,
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
-                {
-                    text: FINISH_TRIP_CREATION,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                }
             ]
         ]
     }
@@ -74,17 +81,20 @@ export const tripSummaryKeyboards = {
 
 export const availableSeatsCongratsKeyboard = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
                 {
                     text: GO_TO_TRIP_PRICE_SETTINGS,
                     callback_data: createAction(GO_TO_TRIP_PRICE_SETTINGS)
                 }
-            ]
+            ],
+            [
+               {
+                    text: GO_TO_THE_MAIN_MENU,
+                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+               }
+          ],
         ]
     }
 };
@@ -98,6 +108,8 @@ export const initialKeyboard = {
                     text: FIND_TRIP,
                     callback_data: createAction(FIND_TRIP),
                 },
+             ],
+            [
                 {
                     text: PROPOSE_TRIP,
                     callback_data: createAction(PROPOSE_TRIP)
@@ -109,23 +121,27 @@ export const initialKeyboard = {
 
 export const calendarKeyboard = nextButtonAction => ({
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(NEXT_CITY_IN_THE_TRIP)
-                },
                 {
                     text: nextButtonAction,
                     callback_data: createAction(nextButtonAction)
                 }
             ],
+            [
+                {
+                    text: GO_TO_THE_MAIN_MENU,
+                    callback_data: createAction(NEXT_CITY_IN_THE_TRIP)
+                },
+            ]
         ]
     }
 });
 
 export const goToMenuKeyboard = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
                 {
@@ -139,6 +155,7 @@ export const goToMenuKeyboard = {
 
 export const calendarNotCompletedKeyboard = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
                 {
@@ -152,16 +169,19 @@ export const calendarNotCompletedKeyboard = {
 
 export const creatingCitiesKeyboards = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
+            [
+                {
+                    text: FINAL_CITY_IN_THE_TRIP,
+                    callback_data: createAction(FINAL_CITY_IN_THE_TRIP)
+                }
+            ],
             [
                 {
                     text: GO_TO_THE_MAIN_MENU,
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
-                {
-                    text: FINAL_CITY_IN_THE_TRIP,
-                    callback_data: createAction(FINAL_CITY_IN_THE_TRIP)
-                }
             ],
         ]
     }

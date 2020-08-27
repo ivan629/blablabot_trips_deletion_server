@@ -34,6 +34,7 @@
     "http-errors": "~1.6.3",
     "lodash": "^4.17.19",
     "micro-bot": "^2.5.3",
+    "moment": "^2.27.0",
     "morgan": "~1.9.1",
     "node-fetch": "^2.6.0",
     "node-telegram-bot-api": "^0.50.0",
