@@ -4,11 +4,13 @@ import {
     CALENDAR_STOP_TRIP_MESSAGE,
     CALENDAR_CONGRATS_MESSAGE_START,
     CALENDAR_CONGRATS_MESSAGE_STOP,
+    CALENDAR_HELP_MESSAGE,
+    BLOCKED_GO_TO_TIME_PICKER,
 } from '../../common/constants/commonСonstants';
 import tripDateListeners from './tripDateListeners';
 import { sendMessageAndRemoveKeyboard, sendMessage } from '../../common/utils/utils';
 import { showTripEndCalendarComponent } from './calendarControllers';
-import { getIsStartDateCreatingCompleted } from '../../services/helpers';
+import { calendarKeyboard } from '../keyboards/keyboards';
 
 const calendarComponent = new CalendarComponent();
 
@@ -25,7 +27,7 @@ class tripDateModule {
         this.msg = msg;
 
         await showTripEndCalendarComponent(this.msg, this.bot);
-        this.sendCalendar(CALENDAR_STOP_TRIP_MESSAGE)
+        this.sendCalendar()
     }
 
     setListeners(bot) {
@@ -34,8 +36,14 @@ class tripDateModule {
 
     async sendCalendar(message, isStart) {
         const congratsMessage = isStart ? CALENDAR_CONGRATS_MESSAGE_START : CALENDAR_CONGRATS_MESSAGE_STOP;
-        sendMessageAndRemoveKeyboard(this.bot, this.msg.chat.id, congratsMessage);
-        sendMessage(this.bot, this.msg.chat.id, message, calendarComponent.getCalendar());
+        sendMessage(this.bot, this.msg.chat.id, congratsMessage, {
+            parse_mode: 'HTML',
+            ...calendarComponent.getCalendar(),
+        });
+        sendMessage(this.bot, this.msg.chat.id, CALENDAR_HELP_MESSAGE, {
+            parse_mode: 'HTML',
+            ...calendarKeyboard(BLOCKED_GO_TO_TIME_PICKER),
+        });
     }
 }
 

@@ -2,13 +2,12 @@ import { AVAILABLE_SEATS_MESSAGE, AVAILABLE_SEATS_MESSAGE_2 } from '../../common
 import {availableSeatsKeyboard, goToMenuKeyboard} from '../keyboards/keyboards';
 import { sendMessage } from '../../common/utils/utils';
 import availableSeatsListeners from './availableSeatsListeners';
+import { sendInitialData } from './availableSeatsHelpers';
 
 class AvailableSeatsModule {
     runAvailableTripSeatsPicker(bot, msg) {
-        const { id } = msg.chat;
         console.log('AVAILABLE_SEATS_MESSAGE');
-        sendMessage(bot, id, AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboard);
-        sendMessage(bot, id, AVAILABLE_SEATS_MESSAGE_2, goToMenuKeyboard);
+        sendInitialData(bot, msg);
     }
 
     setListeners(bot) {

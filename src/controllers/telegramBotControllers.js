@@ -1,9 +1,11 @@
+import { isNil } from 'lodash';
 import { initialKeyboard } from '../modules/keyboards/keyboards';
 import CalendarModule from '../modules/tripDateModule/tripDateModule';
 import TripCitiesModule from '../modules/tripCitiesModule/tripCitiesModule';
 import TripPriceModule from '../modules/tripPriceModule/tripPriceModule';
 import TripCreationSummariseModule from '../modules/tripCreationSummariseModule/tripCreationSummariseModule';
 import AvailableSeatsModule from '../modules/availableSeatsModule/availableSeatsModule';
+import PhoneNumberModule from '../modules/phoneNumberModule/phoneNumberModule';
 import {
     resetSessionDataInDb,
     addSessionMessagesIdsToDb,
@@ -14,14 +16,18 @@ import {
 import { addNewTrip, addNewUserToDb, goToTheMainMenu } from '../common/utils/utils';
 import {
     PROPOSE_TRIP,
+    CONFIRM_TRIP_PRICE,
     GO_TO_THE_MAIN_MENU,
     FINAL_CITY_IN_THE_TRIP,
     GO_TO_TRIP_PRICE_SETTINGS,
     GO_TO_TRIP_END_TIME_PICKER,
     GO_TO_AVAILABLE_SEATS_SETTING,
-    CONFIRM_TRIP_PRICE,
+    CHECK_TRIP_CREATION_DATA,
+    FINISH_TRIP_CREATION,
+    TRIP_CREATION_CREATION_COMPLETED_MESSAGE,
 } from '../common/constants/commonСonstants';
 
+const phoneNumberModule = new PhoneNumberModule();
 const calendarModule = new CalendarModule();
 const tripPriceModule = new TripPriceModule();
 const tripCitiesModule = new TripCitiesModule();
@@ -40,6 +46,7 @@ const telegramBotControllers = bot => {
     calendarModule.setListeners(bot);
     tripPriceModule.setListeners(bot);
     tripCitiesModule.setListeners(bot);
+    phoneNumberModule.setListeners(bot);
     availableSeatsModule.setListeners(bot);
     tripCreationSummariseModule.setListeners(bot);
 
@@ -48,13 +55,18 @@ const telegramBotControllers = bot => {
         addSessionMessagesIdsToDb(id, message_id);
         // bot.deleteMessage(id, message_id);
 
+        if (!isNil(msg.contact)) {
+            tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
+        }
+
         switch (msg.text) {
             case PROPOSE_TRIP: {
                 await addNewTrip(msg);
                 await tripCitiesModule.start(bot, msg);
             }
                 break;
-            case GO_TO_THE_MAIN_MENU: {
+            case FINISH_TRIP_CREATION:
+            case TRIP_CREATION_CREATION_COMPLETED_MESSAGE: {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);
@@ -80,7 +92,14 @@ const telegramBotControllers = bot => {
             }
             break;
             case CONFIRM_TRIP_PRICE: {
-                tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
+                phoneNumberModule.runPhoneNumberModule(bot, msg);
+            }
+            break;
+            case FINISH_TRIP_CREATION: {
+                tripCreationSummariseModule.saveTrip(bot, msg);
+                bot.answerCallbackQuery({
+                    callback_query_id: msg.message_id,
+                })
             }
                 break;
             default: {

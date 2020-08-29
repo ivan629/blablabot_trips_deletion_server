@@ -6,6 +6,9 @@ import {
     SET_TRIP_MINUTES,
     CONFIRM_TRIP_DATE,
     GO_TO_TIME_PICKER,
+    BLOCKED_GO_TO_TIME_PICKER,
+    BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
+    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
 } from '../../common/constants/commonСonstants';
 import {
     setTripHour,
@@ -14,6 +17,9 @@ import {
     userChangedDate,
     showTimeComponent,
     changeCalendarMonth,
+    showBlockedGoToTimePickerMessage,
+    showBlockedGoToTripEnd,
+    sendBlockedGoToAvailableMessage
 } from './calendarControllers';
 
 const tripDateListeners = (bot) => {
@@ -42,7 +48,7 @@ const tripDateListeners = (bot) => {
             }
                 break;
             case CONFIRM_TRIP_DATE: {
-                confirmTripDate(query, bot);
+                confirmTripDate(bot, query);
             }
                 break;
             default: {
@@ -54,11 +60,23 @@ const tripDateListeners = (bot) => {
     bot.on('message', msg => {
         switch (msg.text) {
             case CONFIRM_TRIP_DATE: {
-                confirmTripDate(msg, bot);
+                confirmTripDate(bot, msg);
             }
                 break;
             case GO_TO_TIME_PICKER: {
-                showTimeComponent(msg, bot);
+                showTimeComponent(bot, msg);
+            }
+                break;
+            case BLOCKED_GO_TO_TIME_PICKER: {
+                showBlockedGoToTimePickerMessage(bot, msg);
+            }
+                break;
+            case BLOCKED_GO_TO_TRIP_END_TIME_PICKER: {
+                showBlockedGoToTripEnd(bot, msg);
+            }
+                break;
+            case BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS: {
+                sendBlockedGoToAvailableMessage(bot, msg);
             }
                 break;
             default: {

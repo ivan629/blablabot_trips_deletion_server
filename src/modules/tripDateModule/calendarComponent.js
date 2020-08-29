@@ -31,9 +31,9 @@ class CalendarComponent {
 
     getMonthPaginationButtons() {
         return [
-            {text: '<', callback_data: createAction(MONTH_DOWN)},
+            {text: '⬅️', callback_data: createAction(MONTH_DOWN)},
             {text: ' ', callback_data: 'none'},
-            {text: '>', callback_data: createAction(MONTH_UP)},
+            {text: '➡️', callback_data: createAction(MONTH_UP)},
         ]
     }
 
@@ -42,8 +42,6 @@ class CalendarComponent {
         const currentMonth = customMonthNumber ? MONTHS[customMonthNumber - 1] : this.getCurrentMonth();
         const currentMonthNumber = customMonthNumber || this.getCurrentMonthNumber();
         const currentYear = newYear || this.getCurrentYear();
-
-        console.log(currentMonthNumber)
 
         const monthButton = [{text: `${currentMonth} ${currentYear}`, callback_data: 'none'}];
         const days = daysInMonth(currentMonthNumber, currentYear);

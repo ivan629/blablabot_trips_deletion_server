@@ -3,22 +3,25 @@ import {
     getIfExistDoc,
     addNewTripToDb,
     getKeyboardMessageId,
-    resetSessionDataInDb,
-    getMainMenuMessageId,
     setNewDocToCollection,
-    setMainMenuMessageIdToDb,
     addSessionMessagesIdsToDb,
 } from '../../services/helpers';
 import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
 import {
+    PROPOSE_TRIP,
+    START_MESSAGE,
+    CONFIRM_TRIP_PRICE,
     CHOOSE_CITY_MESSAGE,
     CHOOSE_ROLE_MESSAGE,
-    NOT_FOUND_CITY_MESSAGE,
-    START_MESSAGE,
     GO_TO_THE_MAIN_MENU,
     NEXT_CITY_IN_THE_TRIP,
+    NOT_FOUND_CITY_MESSAGE,
     FINAL_CITY_IN_THE_TRIP,
-    PROPOSE_TRIP,
+    TRIP_PRICE_BLOCKED_MESSAGE,
+    CONFIRM_TRIP_PRICE_BLOCKED,
+    GO_TO_TRIP_PRICE_SETTINGS,
+    BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 } from '../../common/constants/commonСonstants';
 import {isNil} from "lodash";
 
@@ -77,18 +80,24 @@ const getCarrierObject = ({
                               carrier_name = null,
                               creation_date = null,
                               carrier_last_name = null,
+                              is_trip_cities_creating = null,
+                              keyboard_message_id = null,
+                              session_messages_ids = {},
+                              main_menu_message_id = null,
+                              phone_number = null
                           }) => ({
     bot: {
-        is_trip_cities_creating: false,
-        keyboard_message_id: null,
-        session_messages_ids: {},
-        main_menu_message_id: null,
+        is_trip_cities_creating,
+        keyboard_message_id,
+        session_messages_ids,
+        main_menu_message_id,
     },
     carrier: {
         chat_id,
         carrier_name,
         creation_date,
-        carrier_last_name
+        carrier_last_name,
+        phone_number,
     },
     trips: {}
 });
@@ -141,13 +150,19 @@ export const removeKeyboard = (bot, msg) => {
 export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
 
 export const getIsBotMessage = messageText => [
+    PROPOSE_TRIP,
     START_MESSAGE,
+    CONFIRM_TRIP_PRICE,
     CHOOSE_CITY_MESSAGE,
-    NOT_FOUND_CITY_MESSAGE,
     GO_TO_THE_MAIN_MENU,
     NEXT_CITY_IN_THE_TRIP,
     FINAL_CITY_IN_THE_TRIP,
-    PROPOSE_TRIP,
+    NOT_FOUND_CITY_MESSAGE,
+    GO_TO_TRIP_PRICE_SETTINGS,
+    TRIP_PRICE_BLOCKED_MESSAGE,
+    CONFIRM_TRIP_PRICE_BLOCKED,
+    BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 ].includes(messageText);
 
 export const sendMessageAndRemoveKeyboard = (bot, id, msg) =>
@@ -162,5 +177,5 @@ export const getFormattedData = ({ day, hour, month, minutes }) => {
     return `Дата:  ${formattedDay}/${formattedMonth},  Година: ${formattedHour}:${formattedMinutes}`;
 };
 
-export const sendMessage = (bot, id, message, config) => bot.sendMessage(id, message, config)
+export const sendMessage = async (bot, id, message, config) => await bot.sendMessage(id, message, config)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));

@@ -1,9 +1,10 @@
 import { addCityToTripInDB, toggleIsTripCitiesCreating, getTripCities } from '../../services/helpers';
-import { creatingCitiesKeyboards, goToMenuKeyboard } from '../keyboards/keyboards';
+import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../keyboards/keyboards';
 import {
     CITIES_INITIAL_HELP_TEXT,
     CITIES_ADD_NEW_HELP_TEXT,
-    CITY_ALREADY_EXISTS_ERROR_MESSAGE
+    CITY_ALREADY_EXISTS_ERROR_MESSAGE,
+    BLOCKED_FINAL_CITY_MESSAGE,
 } from '../../common/constants/commonСonstants';
 import { parseData, sendMessage } from '../../common/utils/utils';
 
@@ -34,6 +35,11 @@ export const addCityToTrip = async (bot, query) => {
 
 export const startCitiesCreating = async (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, goToMenuKeyboard);
+    sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, blockedCitiesKeyboard);
     await toggleIsTripCitiesCreating(id, true);
+};
+
+export const sendBlockedCityMessage = (bot, msg) => {
+    const { chat: { id } } = msg;
+    sendMessage(bot, id, BLOCKED_FINAL_CITY_MESSAGE);
 };

@@ -7,7 +7,7 @@ export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === 
 
 export const getIsDateChangedAction = value => value.includes(DATE_CHANGED);
 
-export const sendCurrentDateHtml = async (id, bot, calendarKeyboard) => {
-    const html = await getCurrentTripDateText(id);
+export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {
+    const html = await getCurrentTripDateText(id, isOnlyDate);
     sendMessage(bot, id, html, { parse_mode: 'HTML', ...calendarKeyboard });
 };
