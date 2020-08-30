@@ -33,6 +33,7 @@ class CitiesComponent {
         const response = await this.fetchCitiesAutocomplete(msg.text);
         const isCityFounded = !isNil(response) && !isEmpty(response.candidates);
 
+        if (isCityFounded) {
             const citiesButtons = {
                 reply_markup: {
                     inline_keyboard: response.candidates.map(({name, formatted_address, place_id}) => ([{
@@ -40,14 +41,13 @@ class CitiesComponent {
                         callback_data: createAction(CHOOSE_TRIP_CITY, name),
                     }]))
                 },
-    };
+            };
 
-        if (isCityFounded) {
             await sendMessage(bot, msg.chat.id, CHOOSE_CITY_MESSAGE, citiesButtons);
         } else {
             await sendMessage(bot, msg.chat.id, NOT_FOUND_CITY_MESSAGE);
         }
     }
-}
+};
 
 export default CitiesComponent;

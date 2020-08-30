@@ -72,9 +72,10 @@ class CalendarComponent {
         const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
 
         if (isStartDateCreatingCompleted) {
-            const { start_date: { start_date_day, start_date_year, start_date_month } } = await getNotCompletedTrip(chat_id);
-            // we allow to set the same trip end dsy, with min hours threshold
-            const minDayThreshold = start_date_day - 1;
+            const { start_date: { start_date_hour, start_date_day, start_date_year, start_date_month } } = await getNotCompletedTrip(chat_id);
+            // we allow to set the same trip end day, with min hours threshold
+            console.log(start_date_hour, start_date_hour < 24);
+            const minDayThreshold = start_date_hour < 24 ? start_date_day - 1 : start_date_day;
             minDateMillisecondsThreshold = this.getDateMilliseconds(minDayThreshold, start_date_month, start_date_year);
         }
 
