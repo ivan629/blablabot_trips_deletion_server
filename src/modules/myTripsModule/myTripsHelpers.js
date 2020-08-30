@@ -22,7 +22,7 @@ export const sendTripsList = async (bot, msg) => {
     const carrierTrips = await getMyCreatedTrips(msg);
     if (isEmpty(carrierTrips)) return sendMessage(bot, msg.chat.id, NOT_FOUNT_TRIPS_MESSAGES);
 
-    sendMessage(bot, msg.chat.id, TRIP_LIST_CAPTION, { parse_mode: 'HTML', ...goToMenuKeyboard });
+    await sendMessage(bot, msg.chat.id, TRIP_LIST_CAPTION, { parse_mode: 'HTML', ...goToMenuKeyboard });
     carrierTrips.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...removeTripKeyBoard(trip_id) }));
 };
 

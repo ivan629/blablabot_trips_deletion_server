@@ -205,12 +205,14 @@ export const getSessionMessagesIds = async chat_id => await getFieldFromDoc(chat
 
 export const clearSessionMessagesIdsInDb = async chat_id => await updateFieldDb(chat_id,`bot.session_messages_ids`, {});
 
+//TODO: find out how to delete all messages without bugs
 export const removeSessionMessagesIds = async (bot, chat_id) => {
     const messagesIds = await getSessionMessagesIds(chat_id);
-    const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
+    // const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
     console.log(messagesIds);
     try {
-        await Promise.all(deleteMessagesReqs);
+        Object.values(messagesIds).forEach(message_id => bot.deleteMessage(chat_id, message_id));
+        // await Promise.all(deleteMessagesReqs);
     } catch (error) {
         // console.log(error);
     }

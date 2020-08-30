@@ -19,7 +19,7 @@ export const DATE_CHANGED = 'DATE_CHANGED';
 export const SET_TRIP_HOUR = 'SET_TRIP_HOUR';
 export const CONFIRM_TRIP_DATE = 'підтвердити';
 export const SET_TRIP_MINUTES = 'SET_TRIP_MINUTES';
-export const CHOOSE_TRIP_CITY = 'CHOOSE_TRIP_CITY';
+export const CHOOSE_TRIP_CITY = '➕ Додати це місто у подорож';
 export const PROPOSE_TRIP = '➕ Створити поїздку';
 export const MY_TRIPS = '🚗 Мої поїздки';
 export const START_CITIES_CREATING ='START_CITIES_CREATING';
@@ -27,7 +27,7 @@ export const GO_TO_TRIP_END_TIME_PICKER = '✅ Перейти до часу пр
 export const BLOCKED_GO_TO_TRIP_END_TIME_PICKER = '⛔ Перейти до часу прибуття️';
 
 export const START_MESSAGE = '/start';
-export const CHOOSE_ROLE_MESSAGE = 'Виберіть роль';
+export const CHOOSE_ROLE_MESSAGE = 'Виберіть дію 💡';
 export const BLOCKED_FINAL_CITY_MESSAGE = '👿 Додайте щонайменше 2 міста в поїздку.';
 export const TIME_CHOOSING_MESSAGE = 'Оберіть годину будь ласка!';
 export const TIME_CHOOSING_HELP_MESSAGE = 'Опісля нажиміть <b>✅ Перейти до часу прибуття️!</b>';
@@ -49,7 +49,7 @@ export const TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGE = 'Якщо інфо
 
 // my trips
 export const REMOVE_TRIP_BUTTON = 'Видалити 🗑️';
-export const TRIP_LIST_CAPTION = '🔹🔹🔹🔹🔹️️Створені поїздки!🔹🔹🔹🔹🔹️️';
+export const TRIP_LIST_CAPTION = '🔹🔹🔹️️Створені поїздки!🔹🔹🔹';
 export const NOT_FOUNT_TRIPS_MESSAGES = 'У вас немає поїздок 🤷';
 
 // settings

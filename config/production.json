@@ -1,9 +1,6 @@
 {
   "host": "0.0.0.0",
   "port": 5759,
-  "telegramBotConfig": {
-    "token": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
-  },
   "logger": {
     "level": "debug",
     "consoleEnabled": true,

@@ -7,7 +7,7 @@ import TripCreationSummariseModule from './tripCreationSummariseModule/tripCreat
 import AvailableSeatsModule from './availableSeatsModule/availableSeatsModule';
 import PhoneNumberModule from './phoneNumberModule/phoneNumberModule';
 import {
-    addSessionMessagesIdsToDb,
+    addSessionMessagesIdsToDb, removeSessionMessagesIds,
     toggleIsTripCitiesCreating,
 } from '../../services/helpers';
 import { addNewTrip } from '../../common/utils/utils';
@@ -57,6 +57,7 @@ const tripCreationModule = bot => {
             }
                 break;
             case GO_TO_TRIP_END_TIME_PICKER: {
+                await removeSessionMessagesIds(bot, id);
                 calendarModule.runStopTripDatePicker(bot, msg);
             }
                 break;

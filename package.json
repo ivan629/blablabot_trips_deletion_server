@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development babel-node src/index.js",
+    "start": "cross-env NODE_ENV=production babel-node src/index.js",
     "dev": "cross-env NODE_ENV=development babel-node src/index.js",
     "pretest": "eslint --ignore-path .gitignore ."
   },

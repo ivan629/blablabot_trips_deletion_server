@@ -1,7 +1,7 @@
 import { isNil, isEmpty } from 'lodash';
 import fetch from 'node-fetch';
 import config from 'config';
-import { createAction, getIsBotMessage, sendMessage } from '../../../common/utils/utils';
+import { createAction, getIsBotMessage, sendMessage, sendLocation } from '../../../common/utils/utils';
 import {
     CHOOSE_CITY_MESSAGE,
     NOT_FOUND_CITY_MESSAGE,
@@ -34,16 +34,23 @@ class CitiesComponent {
         const isCityFounded = !isNil(response) && !isEmpty(response.candidates);
 
         if (isCityFounded) {
-            const citiesButtons = {
+            const citiesButton = (name) => ({
                 reply_markup: {
-                    inline_keyboard: response.candidates.map(({name, formatted_address, place_id}) => ([{
-                        text: name,
-                        callback_data: createAction(CHOOSE_TRIP_CITY, name),
-                    }]))
+                    inline_keyboard: [
+                        [{
+                            text: CHOOSE_TRIP_CITY,
+                            callback_data: createAction(CHOOSE_TRIP_CITY, name),
+                        }]
+                    ]
                 },
-            };
+            });
 
-            await sendMessage(bot, msg.chat.id, CHOOSE_CITY_MESSAGE, citiesButtons);
+            response.candidates.forEach(({name, formatted_address, geometry: {location: {lat, lng}}}) => {
+                sendLocation(bot, msg.chat.id, lat, lng).then(() => {
+                    const cityName = ` 1. <b>${name}</b>\n    <em>${formatted_address}</em>`;
+                    sendMessage(bot, msg.chat.id, cityName, {parse_mode: 'HTML', ...citiesButton('name')})
+                });
+            });
         } else {
             await sendMessage(bot, msg.chat.id, NOT_FOUND_CITY_MESSAGE);
         }

@@ -181,6 +181,9 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
 
+export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
+    .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
+
 export const getTripHtmlSummary = (trip, carrierInfo) => {
     const formattedCities = Object.values(trip.cities);
 
