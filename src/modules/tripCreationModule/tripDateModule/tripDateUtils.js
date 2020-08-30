@@ -1,6 +1,6 @@
-import { MONTHS } from './tripDateConstants';
-import { sendMessage } from '../../common/utils/utils';
-import { getCurrentTripDateText } from '../../services/helpers';
+import { MONTHS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
+import { sendMessage } from '../../../common/utils/utils';
+import { getCurrentTripDateText } from '../../../services/helpers';
 
 export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value) + 1;
 

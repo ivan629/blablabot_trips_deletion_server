@@ -1,23 +1,24 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
+    SETTINGS,
     MY_TRIPS,
     FIND_TRIP,
     PROPOSE_TRIP,
+    REMOVE_TRIP_BUTTON,
     CONFIRM_TRIP_PRICE,
     GO_TO_THE_MAIN_MENU,
     FINISH_TRIP_CREATION,
-    FINAL_CITY_IN_THE_TRIP,
+    SEND_MY_PHONE_NUMBER,
     NEXT_CITY_IN_THE_TRIP,
+    FINAL_CITY_IN_THE_TRIP,
     SET_AVAILABLE_SEATS_CUNT,
     GO_TO_TRIP_PRICE_SETTINGS,
+    CONFIRM_TRIP_PRICE_BLOCKED,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    SEND_MY_PHONE_NUMBER,
-    CHECK_TRIP_CREATION_DATA,
 } from '../../common/constants/commonСonstants';
 
 export const phoneNumberKeyboard = {
@@ -34,23 +35,6 @@ export const phoneNumberKeyboard = {
                 {
                     text: GO_TO_THE_MAIN_MENU,
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
-        ]
-    }
-};
-
-export const phoneNumberKeyboardFinish = {
-    reply_markup: {
-        keyboard: [
-            [
-                {
-                    text: CHECK_TRIP_CREATION_DATA,
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
                 },
             ]
         ]
@@ -176,20 +160,22 @@ export const initialKeyboard = {
         keyboard: [
             [
                 {
-                    text: MY_TRIPS,
-                    callback_data: createAction(MY_TRIPS)
+                    text: FIND_TRIP,
+                    callback_data: createAction(FIND_TRIP),
+                },
+                {
+                    text: PROPOSE_TRIP,
+                    callback_data: createAction(PROPOSE_TRIP)
                 }
             ],
             [
                 {
-                    text: FIND_TRIP,
-                    callback_data: createAction(FIND_TRIP),
+                    text: MY_TRIPS,
+                    callback_data: createAction(MY_TRIPS)
                 },
-             ],
-            [
                 {
-                    text: PROPOSE_TRIP,
-                    callback_data: createAction(PROPOSE_TRIP)
+                    text: SETTINGS,
+                    callback_data: createAction(SETTINGS)
                 }
             ],
         ]
@@ -212,6 +198,20 @@ export const calendarKeyboard = nextButtonAction => ({
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
             ]
+        ]
+    }
+});
+
+export const removeTripKeyBoard = trip_id => ({
+    reply_markup: {
+        resize_keyboard: true,
+        inline_keyboard: [
+            [
+                {
+                    text: REMOVE_TRIP_BUTTON,
+                    callback_data: createAction(REMOVE_TRIP_BUTTON, trip_id)
+                }
+            ],
         ]
     }
 });

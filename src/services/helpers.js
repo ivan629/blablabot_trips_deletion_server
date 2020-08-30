@@ -4,6 +4,12 @@ import { firestore } from '../services/firebaseService';
 import { API_CONSTANTS } from '../common/constants';
 import { arrToObjectMap, getCityObject, } from '../common/utils/utils';
 
+export const getDoc = async docName => {
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const result = await alreadyUploadedRestaurantSnapshot.data();
+    return result;
+};
+
 export const setNewDocToCollection = (docName, data) => {
     firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).set(data)
         .then(() => {
@@ -13,9 +19,7 @@ export const setNewDocToCollection = (docName, data) => {
 };
 
 export const getFieldFromDoc = async (docName, filedPath) => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
-    const result = await alreadyUploadedRestaurantSnapshot.data();
-
+    const result = await getDoc(docName);
     return get(result, filedPath);
 };
 
@@ -90,9 +94,9 @@ export const resetSessionDataInDb = async id => {
     const alreadyExists = await getIfExistDoc(id);
 
     if (alreadyExists) {
+        await removeNotCompletedTripsFromDb(id);
         await toggleIsTripCitiesCreating(id, false);
         await toggleIsTripPriceCreating(id, false);
-        await removeNotCompletedTripsFromDb(id);
     }
 };
 
@@ -107,6 +111,7 @@ export const getCarrierInfo = async docName => {
 
 export const saveTripInDb = async docName => {
     const trip = await getNotCompletedTrip(docName);
+    console.log(trip);
     if (isNil(trip)) return;
 
     await updateFieldDb(docName,`trips.${trip.trip_id}.is_creation_completed`, true);
@@ -128,8 +133,10 @@ export const getIfExistDoc = async docName => {
     return alreadyUploadedRestaurantSnapshot.exists;
 };
 
-export const addNewTripToDb = (docName, tripObject, tripId) => {
-    updateFieldDb(docName, `trips.${tripId}`, tripObject)
+export const addNewTripToDb = async (docName, tripObject, tripId) => {
+    await updateFieldDb(docName, `trips.${tripId}`, tripObject);
+    const allTrips = await getAllTrips(docName);
+    console.log(allTrips);
 };
 
 const removeNotCompletedTripsFromDb = async chat_id => {
@@ -221,4 +228,14 @@ export const saveCarrierPhoneNumberToDb = async (chat_id, phoneNumber) => {
     if (isNil(trip)) return;
 
     await updateFieldDb(chat_id,'carrier.phone_number', phoneNumber);
+};
+
+export const removeTripFromDb = async (chat_id, trip_id) => {
+    const allTrips = await getAllTrips(chat_id);
+    const newTrips = Object.values(allTrips).reduce((result, trip) => {
+        if (trip.trip_id !== trip_id) result[trip_id] = trip;
+        return result;
+    }, {});
+
+    await updateFieldDb(chat_id,'trips', newTrips);
 };

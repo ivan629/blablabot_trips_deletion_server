@@ -1,16 +1,16 @@
-import CalendarComponent from './calendarComponent';
+import CalendarComponent from '../../../modules/tripCreationModule/tripDateModule/calendarComponent';
 import {
     CALENDAR_START_TRIP_MESSAGE,
     CALENDAR_CONGRATS_MESSAGE_START,
     CALENDAR_CONGRATS_MESSAGE_STOP,
     CALENDAR_HELP_MESSAGE,
     BLOCKED_GO_TO_TIME_PICKER,
-} from '../../common/constants/commonСonstants';
-import tripDateListeners from './tripDateListeners';
-import { sendMessage } from '../../common/utils/utils';
-import { calendarKeyboard } from '../keyboards/keyboards';
-import { showTripEndCalendarComponent } from './calendarControllers';
-import { getIsStartDateCreatingCompleted } from '../../services/helpers';
+} from '../../../common/constants/commonСonstants';
+import tripDateListeners from '../../../modules/tripCreationModule/tripDateModule/tripDateListeners';
+import { sendMessage } from '../../../common/utils/utils';
+import { calendarKeyboard } from '../../../modules/keyboards/keyboards';
+import { showTripEndCalendarComponent } from '../../../modules/tripCreationModule/tripDateModule/calendarControllers';
+import { getIsStartDateCreatingCompleted } from '../../../services/helpers';
 
 const calendarComponent = new CalendarComponent();
 

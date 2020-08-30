@@ -1,10 +1,10 @@
-import CitiesComponent from './citiesComponent';
-import { getIsTripCitiesCreating } from '../../services/helpers';
-import { addCityToTrip, sendBlockedCityMessage } from './citiesControllers';
+import CitiesComponent from '../../../modules/tripCreationModule/tripCitiesModule/citiesComponent';
+import { getIsTripCitiesCreating } from '../../../services/helpers';
+import { addCityToTrip, sendBlockedCityMessage } from '../../../modules/tripCreationModule/tripCitiesModule/citiesControllers';
 import {
     CHOOSE_TRIP_CITY,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
-} from '../../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 
 const citiesComponent = new CitiesComponent();
 

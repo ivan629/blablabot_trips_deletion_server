@@ -20,7 +20,7 @@ export const SET_TRIP_HOUR = 'SET_TRIP_HOUR';
 export const CONFIRM_TRIP_DATE = 'підтвердити';
 export const SET_TRIP_MINUTES = 'SET_TRIP_MINUTES';
 export const CHOOSE_TRIP_CITY = 'CHOOSE_TRIP_CITY';
-export const PROPOSE_TRIP = '➕ Запропонувати поїздку';
+export const PROPOSE_TRIP = '➕ Створити поїздку';
 export const MY_TRIPS = '🚗 Мої поїздки';
 export const START_CITIES_CREATING ='START_CITIES_CREATING';
 export const GO_TO_TRIP_END_TIME_PICKER = '✅ Перейти до часу прибуття️';
@@ -47,8 +47,13 @@ export const TRIP_CREATION_SUMMARISE_INITIAL_MESSAGE = '🧐 Перевірте 
 export const CITY_ALREADY_EXISTS_ERROR_MESSAGE = '👿 Це місто вже додане у подорож!';
 export const TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGE = 'Якщо інформація правильна натисніть <b>💾 Зберегти поїздку</b>';
 
-// trip summary
-export const TRIP_CREATION_CREATION_COMPLETED_MESSAGE = 'Поїздку збережено👏👏👏'
+// my trips
+export const REMOVE_TRIP_BUTTON = 'Видалити 🗑️';
+export const TRIP_LIST_CAPTION = '🔹🔹🔹🔹🔹️️Створені поїздки!🔹🔹🔹🔹🔹️️';
+export const NOT_FOUNT_TRIPS_MESSAGES = 'У вас немає поїздок 🤷';
+
+// settings
+export const SETTINGS = '⚙️ Налаштування';
 
 // phone number
 export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';

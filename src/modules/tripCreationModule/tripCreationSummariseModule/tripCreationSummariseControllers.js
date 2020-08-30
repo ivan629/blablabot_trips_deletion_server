@@ -1,6 +1,6 @@
 import { size, head, last } from 'lodash';
-import { getNotCompletedTrip, getCarrierInfo } from '../../services/helpers';
-import { getFormattedData } from '../../common/utils/utils';
+import { getNotCompletedTrip, getCarrierInfo } from '../../../services/helpers';
+import { getFormattedData } from '../../../common/utils/utils';
 
 export const getTripSummary = async (chat_id) => {
     const trip = await getNotCompletedTrip(chat_id);

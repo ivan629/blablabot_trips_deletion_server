@@ -1,12 +1,11 @@
 import {
     TRIP_CREATION_SUMMARISE_INITIAL_MESSAGE,
-    TRIP_CREATION_CREATION_COMPLETED_MESSAGE,
     TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGE,
-} from '../../common/constants/commonСonstants';
-import { tripSummaryKeyboards } from '../keyboards/keyboards';
-import { sendMessage } from '../../common/utils/utils';
-import { saveTripInDb } from '../../services/helpers';
-import { getTripSummary } from './tripCreationSummariseControllers';
+} from '../../../common/constants/commonСonstants';
+import { tripSummaryKeyboards } from '../../../modules/keyboards/keyboards';
+import { sendMessage } from '../../../common/utils/utils';
+import { saveTripInDb } from '../../../services/helpers';
+import { getTripSummary } from '../../../modules/tripCreationModule/tripCreationSummariseModule/tripCreationSummariseControllers';
 
 class TripCreationSummariseModule {
     async runTripCreationSummariseModule (bot, msg) {

@@ -1,8 +1,8 @@
 import {
     SET_AVAILABLE_SEATS_CUNT,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED, BLOCKED_FINAL_CITY_IN_THE_TRIP,
-} from '../../common/constants/commonСonstants';
-import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from './availableSeatsHelpers';
+    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
+} from '../../../common/constants/commonСonstants';
+import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsHelpers';
 
 const AvailableSeatsListeners = bot => {
     bot.on('callback_query', query => {

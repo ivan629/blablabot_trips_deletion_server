@@ -1,13 +1,13 @@
-import { getIsTripPriceSettings, toggleIsTripPriceCreating } from '../../services/helpers';
+import { getIsTripPriceSettings, toggleIsTripPriceCreating } from '../../../services/helpers';
 import {
     CONFIRM_TRIP_PRICE,
     SET_TRIP_PRICE_MESSAGE_INITIAL,
     GO_TO_TRIP_PRICE_SETTINGS,
     CONFIRM_TRIP_PRICE_BLOCKED,
-} from '../../common/constants/commonСonstants';
-import { handlePriceSetting, sendTripPriceBlockedMessage } from './tripPriceControllers';
-import { tripPriceSettingsKeyboardInitial } from '../keyboards/keyboards';
-import { sendMessage, getIsBotMessage } from '../../common/utils/utils';
+} from '../../../common/constants/commonСonstants';
+import { handlePriceSetting, sendTripPriceBlockedMessage } from '../../../modules/tripCreationModule/tripPriceModule/tripPriceControllers';
+import { tripPriceSettingsKeyboardInitial } from '../../../modules/keyboards/keyboards';
+import { sendMessage, getIsBotMessage } from '../../../common/utils/utils';
 
 const tripPriceListeners = (bot) => {
     bot.on('message', async msg => {

@@ -23,7 +23,7 @@ import {
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 } from '../../common/constants/commonСonstants';
-import {isNil} from "lodash";
+import { head, isNil, last } from "lodash";
 
 export const getTripObject = ({
                                   stop_city = null,
@@ -174,8 +174,48 @@ export const getFormattedData = ({ day, hour, month, minutes }) => {
     const formattedMonth = month < 10 ? `0${month}` : month;
     const formattedMinutes = isNil(minutes) ? 0.0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
 
-    return `📅:  ${formattedDay}/${formattedMonth},  ⏰: ${formattedHour}:${formattedMinutes}`;
+    return `${formattedDay}/${formattedMonth}, ${formattedHour}:${formattedMinutes}`;
 };
 
 export const sendMessage = async (bot, id, message, config) => await bot.sendMessage(id, message, config)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
+
+
+export const getTripHtmlSummary = (trip, carrierInfo) => {
+    const formattedCities = Object.values(trip.cities);
+
+    const {
+        start_date_day,
+        start_date_hour,
+        start_date_month,
+        start_date_minutes,
+    } = trip.start_date;
+    const {
+        stop_date_day,
+        stop_date_hour,
+        stop_date_month,
+        stop_date_minutes,
+    } = trip.stop_date;
+
+    const startDate = getFormattedData({
+        day: start_date_day,
+        hour: start_date_hour,
+        month: start_date_month,
+        minutes: start_date_minutes,
+    });
+
+    const finishDate = getFormattedData({
+        day: stop_date_day,
+        hour: stop_date_hour,
+        month: stop_date_month,
+        minutes: stop_date_minutes,
+    });
+
+    const cities = ` 🌇 <b>Маршрут:</b> ${head(formattedCities)?.name} <i>${formattedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(formattedCities)?.name}`;
+    const time = `     📅 <b>Час відправлення:</b> ${startDate}\n     📅 <b>Час прибуття:</b>  ${finishDate}`;
+    const price = `     💰 <b>Ціна:</b> ${trip.trip_price} грн`;
+    const phoneNumber = `     ☎️<b>Контактний номер</b>  +${carrierInfo.phone_number} `;
+    const availablePlaces = `     💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
+
+    return `${cities}\n${time}\n${price}\n${availablePlaces}\n${phoneNumber}`;
+};

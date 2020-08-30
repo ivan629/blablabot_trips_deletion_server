@@ -9,7 +9,7 @@ import {
     BLOCKED_GO_TO_TIME_PICKER,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-} from '../../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 import {
     setTripHour,
     setTripMinutes,
@@ -20,7 +20,7 @@ import {
     showBlockedGoToTimePickerMessage,
     showBlockedGoToTripEnd,
     sendBlockedGoToAvailableMessage
-} from './calendarControllers';
+} from '../../../modules/tripCreationModule/tripDateModule/calendarControllers';
 
 const tripDateListeners = (bot) => {
     bot.on('callback_query', query => {

@@ -1,9 +1,9 @@
 import { chunk, last } from 'lodash';
 import moment from 'moment';
-import { createAction } from '../../common/utils/utils';
-import { MONTHS, WEEK_DAYS } from './tripDateConstants';
-import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../common/constants/commonСonstants';
-import { getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../services/helpers';
+import { createAction } from '../../../common/utils/utils';
+import { MONTHS, WEEK_DAYS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
+import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../../common/constants/commonСonstants';
+import { getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../../services/helpers';
 
 function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();

@@ -1,12 +1,12 @@
 import { isNil, isEmpty } from 'lodash';
 import fetch from 'node-fetch';
 import config from 'config';
-import { createAction, getIsBotMessage, sendMessage } from '../../common/utils/utils';
+import { createAction, getIsBotMessage, sendMessage } from '../../../common/utils/utils';
 import {
     CHOOSE_CITY_MESSAGE,
     NOT_FOUND_CITY_MESSAGE,
     CHOOSE_TRIP_CITY,
-} from '.././../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 
 class CitiesComponent {
     async fetchCitiesAutocomplete(city) {

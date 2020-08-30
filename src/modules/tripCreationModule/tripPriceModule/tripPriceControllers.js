@@ -1,10 +1,10 @@
-import { tripPriceSettingsKeyboardFinish } from '../keyboards/keyboards';
-import { setTripPrice } from '../../services/helpers';
-import { sendMessage } from '../../common/utils/utils';
+import { tripPriceSettingsKeyboardFinish } from '../../../modules/keyboards/keyboards';
+import { setTripPrice } from '../../../services/helpers';
+import { sendMessage } from '../../../common/utils/utils';
 import {
     TRIP_PRICE_SETTINGS_FINISH_MESSAGE,
     TRIP_PRICE_BLOCKED_MESSAGE,
-} from '../../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 
 
 export const sendInitialMessage = (bot, msg) => {

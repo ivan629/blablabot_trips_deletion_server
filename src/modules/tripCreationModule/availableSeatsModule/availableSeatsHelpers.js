@@ -1,17 +1,17 @@
-import { parseData, sendMessage } from '../../common/utils/utils';
-import { setAvailableSeatsDataInDB } from '../../services/helpers';
+import { parseData, sendMessage } from '../../../common/utils/utils';
+import { setAvailableSeatsDataInDB } from '../../../services/helpers';
 import {
     AVAILABLE_SEATS_CONGRATS_MESSAGE,
     AVAILABLE_SEATS_MESSAGE,
     AVAILABLE_SEATS_MESSAGE_1,
     AVAILABLE_SEATS_MESSAGE_2,
     AVAILABLE_SEATS_BLOCKED_MESSAGE
-} from '../../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 import {
     availableSeatsKeyboard,
     availableSeatsKeyboardBlocked,
     availableSeatsCongratsKeyboard,
-} from '../keyboards/keyboards';
+} from '../../../modules/keyboards/keyboards';
 
 export const setAvailableSeatsData = async (bot, query) => {
     const { message: { chat: { id }}, data } = query;

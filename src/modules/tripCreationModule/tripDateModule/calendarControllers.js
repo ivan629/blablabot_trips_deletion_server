@@ -1,12 +1,12 @@
 import shortid from 'shortid';
 import { head, isNil } from 'lodash';
-import { getMonthNumberByValue, sendCurrentDateHtml } from './tripDateUtils';
-import CalendarComponent from './calendarComponent';
-import timeComponent from './timeComponent';
-import { calendarKeyboard } from '../keyboards/keyboards';
-import { parseData, sendMessage } from '../../common/utils/utils';
-import { getTripObject } from '../../common/utils/utils';
-import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../keyboards/keyboards';
+import { getMonthNumberByValue, sendCurrentDateHtml } from '../../../modules/tripCreationModule/tripDateModule/tripDateUtils';
+import CalendarComponent from '../../../modules/tripCreationModule/tripDateModule/calendarComponent';
+import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
+import { calendarKeyboard } from '../../../modules/keyboards/keyboards';
+import { parseData, sendMessage } from '../../../common/utils/utils';
+import { getTripObject } from '../../../common/utils/utils';
+import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../../../modules/keyboards/keyboards';
 import {
     GO_TO_TIME_PICKER,
     TIME_CHOOSING_MESSAGE,
@@ -17,13 +17,13 @@ import {
     BLOCKED_GO_TO_TIME_PICKER_MESSAGE,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE,
-} from '../../common/constants/commonСonstants';
+} from '../../../common/constants/commonСonstants';
 import {
     updateFieldDb,
     getNotCompletedTrip,
     toggleIsTripStartDateCompleted,
     getIsStartDateCreatingCompleted,
-} from '../../services/helpers';
+} from '../../../services/helpers';
 
 const calendarComponent = new CalendarComponent();
 

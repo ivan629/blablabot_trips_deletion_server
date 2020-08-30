@@ -1,7 +1,7 @@
-import { sendMessage } from '../../common/utils/utils'
-import { SHARE_CARRIER_PHONE_NUMBER_MESSAGE } from '../../common/constants/commonСonstants'
-import { phoneNumberKeyboard } from '../keyboards/keyboards'
-import { saveCarrierPhoneNumberToDb } from '../../services/helpers'
+import { sendMessage } from '../../../common/utils/utils'
+import { SHARE_CARRIER_PHONE_NUMBER_MESSAGE } from '../../../common/constants/commonСonstants'
+import { phoneNumberKeyboard } from '../../../modules/keyboards/keyboards'
+import { saveCarrierPhoneNumberToDb } from '../../../services/helpers'
 
 export const sendPhoneNumberInitialData = (bot, msg) => {
     sendMessage(bot, msg.chat.id, SHARE_CARRIER_PHONE_NUMBER_MESSAGE, {
