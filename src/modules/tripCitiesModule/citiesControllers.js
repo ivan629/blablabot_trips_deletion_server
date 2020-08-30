@@ -16,7 +16,7 @@ export const addCityToTrip = async (bot, query) => {
 
     const citiesList = Object.values(tripCities).map(({ name }) => name);
     const isAlreadyAdded = citiesList.includes(newCity);
-    const canBeTheFinalCity = citiesList.length > 1 && !isAlreadyAdded;
+    const canBeTheFinalCity = citiesList.length > 0 && !isAlreadyAdded;
 
     if (isAlreadyAdded) {
         return sendMessage(bot, id, CITY_ALREADY_EXISTS_ERROR_MESSAGE);
@@ -24,13 +24,11 @@ export const addCityToTrip = async (bot, query) => {
 
     if (canBeTheFinalCity) {
         sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT, creatingCitiesKeyboards);
-        await addCityToTripInDB(id, parseData(data).payload);
+        await addCityToTripInDB(id, newCity);
     } else {
         sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT);
-        await addCityToTripInDB(id, parseData(data).payload);
+        await addCityToTripInDB(id, newCity);
     }
-
-    await addCityToTripInDB(id, newCity);
 };
 
 export const startCitiesCreating = async (bot, msg) => {

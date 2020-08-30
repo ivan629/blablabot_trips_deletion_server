@@ -40,7 +40,7 @@ export const timeComponent = async chat_id => {
             isNotValidHour = currentYear === parseInt(year)
             && currentMonth === month
             && currentDay === day
-            && currentHour >= formattedCalendarHour;
+            && formattedCalendarHour < currentHour + 1;
         }
 
         if (isNotValidHour) return result;

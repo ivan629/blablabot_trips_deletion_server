@@ -11,7 +11,7 @@
     "logFile": "logs/api.log"
   },
   "telegramBotConfig": {
-    "token": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
+    "token": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE"
   },
   "firebaseConfig": {
     "apiKey": "AIzaSyBjzPgjs7toJzQKnVliA69BnoXZ3zIXJJM",
