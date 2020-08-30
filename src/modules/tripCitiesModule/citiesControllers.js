@@ -35,7 +35,7 @@ export const addCityToTrip = async (bot, query) => {
 
 export const startCitiesCreating = async (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, blockedCitiesKeyboard);
+    sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, { parse_mode: 'HTML', ...blockedCitiesKeyboard });
     await toggleIsTripCitiesCreating(id, true);
 };
 

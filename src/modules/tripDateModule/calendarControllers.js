@@ -8,16 +8,13 @@ import { parseData, sendMessage } from '../../common/utils/utils';
 import { getTripObject } from '../../common/utils/utils';
 import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../keyboards/keyboards';
 import {
-    TIME_CHOOSING_MESSAGE,
-    CONFIRM_TRIP_DATE,
     GO_TO_TIME_PICKER,
+    TIME_CHOOSING_MESSAGE,
     GO_TO_TRIP_END_TIME_PICKER,
-    GO_TO_AVAILABLE_SEATS_SETTING,
-    BLOCKED_GO_TO_TIME_PICKER_MESSAGE,
     TIME_CHOOSING_HELP_MESSAGE,
-    BLOCKED_CONFIRM_TIME_MESSAGE,
-    BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
+    GO_TO_AVAILABLE_SEATS_SETTING,
     TIME_STOP_CHOOSING_HELP_MESSAGE,
+    BLOCKED_GO_TO_TIME_PICKER_MESSAGE,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE,
 } from '../../common/constants/commonСonstants';
@@ -57,25 +54,28 @@ const setDatePickerDataToDb = async (chat_id, field, data) => {
     await updateFieldDb(chat_id, `trips.${notCompletedTrip.trip_id}.${tripDateType}.${readyField}`, data);
 };
 
-export const changeCalendarMonth = (query, bot, isUp) => {
+export const changeCalendarMonth = async (query, bot, isUp) => {
     const {chat, reply_markup, message_id} = query.message;
     const [oldMonth, oldYear] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     let newYear;
     const oldMonthNumber = getMonthNumberByValue(oldMonth);
-    let newMonthNumber = isUp ? oldMonthNumber + 1 : oldMonthNumber - 1;
+    let customMonthNumber = isUp ? oldMonthNumber + 1 : oldMonthNumber - 1;
 
-    if (newMonthNumber > 12) {
-        newMonthNumber = 1;
+    // TODO: we don't allow to choose more then 1 month in next year for now, because need to save ald year in DB
+    let shouldDisableGoToNextMonthButton = false;
+
+    if (customMonthNumber > 12) {
+        customMonthNumber = 1;
         newYear = +oldYear + 1;
-    } else if (newMonthNumber < 1) {
-        newMonthNumber = 12;
+        shouldDisableGoToNextMonthButton = true;
+    } else if (customMonthNumber < 1) {
+        customMonthNumber = 12;
         newYear = +oldYear - 1;
     }
 
-    bot.editMessageReplyMarkup(calendarComponent.getCalendar(newMonthNumber, newYear), {
-        chat_id: chat.id,
-        message_id
-    });
+    const calendar = await calendarComponent.getCalendar({ customMonthNumber, newYear, shouldDisableGoToNextMonthButton, chat_id: chat.id });
+
+    bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id},);
 };
 
 export const userChangedDate = async (query, bot) => {

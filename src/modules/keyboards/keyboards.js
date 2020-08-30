@@ -22,6 +22,7 @@ import {
 
 export const phoneNumberKeyboard = {
     reply_markup: {
+        resize_keyboard: true,
         keyboard: [
             [
                 {

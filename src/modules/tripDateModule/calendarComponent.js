@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createAction } from '../../common/utils/utils';
 import { MONTHS, WEEK_DAYS } from './tripDateConstants';
 import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../common/constants/commonСonstants';
+import { getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../services/helpers';
 
 function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
@@ -19,35 +20,72 @@ class CalendarComponent {
         return new Date().getFullYear();
     };
 
-    checkIfTimeIsValid(year, month, day, currentDateMilliseconds) {
-        const calendarItemDateMilliseconds = moment(`${day + 1}-${month}-${year}`, 'DD-MM-YYYY').valueOf();
+    getDateMilliseconds(day, month, year) {
+        return moment(`${day + 1}-${month}-${year}`, 'DD-MM-YYYY').valueOf();
+    };
 
-        return calendarItemDateMilliseconds > currentDateMilliseconds;
+    getOsGoToPreviousMonthButtonEnabled (currentCalendarMonth) {
+        return currentCalendarMonth !== this.getCurrentMonthNumber();
+    }
+
+    checkIfTimeIsValid({ year, month, day, minDateMillisecondsThreshold }) {
+        return this.getDateMilliseconds(day, month, year) > minDateMillisecondsThreshold;
     };
 
     getCurrentMonth() {
-        return MONTHS[this.getCurrentMonthNumber()];
+        return MONTHS[this.getCurrentMonthNumber() - 1];
     };
 
-    getMonthPaginationButtons() {
+    getMonthPaginationButtons(currentCalendarMonth, shouldDisableGoToNextMonthButton) {
+        const isGoToPreviousMonthButtonEnabled  = this.getOsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
+        const goToPreviousMonthButton = {
+            text: `${isGoToPreviousMonthButtonEnabled ? '⬅️' : '🤷‍♀️'}`,
+            callback_data: isGoToPreviousMonthButtonEnabled ? createAction(MONTH_DOWN) : 'None',
+        };
+        const goToNextMonthButton = {
+            text: `${shouldDisableGoToNextMonthButton ? '🤷‍♀️' : '➡️'}`,
+            callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(MONTH_UP),
+        };
+
         return [
-            {text: '⬅️', callback_data: createAction(MONTH_DOWN)},
+            goToPreviousMonthButton,
             {text: ' ', callback_data: 'none'},
-            {text: '➡️', callback_data: createAction(MONTH_UP)},
+            goToNextMonthButton,
         ]
     }
 
-    getCalendar(customMonthNumber, newYear) {
+    async getCalendar({
+                    chat_id,
+                    newYear,
+                    customMonthNumber,
+                    shouldDisableGoToNextMonthButton,
+                }) {
         const shouldIncludeReplyMarkup = !customMonthNumber;
-        const currentMonth = customMonthNumber ? MONTHS[customMonthNumber - 1] : this.getCurrentMonth();
+        const currentCalendarMonth = customMonthNumber ? MONTHS[customMonthNumber - 1] : this.getCurrentMonth();
         const currentMonthNumber = customMonthNumber || this.getCurrentMonthNumber();
         const currentYear = newYear || this.getCurrentYear();
 
-        const monthButton = [{text: `${currentMonth} ${currentYear}`, callback_data: 'none'}];
+        const monthButton = [{text: `${currentCalendarMonth} ${currentYear}`, callback_data: 'none'}];
         const days = daysInMonth(currentMonthNumber, currentYear);
-        const currentDateMilliseconds = Date.now();
+
+        let minDateMillisecondsThreshold = Date.now();
+        const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
+
+        if (isStartDateCreatingCompleted) {
+            const { start_date: { start_date_day, start_date_year, start_date_month } } = await getNotCompletedTrip(chat_id);
+            // we allow to set the same trip end dsy, with min hours threshold
+            const minDayThreshold = start_date_day - 1;
+            minDateMillisecondsThreshold = this.getDateMilliseconds(minDayThreshold, start_date_month, start_date_year);
+        }
+
         const daysButtons = new Array(days).fill(null).reduce((result, value, index) => {
-        const isTimeEnable = this.checkIfTimeIsValid(currentYear, currentMonthNumber, index, currentDateMilliseconds);
+        const isTimeEnable = this.checkIfTimeIsValid({
+            chat_id,
+            day: index,
+            year: currentYear,
+            month: currentMonthNumber,
+            minDateMillisecondsThreshold,
+        });
 
             if (index > 0) {
                 result.push({
@@ -76,7 +114,7 @@ class CalendarComponent {
                         monthButton,
                         WEEK_DAYS,
                         ...chunkedDaysArray,
-                        this.getMonthPaginationButtons(),
+                        this.getMonthPaginationButtons(currentMonthNumber, shouldDisableGoToNextMonthButton),
                     ]
                 }
             }
@@ -85,7 +123,7 @@ class CalendarComponent {
                     monthButton,
                     WEEK_DAYS,
                     ...chunkedDaysArray,
-                    this.getMonthPaginationButtons(),
+                    this.getMonthPaginationButtons(currentMonthNumber, shouldDisableGoToNextMonthButton),
                 ]
             }
     }

@@ -35,6 +35,7 @@ export const updateFieldDb = (docName, fieldPath, data) => {
 
 export const getCurrentTripDate = async chat_id => {
     const data = await getNotCompletedTrip(chat_id);
+    console.log(data);
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const dateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
 
@@ -156,10 +157,9 @@ export const toggleIsTripStartDateCompleted = async chat_id => {
 
 export const getIsStartDateCreatingCompleted = async chat_id => {
     const trip = await getNotCompletedTrip(chat_id);
-
     if (isNil(trip)) return;
-    const result  = await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`);
-    return result;
+
+    return await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`);
 };
 
 export const setAvailableSeatsDataInDB = async (chat_id, data) => {
@@ -208,12 +208,6 @@ export const removeSessionMessagesIds = async (bot, chat_id) => {
         // console.log(error);
     }
 };
-
-export const setMainMenuMessageIdToDb = async (chat_id, messageId) => {
-    await updateFieldDb(chat_id,`bot.main_menu_message_id`, messageId);
-};
-
-export const getMainMenuMessageId = async chat_id => await getFieldFromDoc(chat_id,`bot.main_menu_message_id`);
 
 export const getTripCities = async chat_id => {
     const trip = await getNotCompletedTrip(chat_id);

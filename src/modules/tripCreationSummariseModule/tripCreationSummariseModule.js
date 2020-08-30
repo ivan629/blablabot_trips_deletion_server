@@ -18,7 +18,6 @@ class TripCreationSummariseModule {
 
     async saveTrip(bot, msg) {
         await saveTripInDb(msg.chat.id);
-        sendMessage(bot, msg.chat.id, TRIP_CREATION_CREATION_COMPLETED_MESSAGE);
     }
 
     setListeners(bot) {}

@@ -66,6 +66,7 @@ const telegramBotControllers = bot => {
             }
                 break;
             case FINISH_TRIP_CREATION:
+            case GO_TO_THE_MAIN_MENU:
             case TRIP_CREATION_CREATION_COMPLETED_MESSAGE: {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
@@ -97,9 +98,6 @@ const telegramBotControllers = bot => {
             break;
             case FINISH_TRIP_CREATION: {
                 tripCreationSummariseModule.saveTrip(bot, msg);
-                bot.answerCallbackQuery({
-                    callback_query_id: msg.message_id,
-                })
             }
                 break;
             default: {

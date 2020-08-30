@@ -172,9 +172,9 @@ export const getFormattedData = ({ day, hour, month, minutes }) => {
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
     const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedMinutes = isNil(minutes) ? 0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
+    const formattedMinutes = isNil(minutes) ? 0.0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
 
-    return `Дата:  ${formattedDay}/${formattedMonth},  Година: ${formattedHour}:${formattedMinutes}`;
+    return `📅:  ${formattedDay}/${formattedMonth},  ⏰: ${formattedHour}:${formattedMinutes}`;
 };
 
 export const sendMessage = async (bot, id, message, config) => await bot.sendMessage(id, message, config)

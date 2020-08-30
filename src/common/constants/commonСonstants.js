@@ -37,7 +37,7 @@ export const CALENDAR_HELP_MESSAGE = 'Після натисніть <b>✅ Пе�
 export const CHOOSE_CITY_MESSAGE = 'Будь ласка виберіть правильне місто';
 export const NOT_FOUND_CITY_MESSAGE = 'Нажаль ми не знайшли такого міста 😕';
 export const TRIP_END_TIME_PICKER_MESSAGE = 'Уведіть Дату приїзду будь ласка';
-export const CITIES_INITIAL_HELP_TEXT = 'Напишіть місто виїзду, наприклад Київ';
+export const CITIES_INITIAL_HELP_TEXT = 'Напишіть місто відправлення, наприклад <b>Київ</b> 🏙️';
 export const CITIES_ADD_NEW_HELP_TEXT = '😎 Чудово! Додайте наступне місто у подорожі 🚃';
 export const CALENDAR_START_TRIP_MESSAGE = 'Оберіть дату вашої поїздки будь ласка!';
 export const CALENDAR_STOP_TRIP_MESSAGE = 'Оберіть дату вашо вашого прибуття будь ласка!';
@@ -52,7 +52,7 @@ export const TRIP_CREATION_CREATION_COMPLETED_MESSAGE = 'Поїздку збер
 
 // phone number
 export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';
-export const SHARE_CARRIER_PHONE_NUMBER_MESSAGE = 'Натісніть ☎️ <b>Надіслати мій номер телефону</b>';
+export const SHARE_CARRIER_PHONE_NUMBER_MESSAGE = 'Продовжити натісніть ☎️ <b>Надіслати мій номер телефону</b>';
 export const PHONE_FINISH_MESSAGE = 'Натісніть <b>🧐 Перевірити інформацію</b>';
 export const SEND_MY_PHONE_NUMBER = '☎️ Надіслати мій номер телефону';
 export const CHECK_TRIP_CREATION_DATA = '🧐 Перевірити інформацію';
