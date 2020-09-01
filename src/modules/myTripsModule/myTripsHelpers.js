@@ -13,7 +13,7 @@ export const getMyCreatedTrips = async ({ chat: { id } }) => {
         const itemNumber = index + 1;
         return {
             trip_id: trip.trip_id,
-            html: `\n<b>${itemNumber}.</b> ${getTripHtmlSummary(trip, carrierInfo).replace(/,/g, "")}\n`
+            html: `${getTripHtmlSummary(trip, carrierInfo, '\t').replace(/,/g, "")}\n`
         }
     });
 };

@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { initialKeyboard } from '../../modules/keyboards/keyboards';
 import CalendarModule from './tripDateModule/tripDateModule';
 import TripCitiesModule from './tripCitiesModule/tripCitiesModule';
@@ -14,11 +13,11 @@ import { addNewTrip } from '../../common/utils/utils';
 import {
     PROPOSE_TRIP,
     CONFIRM_TRIP_PRICE,
+    GO_TO_TRIP_SUMMARISE,
+    FINISH_TRIP_CREATION,
     FINAL_CITY_IN_THE_TRIP,
-    GO_TO_TRIP_PRICE_SETTINGS,
     GO_TO_TRIP_END_TIME_PICKER,
     GO_TO_AVAILABLE_SEATS_SETTING,
-    FINISH_TRIP_CREATION,
 } from '../../common/constants/commonСonstants';
 
 const phoneNumberModule = new PhoneNumberModule();
@@ -39,11 +38,6 @@ const tripCreationModule = bot => {
     bot.on('message', async msg => {
         const { chat: { id }, message_id } = msg;
         addSessionMessagesIdsToDb(id, message_id);
-        // bot.deleteMessage(id, message_id);
-
-        if (!isNil(msg.contact)) {
-            tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
-        }
 
         switch (msg.text) {
             case PROPOSE_TRIP: {
@@ -65,12 +59,12 @@ const tripCreationModule = bot => {
                 availableSeatsModule.runAvailableTripSeatsPicker(bot, msg);
             }
                 break;
-            case GO_TO_TRIP_PRICE_SETTINGS: {
-                tripPriceModule.runTripPriceModule(bot, msg);
-            }
-                break;
             case CONFIRM_TRIP_PRICE: {
                 phoneNumberModule.runPhoneNumberModule(bot, msg);
+            }
+                break;
+            case GO_TO_TRIP_SUMMARISE: {
+                tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
             }
                 break;
             case FINISH_TRIP_CREATION: {

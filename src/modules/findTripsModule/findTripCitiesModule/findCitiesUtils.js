@@ -2,11 +2,11 @@ import config from 'config';
 import fetch from 'node-fetch';
 import { isEmpty, isNil, size } from 'lodash';
 import {
-    getTripCities,
-    addCityToTripInDB,
-    toggleIsTripCitiesCreating,
+    getFindTripCities,
+    addCityToFindTripInDB,
+    toggleIsFindTripCitiesCreating,
 } from '../../../services/helpers';
-import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../../modules/keyboards/keyboards';
+import { findTripGoToCalendarKeyboard, blockedFindTripCitiesKeyboard } from '../../../modules/keyboards/keyboards';
 import {
     sendMessage,
     sendLocation,
@@ -18,16 +18,49 @@ import {
 } from '../../../common/utils/utils';
 import {
     SHOW_NEXT_CITY,
-    CHOOSE_TRIP_CITY,
+    CHOOSE_FIND_TRIP_CITY,
     SHOW_ACTION_TYPE,
+    FIND_TRIP_MAX_CITIES_CONT_MESSAGE,
     NOT_FOUND_CITY_MESSAGE,
-    CITIES_ADD_NEW_HELP_TEXT,
+    FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT,
     CITIES_INITIAL_HELP_TEXT,
-    BLOCKED_FINAL_CITY_MESSAGE,
+    FIND_TRIP_GO_TO_CALENDAR_BLOCKED_MESSAGE,
     CITY_ALREADY_EXISTS_ERROR_MESSAGE,
 } from '../../../common/constants/commonСonstants';
 
-export const addCityToTrip = async (bot, query) => {
+export const sendBlockedFindTripCityMessage = (bot, msg) => {
+    const { chat: { id } } = msg;
+    sendMessage(bot, id, FIND_TRIP_GO_TO_CALENDAR_BLOCKED_MESSAGE);
+};
+
+const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
+    const inline_keyboard = nextCityIndex ?
+        [
+            [{
+                text: CHOOSE_FIND_TRIP_CITY,
+                callback_data: createCityAction(CHOOSE_FIND_TRIP_CITY, place_id),
+            }],
+            [{
+                text: `${SHOW_NEXT_CITY} (${allCitiesSize})`,
+                callback_data: createNextCityAction(SHOW_ACTION_TYPE, data.text, nextCityIndex),
+            }]
+        ] : [
+            [{
+                text: CHOOSE_FIND_TRIP_CITY,
+                callback_data: createCityAction(CHOOSE_FIND_TRIP_CITY, place_id),
+            }]
+        ];
+
+    return { reply_markup: { inline_keyboard: inline_keyboard } }
+};
+
+export const startTripCitiesSearching = async (bot, msg) => {
+    const { chat: { id } } = msg;
+    await sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, { parse_mode: 'HTML', ...blockedFindTripCitiesKeyboard });
+    await toggleIsFindTripCitiesCreating(id, true);
+};
+
+export const addCityToFindTripCities = async (bot, query) => {
     const { message: { chat: { id }} } = query;
     const [addCityAction, placeId] = parseCityAction(query.data);
     const cityDetails  = await getCityDetails(placeId);
@@ -37,33 +70,29 @@ export const addCityToTrip = async (bot, query) => {
     const { formatted_address, place_id, vicinity, name, geometry } = cityDetails.result;
     const newCity = { formatted_address, place_id, vicinity, name, location: geometry.location };
 
-    const tripCities = await getTripCities(id);
-    const citiesIdsList = Object.values(tripCities).map(({ place_id }) => place_id);
-    const isAlreadyAdded = citiesIdsList.includes(newCity.place_id);
-    const canBeTheFinalCity = citiesIdsList.length > 0 && !isAlreadyAdded;
+    const findTripCities = await getFindTripCities(id);
+    const findTripCitiesIdsList = Object.values(findTripCities).map(({ place_id }) => place_id);
+    const isAlreadyAdded = findTripCitiesIdsList.includes(newCity.place_id);
+    const canBeTheFinalCity = findTripCitiesIdsList.length > 0 && !isAlreadyAdded;
+
+    const isMoreThenMAxCitiesNumber = findTripCitiesIdsList.length > 1;
+
+    if (isMoreThenMAxCitiesNumber) {
+        return sendMessage(bot, id, FIND_TRIP_MAX_CITIES_CONT_MESSAGE);
+    }
 
     if (isAlreadyAdded) {
         return sendMessage(bot, id, CITY_ALREADY_EXISTS_ERROR_MESSAGE);
     }
 
     if (canBeTheFinalCity) {
-        sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT, creatingCitiesKeyboards);
-        await addCityToTripInDB(id, newCity);
+        await toggleIsFindTripCitiesCreating(id, false);
+        sendMessage(bot, id, FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT, findTripGoToCalendarKeyboard);
+        await addCityToFindTripInDB(id, newCity);
     } else {
-        sendMessage(bot, id, CITIES_ADD_NEW_HELP_TEXT);
-        await addCityToTripInDB(id, newCity);
+        sendMessage(bot, id, FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT);
+        await addCityToFindTripInDB(id, newCity);
     }
-};
-
-export const startCitiesCreating = async (bot, msg) => {
-    const { chat: { id } } = msg;
-    sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, { parse_mode: 'HTML', ...blockedCitiesKeyboard });
-    await toggleIsTripCitiesCreating(id, true);
-};
-
-export const sendBlockedCityMessage = (bot, msg) => {
-    const { chat: { id } } = msg;
-    sendMessage(bot, id, BLOCKED_FINAL_CITY_MESSAGE);
 };
 
 export const fetchCitiesAutocomplete = async city =>  {
@@ -81,28 +110,7 @@ export const fetchCitiesAutocomplete = async city =>  {
     return result;
 };
 
-const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
-    const inline_keyboard = nextCityIndex ?
-        [
-            [{
-                text: CHOOSE_TRIP_CITY,
-                callback_data: createCityAction(CHOOSE_TRIP_CITY, place_id),
-            }],
-            [{
-                text: `${SHOW_NEXT_CITY} (${allCitiesSize})`,
-                callback_data: createNextCityAction(SHOW_ACTION_TYPE, data.text, nextCityIndex),
-            }]
-        ] : [
-            [{
-                text: CHOOSE_TRIP_CITY,
-                callback_data: createCityAction(CHOOSE_TRIP_CITY, place_id),
-            }]
-        ];
-
-    return { reply_markup: { inline_keyboard: inline_keyboard } }
-};
-
-export const handleShowCities = async (bot, data, customCityIndex) =>  {
+export const handlefindTripsShowCities = async (bot, data, customCityIndex) =>  {
     if (getIsBotMessage(data.text)) return;
 
     // check if this chat id has creating trp in progress

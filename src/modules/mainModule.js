@@ -2,6 +2,8 @@ import appRouters from '../routers';
 import tripCreationModule from '../modules/tripCreationModule/tripCreationModule';
 import myTripsModule from '../modules/myTripsModule/myTripsModule';
 import userPayModule from '../modules/userPayModule/userPayModule';
+import findTripModule from '../modules/findTripsModule/findTripModule';
+
 import {
     resetSessionDataInDb,
     addSessionMessagesIdsToDb,
@@ -18,6 +20,7 @@ const mainModule = (expressApp, bot) => {
     tripCreationModule(bot);
     myTripsModule(bot);
     userPayModule(bot);
+    findTripModule(bot);
 
     // routers
     appRouters(expressApp, bot);

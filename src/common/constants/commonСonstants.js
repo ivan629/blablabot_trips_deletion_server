@@ -14,7 +14,6 @@ export const BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE = '👿 Ви не обр
 export const BLOCKED_CONFIRM_TIME = '⛔ Підтвердити дату';
 export const CONFIRM_TIME = '✅ Підтвердити дату';
 export const BLOCKED_GO_TO_TIME_PICKER_MESSAGE = '👿 Ви не обрали дату!';
-export const FIND_TRIP = '🔍 Знайти поїздку';
 export const DATE_CHANGED = 'DATE_CHANGED';
 export const SET_TRIP_HOUR = 'SET_TRIP_HOUR';
 export const CONFIRM_TRIP_DATE = 'підтвердити';
@@ -47,6 +46,22 @@ export const TRIP_CREATION_SUMMARISE_INITIAL_MESSAGE = '🧐 Перевірте 
 export const CITY_ALREADY_EXISTS_ERROR_MESSAGE = '👿 Це місто вже додане у подорож!';
 export const TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGE = 'Якщо інформація правильна натисніть <b>💾 Зберегти поїздку</b>';
 
+// find trip cities
+export const FIND_TRIP = '🔍 Знайти поїздку';
+export const FIND_TRIP_GO_TO_CALENDAR_BLOCKED = '⛔ Вказати дату відпралення';
+export const FIND_TRIP_GO_TO_CALENDAR_BLOCKED_MESSAGE = '👿 Вкажіть 2 міста будь ласка';
+export const CHOOSE_FIND_TRIP_CITY = '➕ Вибрати';
+export const FIND_TRIP_GO_TO_CALENDAR = '📅 Вказати дату відпралення';
+export const FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT = '😎 Чудово! Додайте наступне місто у подорожі 🚃';
+export const FIND_TRIP_SHOW_NEXT_CITIES_ACTION_TYPE = '1a';
+export const FIND_TRIP_MAX_CITIES_CONT_MESSAGE = '👿 Ви не можете додати ще одне місто';
+export const FIND_TRIP_DATE_CHANGED = 'ftdc';
+export const FIND_TRIP_SEARCH_TRIPS = '🔍 Шукати';
+export const FIND_TRIP_SEARCH_TRIPS_BLOCKED = '⛔ Шукати';
+export const FIND_TRIP_MONTH_DOWN = 'ftmd';
+export const FIND_TRIP_MONTH_UP = 'ftmp';
+export const FIND_TRIP_CONGRATS_MESSAGE_STOP = 'Опісля натисніть <b>🔍 Шукати</b>';
+
 // cities
 export const SHOW_NEXT_CITY = '⬇️ Показати наступну локацію';
 export const SHOW_ACTION_TYPE = '1a';
@@ -67,7 +82,8 @@ export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';
 export const SHARE_CARRIER_PHONE_NUMBER_MESSAGE = 'Продовжити натісніть ☎️ <b>Надіслати мій номер телефону</b>';
 export const PHONE_FINISH_MESSAGE = 'Натісніть <b>🧐 Перевірити інформацію</b>';
 export const SEND_MY_PHONE_NUMBER = '☎️ Надіслати мій номер телефону';
-export const CHECK_TRIP_CREATION_DATA = '🧐 Перевірити інформацію';
+export const GO_TO_TRIP_SUMMARISE = '🧐 Перевірити інформацію';
+export const GO_TO_TRIP_SUMMARISE_MESSAGE = 'Щоб продовжити нажміть <b>🧐 Перевірити інформацію</b>';
 
 // trip price
 export const CONFIRM_TRIP_PRICE = '✅ Підтвердити ціну';

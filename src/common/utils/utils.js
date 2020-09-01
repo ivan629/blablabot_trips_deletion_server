@@ -8,6 +8,7 @@ import {
 } from '../../services/helpers';
 import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
 import {
+    FIND_TRIP,
     PROPOSE_TRIP,
     START_MESSAGE,
     CONFIRM_TRIP_PRICE,
@@ -17,10 +18,12 @@ import {
     NEXT_CITY_IN_THE_TRIP,
     NOT_FOUND_CITY_MESSAGE,
     FINAL_CITY_IN_THE_TRIP,
+    CITIES_INITIAL_HELP_TEXT,
     TRIP_PRICE_BLOCKED_MESSAGE,
     CONFIRM_TRIP_PRICE_BLOCKED,
     GO_TO_TRIP_PRICE_SETTINGS,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 } from '../../common/constants/commonСonstants';
 import { getCityDetailsUrl } from '../../common/constants/urlHelpers';
@@ -81,7 +84,8 @@ const getCarrierObject = ({
                               carrier_name = null,
                               creation_date = null,
                               carrier_last_name = null,
-                              is_trip_cities_creating = null,
+                              is_trip_cities_creating = false,
+                              is_find_trip_city_creating = false,
                               keyboard_message_id = null,
                               session_messages_ids = {},
                               main_menu_message_id = null,
@@ -89,9 +93,18 @@ const getCarrierObject = ({
                           }) => ({
     bot: {
         is_trip_cities_creating,
+        is_find_trip_city_creating,
         keyboard_message_id,
         session_messages_ids,
         main_menu_message_id,
+    },
+    find_trip: {
+        date: {
+            day: null,
+            month: null,
+            year: null,
+        },
+        cities: {},
     },
     carrier: {
         chat_id,
@@ -159,6 +172,7 @@ export const removeKeyboard = (bot, msg) => {
 export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
 
 export const getIsBotMessage = messageText => [
+    FIND_TRIP,
     PROPOSE_TRIP,
     START_MESSAGE,
     CONFIRM_TRIP_PRICE,
@@ -166,11 +180,13 @@ export const getIsBotMessage = messageText => [
     GO_TO_THE_MAIN_MENU,
     NEXT_CITY_IN_THE_TRIP,
     FINAL_CITY_IN_THE_TRIP,
+    CITIES_INITIAL_HELP_TEXT,
     NOT_FOUND_CITY_MESSAGE,
     GO_TO_TRIP_PRICE_SETTINGS,
     TRIP_PRICE_BLOCKED_MESSAGE,
     CONFIRM_TRIP_PRICE_BLOCKED,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 ].includes(messageText);
 
@@ -193,7 +209,7 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
 export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
-export const getTripHtmlSummary = (trip, carrierInfo) => {
+export const getTripHtmlSummary = (trip, carrierInfo, leftPadding = '') => {
     const formattedCities = Object.values(trip.cities);
 
     const {
@@ -223,11 +239,11 @@ export const getTripHtmlSummary = (trip, carrierInfo) => {
         minutes: stop_date_minutes,
     });
 
-    const cities = ` 🌇 <b>Маршрут:</b> ${head(formattedCities)?.vicinity} <i>${formattedCities.slice(1, -1).map(({ vicinity }) => `- ${vicinity}`)}</i> - ${last(formattedCities)?.vicinity}`;
-    const time = `     📅 <b>Час відправлення:</b> ${startDate}\n     📅 <b>Час прибуття:</b>  ${finishDate}`;
-    const price = `     💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    const phoneNumber = `     ☎️<b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
-    const availablePlaces = `     💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
+    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${head(formattedCities)?.vicinity} <i>${formattedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(formattedCities)?.vicinity}`;
+    const time = `${leftPadding}📅 <b>Час відправлення:</b> ${startDate}\n${leftPadding}📅 <b>Час прибуття:</b>  ${finishDate}`;
+    const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
+    const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
+    const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
 
     return `${cities}\n${time}\n${price}\n${availablePlaces}\n${phoneNumber}`;
 };

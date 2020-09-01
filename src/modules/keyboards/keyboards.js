@@ -17,6 +17,9 @@ import {
     GO_TO_TRIP_PRICE_SETTINGS,
     CONFIRM_TRIP_PRICE_BLOCKED,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
+    GO_TO_TRIP_SUMMARISE,
+    FIND_TRIP_GO_TO_CALENDAR,
+    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
@@ -37,6 +40,20 @@ export const phoneNumberKeyboard = {
                     text: GO_TO_THE_MAIN_MENU,
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
+            ]
+        ]
+    }
+};
+
+export const phoneNumberKeyboardGoToSummarise = {
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            [
+                { text: GO_TO_TRIP_SUMMARISE }
+            ],
+            [
+                { text: GO_TO_THE_MAIN_MENU },
             ]
         ]
     }
@@ -320,6 +337,45 @@ export const blockedCitiesKeyboard = {
                 {
                     text: BLOCKED_FINAL_CITY_IN_THE_TRIP,
                     callback_data: createAction(BLOCKED_FINAL_CITY_IN_THE_TRIP)
+                }
+            ],
+            [
+                {
+                    text: GO_TO_THE_MAIN_MENU,
+                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+                },
+            ],
+        ]
+    }
+};
+
+export const blockedFindTripCitiesKeyboard = {
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            [
+                {
+                    text: FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
+                    callback_data: createAction(FIND_TRIP_GO_TO_CALENDAR_BLOCKED)
+                }
+            ],
+            [
+                {
+                    text: GO_TO_THE_MAIN_MENU,
+                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+                },
+            ],
+        ]
+    }
+};
+export const findTripGoToCalendarKeyboard = {
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            [
+                {
+                    text: FIND_TRIP_GO_TO_CALENDAR,
+                    callback_data: createAction(FIND_TRIP_GO_TO_CALENDAR)
                 }
             ],
             [

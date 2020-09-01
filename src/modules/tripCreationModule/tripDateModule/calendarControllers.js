@@ -117,9 +117,13 @@ export const userChangedDate = async (query, bot) => {
 
         await updateFieldDb(chat_id, `trips.${trip_id}`, tripData);
     } else {
-        await setDatePickerDataToDb(chat_id, 'day', start_date_day);
-        await setDatePickerDataToDb(chat_id, 'month', start_date_month);
-        await setDatePickerDataToDb(chat_id, 'year', start_date_year);
+        const alReqs = [
+            await setDatePickerDataToDb(chat_id, 'day', start_date_day),
+            await setDatePickerDataToDb(chat_id, 'month', start_date_month),
+            await setDatePickerDataToDb(chat_id, 'year', start_date_year),
+         ];
+
+        await Promise.all(alReqs);
     }
 
     await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(GO_TO_TIME_PICKER), true);

@@ -1,20 +1,17 @@
-import { isNil, chunk, last } from 'lodash';
 import moment from 'moment';
+import { isNil, chunk, last } from 'lodash';
 import { createAction } from '../../../common/utils/utils';
-import { MONTHS, WEEK_DAYS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
-import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../../common/constants/commonСonstants';
-import {
-    getCurrentTripDate,
-    getIsStartDateCreatingCompleted,
-    getNotCompletedTrip
-} from '../../../services/helpers';
+import { MONTHS, WEEK_DAYS } from './findTripDateConstants';
+import { getFindTripDate, getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../../services/helpers';
+import { FIND_TRIP_MONTH_DOWN, FIND_TRIP_MONTH_UP, FIND_TRIP_DATE_CHANGED } from '../../../common/constants/commonСonstants';
 
 function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }
 
-class CalendarComponent {
-    constructor() {}
+class FindTripCalendarComponent {
+    constructor() {
+    }
 
     getCurrentMonthNumber() {
         return new Date().getMonth() + 1
@@ -28,11 +25,11 @@ class CalendarComponent {
         return moment(`${day + 1}-${month}-${year}`, 'DD-MM-YYYY').valueOf();
     };
 
-    getOsGoToPreviousMonthButtonEnabled (currentCalendarMonth) {
+    getOsGoToPreviousMonthButtonEnabled(currentCalendarMonth) {
         return currentCalendarMonth !== this.getCurrentMonthNumber();
     }
 
-    checkIfTimeIsValid({ year, month, day, minDateMillisecondsThreshold }) {
+    checkIfTimeIsValid({year, month, day, minDateMillisecondsThreshold}) {
         return this.getDateMilliseconds(day, month, year) > minDateMillisecondsThreshold;
     };
 
@@ -41,14 +38,14 @@ class CalendarComponent {
     };
 
     getMonthPaginationButtons(currentCalendarMonth, shouldDisableGoToNextMonthButton) {
-        const isGoToPreviousMonthButtonEnabled  = this.getOsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
+        const isGoToPreviousMonthButtonEnabled = this.getOsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
         const goToPreviousMonthButton = {
             text: `${isGoToPreviousMonthButtonEnabled ? '⬅️' : '🤷‍♀️'}`,
-            callback_data: isGoToPreviousMonthButtonEnabled ? createAction(MONTH_DOWN) : 'None',
+            callback_data: isGoToPreviousMonthButtonEnabled ? createAction(FIND_TRIP_MONTH_DOWN) : 'None',
         };
         const goToNextMonthButton = {
             text: `${shouldDisableGoToNextMonthButton ? '🤷‍♀️' : '➡️'}`,
-            callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(MONTH_UP),
+            callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(FIND_TRIP_MONTH_UP),
         };
 
         return [
@@ -59,16 +56,16 @@ class CalendarComponent {
     }
 
     async getCalendar({
-                    chat_id,
-                    newYear,
-                    chosenDay,
-                    customMonthNumber,
-                    shouldDisableGoToNextMonthButton,
-                }) {
+                          chat_id,
+                          newYear,
+                          chosenDay,
+                          customMonthNumber,
+                          shouldDisableGoToNextMonthButton,
+                      }) {
 
         // handle if we choose another day or have set already chosen day
         let finalChosenDay = chosenDay;
-        const { day, month } = await getCurrentTripDate(chat_id);
+        const {day, month} = await getFindTripDate(chat_id);
         if (isNil(chosenDay) && month === customMonthNumber) {
             finalChosenDay = day;
         }
@@ -85,25 +82,25 @@ class CalendarComponent {
         const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
 
         if (isStartDateCreatingCompleted) {
-            const { start_date: { start_date_hour, start_date_day, start_date_year, start_date_month } } = await getNotCompletedTrip(chat_id);
+            const {start_date: {start_date_hour, start_date_day, start_date_year, start_date_month}} = await getNotCompletedTrip(chat_id);
             // we allow to set the same trip end day, with min hours threshold
             const minDayThreshold = start_date_hour < 24 ? start_date_day - 1 : start_date_day;
             minDateMillisecondsThreshold = this.getDateMilliseconds(minDayThreshold, start_date_month, start_date_year);
         }
 
         const daysButtons = new Array(days).fill(null).reduce((result, value, index) => {
-        const isTimeEnable = this.checkIfTimeIsValid({
-            chat_id,
-            day: index,
-            year: currentYear,
-            month: currentMonthNumber,
-            minDateMillisecondsThreshold,
-        });
+            const isTimeEnable = this.checkIfTimeIsValid({
+                chat_id,
+                day: index,
+                year: currentYear,
+                month: currentMonthNumber,
+                minDateMillisecondsThreshold,
+            });
 
-            const text = isTimeEnable ? `${finalChosenDay === index ? '✅' : index }` : '🚫';
-            const callback_data = isTimeEnable ? createAction(DATE_CHANGED, index) : 'none';
+            const text = isTimeEnable ? `${finalChosenDay === index ? '✅' : index}` : '🚫';
+            const callback_data = isTimeEnable ? createAction(FIND_TRIP_DATE_CHANGED, index) : 'none';
 
-            if (index > 0) result.push({ text, callback_data });
+            if (index > 0) result.push({text, callback_data});
             return result;
         }, []);
 
@@ -139,4 +136,4 @@ class CalendarComponent {
     }
 }
 
-export default CalendarComponent;
+export default FindTripCalendarComponent;

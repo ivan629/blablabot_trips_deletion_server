@@ -18,9 +18,13 @@ export const setNewDocToCollection = (docName, data) => {
         .catch(error => console.error('Error writing document: ', error));
 };
 
-export const getFieldFromDoc = async (docName, filedPath) => {
+export const getFieldFromDoc = async (docName, filedPath, defaultValue = undefined) => {
     const result = await getDoc(docName);
-    return get(result, filedPath);
+    return get(result, filedPath, defaultValue);
+};
+
+export const getFindTripDate = async chat_id => {
+    return await getFieldFromDoc(chat_id, 'find_trip.date', { day: null, month: null, year: null })
 };
 
 export const getAllTrips = async chat_id => {
@@ -75,6 +79,19 @@ export const getIsTripCitiesCreating = async docName => {
     return get(data, 'bot.is_trip_cities_creating');
 };
 
+export const getIsFindTripCitiesCreating = async docName => {
+    const carrierData = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const data = await carrierData.data();
+
+    if(isNil(data)) return false;
+    return get(data, 'bot.is_find_trip_cities_creating', false);
+};
+
+
+export const removeFindTripCities = async id => {
+    await updateFieldDb(id, 'find_trip.cities', {})
+};
+
 export const getCurrentTripDateText = async (docName, isOnlyDate) => {
     const { day, hour, month, minutes } = await getCurrentTripDate(docName);
 
@@ -86,6 +103,14 @@ export const getCurrentTripDateText = async (docName, isOnlyDate) => {
     return `📅 ${formattedDay}/${formattedMonth}   ⏰ ${isOnlyDate ? '🤷‍♀️' : `${formattedHour}:${formattedMinutes}`}`;
 };
 
+export const getFindTripDateText = async docName => {
+    const { day, month } = await getFindTripDate(docName);
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `📅 ${formattedDay}/${formattedMonth}`
+};
+
 export const toggleIsTripCitiesCreating = async (id, data) => {
     await updateFieldDb(id, 'bot.is_trip_cities_creating', data)
 };
@@ -94,8 +119,10 @@ export const resetSessionDataInDb = async id => {
     const alreadyExists = await getIfExistDoc(id);
 
     if (alreadyExists) {
+        await toggleIsFindTripCitiesCreating(id, false);
         await removeNotCompletedTripsFromDb(id);
         await toggleIsTripCitiesCreating(id, false);
+        await removeFindTripCities(id, false);
         await toggleIsTripPriceCreating(id, false);
     }
 };
@@ -111,7 +138,6 @@ export const getCarrierInfo = async docName => {
 
 export const saveTripInDb = async docName => {
     const trip = await getNotCompletedTrip(docName);
-    console.log(trip);
     if (isNil(trip)) return;
 
     await updateFieldDb(docName,`trips.${trip.trip_id}.is_creation_completed`, true);
@@ -121,11 +147,15 @@ export const addCityToTripInDB = async (id, city) => {
     const notCompletedTrip = await getNotCompletedTrip(id);
     if (isNil(notCompletedTrip)) return;
 
-    const city_id = shortId.generate();
-    const { trip_id } = await getNotCompletedTrip(id);
+    const { trip_id } = notCompletedTrip;
     const cityObject = getCityObject(city);
 
     updateFieldDb(id, `trips.${trip_id}.cities.${cityObject.place_id}`, cityObject)
+};
+
+export const addCityToFindTripInDB = async (id, city) => {
+    const cityObject = getCityObject(city);
+    updateFieldDb(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
 };
 
 export const getIfExistDoc = async docName => {
@@ -143,7 +173,7 @@ const removeNotCompletedTripsFromDb = async chat_id => {
     const allTrips = await getAllTrips(chat_id);
 
     const completedTrips = Object.values(allTrips).filter(({ is_creation_completed }) => is_creation_completed === true);
-    const formattedTrips = arrToObjectMap(completedTrips, 'id');
+    const formattedTrips = arrToObjectMap(completedTrips, 'trip_id');
     updateFieldDb(chat_id, `trips`, formattedTrips);
 };
 
@@ -190,6 +220,10 @@ export const toggleIsTripPriceCreating = async (chat_id, data) => {
     await updateFieldDb(chat_id, 'bot.is_trip_price_creating', data)
 };
 
+export const toggleIsFindTripCitiesCreating = async (chat_id, data) => {
+    await updateFieldDb(chat_id, 'bot.is_find_trip_cities_creating', data)
+};
+
 export const setTripPrice = async (chat_id, data) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
@@ -223,6 +257,10 @@ export const getTripCities = async chat_id => {
     if (isNil(trip)) return;
 
     return await getFieldFromDoc(chat_id,`trips.${trip.trip_id}.cities`);
+};
+
+export const getFindTripCities = async chat_id => {
+    return await getFieldFromDoc(chat_id,'find_trip.cities',  {});
 };
 
 export const saveCarrierPhoneNumberToDb = async (chat_id, phoneNumber) => {

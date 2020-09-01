@@ -1,6 +1,9 @@
 import { sendMessage } from '../../../common/utils/utils'
-import { SHARE_CARRIER_PHONE_NUMBER_MESSAGE } from '../../../common/constants/commonСonstants'
-import { phoneNumberKeyboard } from '../../../modules/keyboards/keyboards'
+import {
+    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
+    GO_TO_TRIP_SUMMARISE_MESSAGE,
+} from '../../../common/constants/commonСonstants'
+import { phoneNumberKeyboard, phoneNumberKeyboardGoToSummarise} from '../../../modules/keyboards/keyboards'
 import { saveCarrierPhoneNumberToDb } from '../../../services/helpers'
 
 export const sendPhoneNumberInitialData = (bot, msg) => {
@@ -11,6 +14,7 @@ export const sendPhoneNumberInitialData = (bot, msg) => {
         bot.once('contact', async ({ chat, contact }) => {
             await sendMessage(bot, chat.id, `Дякую! номер <b>${contact.phone_number}</b> збережено 👍`, { parse_mode: 'HTML' });
             await saveCarrierPhoneNumberToDb(chat.id, contact.phone_number)
+            await sendMessage(bot, chat.id, GO_TO_TRIP_SUMMARISE_MESSAGE, { parse_mode: 'HTML', ...phoneNumberKeyboardGoToSummarise });
         })
     })
 };
