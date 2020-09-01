@@ -39,8 +39,6 @@ const tripPriceListeners = (bot) => {
         }
     });
     bot.on('callback_query', query => {
-        const data = JSON.parse(query.data);
-
     });
 };
 

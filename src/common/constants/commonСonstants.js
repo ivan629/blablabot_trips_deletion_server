@@ -19,7 +19,7 @@ export const DATE_CHANGED = 'DATE_CHANGED';
 export const SET_TRIP_HOUR = 'SET_TRIP_HOUR';
 export const CONFIRM_TRIP_DATE = 'підтвердити';
 export const SET_TRIP_MINUTES = 'SET_TRIP_MINUTES';
-export const CHOOSE_TRIP_CITY = '➕ Додати це місто у подорож';
+export const CHOOSE_TRIP_CITY = '➕ Додати';
 export const PROPOSE_TRIP = '➕ Створити поїздку';
 export const MY_TRIPS = '🚗 Мої поїздки';
 export const START_CITIES_CREATING ='START_CITIES_CREATING';
@@ -46,6 +46,13 @@ export const CALENDAR_CONGRATS_MESSAGE_START = 'Молодець! а зараз 
 export const TRIP_CREATION_SUMMARISE_INITIAL_MESSAGE = '🧐 Перевірте будь ласка дані про поїздку 🚌';
 export const CITY_ALREADY_EXISTS_ERROR_MESSAGE = '👿 Це місто вже додане у подорож!';
 export const TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGE = 'Якщо інформація правильна натисніть <b>💾 Зберегти поїздку</b>';
+
+// cities
+export const SHOW_NEXT_CITY = '⬇️ Показати наступну локацію';
+export const SHOW_ACTION_TYPE = '1a';
+
+// USER_PAY_START
+export const USER_PAY_START = '💲 Тарифи';
 
 // my trips
 export const REMOVE_TRIP_BUTTON = 'Видалити 🗑️';

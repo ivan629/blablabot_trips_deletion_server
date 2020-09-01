@@ -123,9 +123,9 @@ export const addCityToTripInDB = async (id, city) => {
 
     const city_id = shortId.generate();
     const { trip_id } = await getNotCompletedTrip(id);
-    const cityObject = getCityObject({ city_id, name: city });
+    const cityObject = getCityObject(city);
 
-    updateFieldDb(id, `trips.${trip_id}.cities.${city_id}`, cityObject)
+    updateFieldDb(id, `trips.${trip_id}.cities.${cityObject.place_id}`, cityObject)
 };
 
 export const getIfExistDoc = async docName => {
@@ -229,7 +229,7 @@ export const saveCarrierPhoneNumberToDb = async (chat_id, phoneNumber) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
 
-    await updateFieldDb(chat_id,'carrier.phone_number', phoneNumber);
+    await updateFieldDb(chat_id,`carrier.phone_numbers.${phoneNumber}`, phoneNumber);
 };
 
 export const removeTripFromDb = async (chat_id, trip_id) => {

@@ -1,6 +1,7 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
+    USER_PAY_START,
     SETTINGS,
     MY_TRIPS,
     FIND_TRIP,
@@ -173,6 +174,12 @@ export const initialKeyboard = {
                     text: MY_TRIPS,
                     callback_data: createAction(MY_TRIPS)
                 },
+                {
+                    text: USER_PAY_START,
+                    callback_data: createAction(USER_PAY_START)
+                }
+            ],
+            [
                 {
                     text: SETTINGS,
                     callback_data: createAction(SETTINGS)

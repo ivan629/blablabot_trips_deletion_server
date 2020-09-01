@@ -1,5 +1,7 @@
+import appRouters from '../routers';
 import tripCreationModule from '../modules/tripCreationModule/tripCreationModule';
 import myTripsModule from '../modules/myTripsModule/myTripsModule';
+import userPayModule from '../modules/userPayModule/userPayModule';
 import {
     resetSessionDataInDb,
     addSessionMessagesIdsToDb,
@@ -12,9 +14,13 @@ import {
     FINISH_TRIP_CREATION,
 } from '../common/constants/commonСonstants';
 
-const mainModule = bot => {
+const mainModule = (expressApp, bot) => {
     tripCreationModule(bot);
     myTripsModule(bot);
+    userPayModule(bot);
+
+    // routers
+    appRouters(expressApp, bot);
 
     bot.onText(/\/start/, async query => {
         const { chat: { id } } = query;

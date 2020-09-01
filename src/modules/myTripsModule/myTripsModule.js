@@ -1,9 +1,10 @@
 import { MY_TRIPS, REMOVE_TRIP_BUTTON } from '../../common/constants/commonСonstants';
 import { sendTripsList, removeTrip } from './myTripsHelpers';
+import { parseData } from '../../common/utils/utils';
 
 const myTripsModule = bot => {
     bot.on('callback_query', query => {
-        const data = JSON.parse(query.data);
+        const data = parseData(query.data);
 
         switch (data.type) {
             case REMOVE_TRIP_BUTTON: {

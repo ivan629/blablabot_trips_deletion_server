@@ -1,9 +1,9 @@
-import { chunk, last } from 'lodash';
+import { isNil, chunk, last } from 'lodash';
 import moment from 'moment';
 import { createAction } from '../../../common/utils/utils';
 import { MONTHS, WEEK_DAYS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
 import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../../common/constants/commonСonstants';
-import { getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../../services/helpers';
+import {getCurrentTripDate, getIsStartDateCreatingCompleted, getNotCompletedTrip} from '../../../services/helpers';
 
 function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
@@ -57,13 +57,22 @@ class CalendarComponent {
     async getCalendar({
                     chat_id,
                     newYear,
+                    chosenDay,
                     customMonthNumber,
                     shouldDisableGoToNextMonthButton,
                 }) {
+
+        // handle if we choose another day or have set already chosen day
+        let finalChosenDay = chosenDay;
+        const { day, month } = await getCurrentTripDate(chat_id);
+        if (isNil(chosenDay) && month === customMonthNumber) {
+            finalChosenDay = day;
+        }
+
         const shouldIncludeReplyMarkup = !customMonthNumber;
-        const currentCalendarMonth = customMonthNumber ? MONTHS[customMonthNumber - 1] : this.getCurrentMonth();
-        const currentMonthNumber = customMonthNumber || this.getCurrentMonthNumber();
-        const currentYear = newYear || this.getCurrentYear();
+        const currentCalendarMonth = +customMonthNumber ? MONTHS[customMonthNumber - 1] : this.getCurrentMonth();
+        const currentMonthNumber = +customMonthNumber || this.getCurrentMonthNumber();
+        const currentYear = +newYear || this.getCurrentYear();
 
         const monthButton = [{text: `${currentCalendarMonth} ${currentYear}`, callback_data: 'none'}];
         const days = daysInMonth(currentMonthNumber, currentYear);
@@ -74,7 +83,6 @@ class CalendarComponent {
         if (isStartDateCreatingCompleted) {
             const { start_date: { start_date_hour, start_date_day, start_date_year, start_date_month } } = await getNotCompletedTrip(chat_id);
             // we allow to set the same trip end day, with min hours threshold
-            console.log(start_date_hour, start_date_hour < 24);
             const minDayThreshold = start_date_hour < 24 ? start_date_day - 1 : start_date_day;
             minDateMillisecondsThreshold = this.getDateMilliseconds(minDayThreshold, start_date_month, start_date_year);
         }
@@ -88,13 +96,10 @@ class CalendarComponent {
             minDateMillisecondsThreshold,
         });
 
-            if (index > 0) {
-                result.push({
-                    text: isTimeEnable ? index : '🚫',
-                    callback_data: isTimeEnable ? createAction(DATE_CHANGED, index) : 'none',
-                });
-            }
+            const text = isTimeEnable ? `${finalChosenDay === index ? '✅' : index }` : '🚫';
+            const callback_data = isTimeEnable ? createAction(DATE_CHANGED, index) : 'none';
 
+            if (index > 0) result.push({ text, callback_data });
             return result;
         }, []);
 

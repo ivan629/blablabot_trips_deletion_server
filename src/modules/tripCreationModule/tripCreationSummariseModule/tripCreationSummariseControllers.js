@@ -34,10 +34,10 @@ export const getTripSummary = async (chat_id) => {
         minutes: stop_date_minutes,
     });
 
-    const cities = `<b>Маршрут:</b> ${head(formattedCities)?.name} <i>${formattedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(formattedCities)?.name} 🌇`;
+    const cities = `<b>Маршрут:</b> ${head(formattedCities)?.vicinity} <i>${formattedCities.slice(1, -1).map(({ vicinity }) => `- ${vicinity}`)}</i> - ${last(formattedCities)?.vicinity} 🌇`;
     const time = `<b>Час відправлення:</b> ${startDate}\n<b>Час прибуття:</b>  ${finishDate}`;
     const price = `<b>Ціна:</b> ${trip.trip_price} грн 🤑`;
-    const phoneNumber = `<b>Контактний номер</b>  +${carrierInfo.phone_number} 💺`;
+    const phoneNumber = `<b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} 💺`;
     const availablePlaces = `<b>Кількість вільних місць:</b> ${trip.available_seats_count} ☎️`;
 
     return `${cities}\n${time}\n${price}\n${availablePlaces}\n${phoneNumber}`;

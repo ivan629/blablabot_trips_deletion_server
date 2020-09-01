@@ -1,5 +1,5 @@
 import citiesListeners from '../../../modules/tripCreationModule/tripCitiesModule/citiesListeners';
-import { startCitiesCreating } from '../../../modules/tripCreationModule/tripCitiesModule/citiesControllers';
+import { startCitiesCreating } from '../../../modules/tripCreationModule/tripCitiesModule/citiesUtils';
 
 class TripCitiesModule {
 

@@ -1,18 +1,22 @@
-import CitiesComponent from '../../../modules/tripCreationModule/tripCitiesModule/citiesComponent';
 import { getIsTripCitiesCreating } from '../../../services/helpers';
-import { addCityToTrip, sendBlockedCityMessage } from '../../../modules/tripCreationModule/tripCitiesModule/citiesControllers';
+import { parseCityAction } from '../../../common/utils/utils';
+import {
+    addCityToTrip,
+    handleShowCities,
+    sendBlockedCityMessage,
+} from '../../../modules/tripCreationModule/tripCitiesModule/citiesUtils';
 import {
     CHOOSE_TRIP_CITY,
+    SHOW_ACTION_TYPE,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
 } from '../../../common/constants/commonСonstants';
-
-const citiesComponent = new CitiesComponent();
 
 const citiesListeners = bot => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
         if (shouldListen) {
-            await citiesComponent.handleShowCities(bot, msg);
+            const formattedData = { id: msg.chat.id, text: msg.text };
+            await handleShowCities(bot, formattedData);
         }
 
         switch (msg.text) {
@@ -26,17 +30,21 @@ const citiesListeners = bot => {
         }
     });
 
-    bot.on('callback_query', query => {
-        const data = JSON.parse(query.data);
+    bot.on('callback_query', async query => {
+        const { message: { chat: { id }}, data } = query;
+        const [addCityAction] = parseCityAction(data);
+        const shouldListen = await getIsTripCitiesCreating(id);
+        const [nextCityType, currentCity, nextCityIndex] = data.split('|');
 
-        switch (data.type) {
-            case CHOOSE_TRIP_CITY: {
-                addCityToTrip(bot, query);
-            }
-                break;
-            default: {
-                break;
-            }
+        if (shouldListen && nextCityType === SHOW_ACTION_TYPE) {
+            const formattedData = { id, text: currentCity };
+            await handleShowCities(bot, formattedData, nextCityIndex);
+            return;
+        }
+
+        if (addCityAction === CHOOSE_TRIP_CITY) {
+            addCityToTrip(bot, query);
+            return;
         }
     });
 };

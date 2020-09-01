@@ -23,6 +23,7 @@ import {
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 } from '../../common/constants/commonСonstants';
+import { getCityDetailsUrl } from '../../common/constants/urlHelpers';
 import { head, isNil, last } from "lodash";
 
 export const getTripObject = ({
@@ -84,7 +85,7 @@ const getCarrierObject = ({
                               keyboard_message_id = null,
                               session_messages_ids = {},
                               main_menu_message_id = null,
-                              phone_number = null
+                              phone_numbers = {}
                           }) => ({
     bot: {
         is_trip_cities_creating,
@@ -97,14 +98,24 @@ const getCarrierObject = ({
         carrier_name,
         creation_date,
         carrier_last_name,
-        phone_number,
+        phone_numbers,
     },
     trips: {}
 });
 
-export const createAction = (type, payload) => JSON.stringify(Object.assign({}, { type, payload }));
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
-export const parseData = data => JSON.parse(data);
+export const parseData = data => {
+    if (isJson(data)) return JSON.parse(data);
+    return { type: '', payload: '' };
+};
 
 export const addNewUserToDb = async query => {
     const {date: creation_date} = query;
@@ -128,9 +139,7 @@ export const addNewTrip = async msg => {
     await addNewTripToDb(chat_id, tripObject, trip_id)
 };
 
-export const getCityObject = ({ city_id, name = null, address = null, location = null }) => ({
-    city_id, name, address, location
-});
+export const getCityObject = (city) => city;
 
 export const arrToObjectMap = (arr, fieldId) => arr.reduce((result, obj) => {
         result[obj[`${fieldId}`]] = obj;
@@ -214,11 +223,19 @@ export const getTripHtmlSummary = (trip, carrierInfo) => {
         minutes: stop_date_minutes,
     });
 
-    const cities = ` 🌇 <b>Маршрут:</b> ${head(formattedCities)?.name} <i>${formattedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(formattedCities)?.name}`;
+    const cities = ` 🌇 <b>Маршрут:</b> ${head(formattedCities)?.vicinity} <i>${formattedCities.slice(1, -1).map(({ vicinity }) => `- ${vicinity}`)}</i> - ${last(formattedCities)?.vicinity}`;
     const time = `     📅 <b>Час відправлення:</b> ${startDate}\n     📅 <b>Час прибуття:</b>  ${finishDate}`;
     const price = `     💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    const phoneNumber = `     ☎️<b>Контактний номер</b>  +${carrierInfo.phone_number} `;
+    const phoneNumber = `     ☎️<b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
     const availablePlaces = `     💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
 
     return `${cities}\n${time}\n${price}\n${availablePlaces}\n${phoneNumber}`;
 };
+
+export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());
+
+// actions
+export const createAction = (type, payload) => JSON.stringify(Object.assign({}, { type, payload }));
+export const parseCityAction = action => action.split('|');
+export const createCityAction = (type, payload) => type + '|' + payload;
+export const createNextCityAction = (type, placeId, nextCityIndex) => `${type}|${placeId}|${nextCityIndex}`;

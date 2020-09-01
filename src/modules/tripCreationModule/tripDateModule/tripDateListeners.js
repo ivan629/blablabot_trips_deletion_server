@@ -21,10 +21,11 @@ import {
     showBlockedGoToTripEnd,
     sendBlockedGoToAvailableMessage
 } from '../../../modules/tripCreationModule/tripDateModule/calendarControllers';
+import { parseData } from '../../../common/utils/utils';
 
 const tripDateListeners = (bot) => {
     bot.on('callback_query', query => {
-        const data = JSON.parse(query.data);
+        const data = parseData(query.data);
 
         switch (data.type) {
             case MONTH_DOWN: {

@@ -14,6 +14,10 @@
     "token": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE",
     "tokenOld": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
   },
+  "liqpayConfig": {
+    "publicKey": "i68498043040",
+    "privateKey": "fUwuwNvXWPiSkCSPl3ouudU3KkQLnEBzSki3my6N"
+  },
   "firebaseConfig": {
     "apiKey": "AIzaSyBjzPgjs7toJzQKnVliA69BnoXZ3zIXJJM",
     "authDomain": "havchik.firebaseapp.com",

@@ -17,7 +17,7 @@ export const startHttpServer = () => new Promise((resolve) => {
     expressApp.use(bodyParser.json());
     expressApp.use(express.static(path.join(__dirname, '../views')));
 
-    mainModule(telegramBot);
+    mainModule(expressApp, telegramBot);
 
     const server = createServer(expressApp)
         .listen(process.env.PORT || config.port, config.host, () => {

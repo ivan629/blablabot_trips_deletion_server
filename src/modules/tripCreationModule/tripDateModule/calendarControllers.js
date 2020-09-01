@@ -80,7 +80,7 @@ export const changeCalendarMonth = async (query, bot, isUp) => {
 
 export const userChangedDate = async (query, bot) => {
     const { message, data } = query;
-    const { chat, reply_markup, trip_creation_date } = message;
+    const { chat, reply_markup, trip_creation_date, message_id } = message;
 
     const { id: chat_id } = chat;
     const [monthText, start_date_year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
@@ -88,6 +88,22 @@ export const userChangedDate = async (query, bot) => {
     const { payload: start_date_day } = parseData(data);
 
     const notCompletedTrip = await getNotCompletedTrip(chat_id);
+    const [month, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
+    const newYear = +year;
+
+    let shouldDisableGoToNextMonthButton = false;
+    const currentYear = new Date().getFullYear();
+    if (currentYear !== newYear) shouldDisableGoToNextMonthButton = true;
+
+    const calendar = await calendarComponent.getCalendar({
+        newYear,
+        customMonthNumber: +start_date_month,
+        shouldDisableGoToNextMonthButton,
+        chat_id: chat.id,
+        chosenDay: start_date_day
+    });
+
+    await bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
 
     if (isNil(notCompletedTrip)) {
         const trip_id = shortid.generate();

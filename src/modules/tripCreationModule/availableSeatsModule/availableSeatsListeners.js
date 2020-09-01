@@ -1,3 +1,4 @@
+import  { parseData } from '../../../common/utils/utils'
 import {
     SET_AVAILABLE_SEATS_CUNT,
     GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
@@ -6,7 +7,7 @@ import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from '../../.
 
 const AvailableSeatsListeners = bot => {
     bot.on('callback_query', query => {
-        const data = JSON.parse(query.data);
+        const data = parseData(query.data);
 
         switch (data.type) {
             case SET_AVAILABLE_SEATS_CUNT: {
