@@ -3,7 +3,7 @@ import {
     getIfExistDoc,
     addNewTripToDb,
     getKeyboardMessageId,
-    setNewDocToCollection,
+    setNewDocToUsersCollection,
     addSessionMessagesIdsToDb,
 } from '../../services/helpers';
 import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
@@ -138,7 +138,7 @@ export const addNewUserToDb = async query => {
 
     if (!alreadyCarrierExistsInDb) {
         const carrierObject = getCarrierObject({chat_id, carrier_name, carrier_last_name, creation_date});
-        await setNewDocToCollection(chat_id, carrierObject);
+        await setNewDocToUsersCollection(chat_id, carrierObject);
     }
 };
 

@@ -5,13 +5,13 @@ import { API_CONSTANTS } from '../common/constants';
 import { arrToObjectMap, getCityObject, } from '../common/utils/utils';
 
 export const getDoc = async docName => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
     const result = await alreadyUploadedRestaurantSnapshot.data();
     return result;
 };
 
-export const setNewDocToCollection = (docName, data) => {
-    firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).set(data)
+export const setNewDocToUsersCollection = (docName, data) => {
+    firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).set(data)
         .then(() => {
             console.count('Document successfully written!');
         })
@@ -28,13 +28,13 @@ export const getFindTripDate = async chat_id => {
 };
 
 export const getAllTrips = async chat_id => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(chat_id.toString()).get();
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(chat_id.toString()).get();
     const result = await alreadyUploadedRestaurantSnapshot.data();
     return get(result, 'trips', []);
 };
 
-export const updateFieldDb = (docName, fieldPath, data) => {
-    firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).update({ [fieldPath]: data })
+export const updateFieldInUserDoc = (docName, fieldPath, data) => {
+    firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).update({ [fieldPath]: data })
         .then(() => {
             console.count('Document successfully written!');
         })
@@ -43,7 +43,6 @@ export const updateFieldDb = (docName, fieldPath, data) => {
 
 export const getCurrentTripDate = async chat_id => {
     const data = await getNotCompletedTrip(chat_id);
-    console.log(data);
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const dateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
 
@@ -66,13 +65,11 @@ export const getCurrentTripDate = async chat_id => {
     const month = start_date_month || stop_date_month;
     const minutes = start_date_minutes || stop_date_minutes;
 
-    console.log(start_date_month, stop_date_month);
-
     return { day, hour, year, month, minutes }
 };
 
 export const getIsTripCitiesCreating = async docName => {
-    const carrierData = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const carrierData = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
     const data = await carrierData.data();
 
     if(isNil(data)) return false;
@@ -80,7 +77,7 @@ export const getIsTripCitiesCreating = async docName => {
 };
 
 export const getIsFindTripCitiesCreating = async docName => {
-    const carrierData = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const carrierData = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
     const data = await carrierData.data();
 
     if(isNil(data)) return false;
@@ -89,7 +86,7 @@ export const getIsFindTripCitiesCreating = async docName => {
 
 
 export const removeFindTripCities = async id => {
-    await updateFieldDb(id, 'find_trip.cities', {})
+    await updateFieldInUserDoc(id, 'find_trip.cities', {})
 };
 
 export const getCurrentTripDateText = async (docName, isOnlyDate) => {
@@ -112,7 +109,7 @@ export const getFindTripDateText = async docName => {
 };
 
 export const toggleIsTripCitiesCreating = async (id, data) => {
-    await updateFieldDb(id, 'bot.is_trip_cities_creating', data)
+    await updateFieldInUserDoc(id, 'bot.is_trip_cities_creating', data)
 };
 
 export const resetSessionDataInDb = async id => {
@@ -140,7 +137,7 @@ export const saveTripInDb = async docName => {
     const trip = await getNotCompletedTrip(docName);
     if (isNil(trip)) return;
 
-    await updateFieldDb(docName,`trips.${trip.trip_id}.is_creation_completed`, true);
+    await updateFieldInUserDoc(docName,`trips.${trip.trip_id}.is_creation_completed`, true);
 };
 
 export const addCityToTripInDB = async (id, city) => {
@@ -150,23 +147,22 @@ export const addCityToTripInDB = async (id, city) => {
     const { trip_id } = notCompletedTrip;
     const cityObject = getCityObject(city);
 
-    updateFieldDb(id, `trips.${trip_id}.cities.${cityObject.place_id}`, cityObject)
+    updateFieldInUserDoc(id, `trips.${trip_id}.cities.${cityObject.place_id}`, cityObject)
 };
 
 export const addCityToFindTripInDB = async (id, city) => {
     const cityObject = getCityObject(city);
-    updateFieldDb(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
+    updateFieldInUserDoc(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
 };
 
 export const getIfExistDoc = async docName => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_COLLECTION_NAME).doc(docName.toString()).get();
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
     return alreadyUploadedRestaurantSnapshot.exists;
 };
 
 export const addNewTripToDb = async (docName, tripObject, tripId) => {
-    await updateFieldDb(docName, `trips.${tripId}`, tripObject);
+    await updateFieldInUserDoc(docName, `trips.${tripId}`, tripObject);
     const allTrips = await getAllTrips(docName);
-    console.log(allTrips);
 };
 
 const removeNotCompletedTripsFromDb = async chat_id => {
@@ -174,11 +170,11 @@ const removeNotCompletedTripsFromDb = async chat_id => {
 
     const completedTrips = Object.values(allTrips).filter(({ is_creation_completed }) => is_creation_completed === true);
     const formattedTrips = arrToObjectMap(completedTrips, 'trip_id');
-    updateFieldDb(chat_id, `trips`, formattedTrips);
+    updateFieldInUserDoc(chat_id, `trips`, formattedTrips);
 };
 
 export const setKeyboardMessageToDb = (chat_id, message_id) => {
-    updateFieldDb(chat_id, `bot.keyboard_message_id`, message_id);
+    updateFieldInUserDoc(chat_id, `bot.keyboard_message_id`, message_id);
 };
 
 export const getKeyboardMessageId = async (chat_id) => {
@@ -189,7 +185,7 @@ export const toggleIsTripStartDateCompleted = async chat_id => {
     const trip = await getNotCompletedTrip(chat_id);
 
     if (isNil(trip)) return;
-    updateFieldDb(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`, true);
+    updateFieldInUserDoc(chat_id,`trips.${trip.trip_id}.start_date.is_start_date_completed`, true);
 };
 
 export const getIsStartDateCreatingCompleted = async chat_id => {
@@ -203,7 +199,7 @@ export const setAvailableSeatsDataInDB = async (chat_id, data) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
 
-    await updateFieldDb(chat_id,`trips.${trip.trip_id}.available_seats_count`, data);
+    await updateFieldInUserDoc(chat_id,`trips.${trip.trip_id}.available_seats_count`, data);
 };
 
 export const getIsTripPriceSettings = async (chat_id) => {
@@ -217,33 +213,32 @@ export const toggleIsTripPriceCreating = async (chat_id, data) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
 
-    await updateFieldDb(chat_id, 'bot.is_trip_price_creating', data)
+    await updateFieldInUserDoc(chat_id, 'bot.is_trip_price_creating', data)
 };
 
 export const toggleIsFindTripCitiesCreating = async (chat_id, data) => {
-    await updateFieldDb(chat_id, 'bot.is_find_trip_cities_creating', data)
+    await updateFieldInUserDoc(chat_id, 'bot.is_find_trip_cities_creating', data)
 };
 
 export const setTripPrice = async (chat_id, data) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
 
-    await updateFieldDb(chat_id, `trips.${trip.trip_id}.trip_price`, data)
+    await updateFieldInUserDoc(chat_id, `trips.${trip.trip_id}.trip_price`, data)
 };
 
 export const addSessionMessagesIdsToDb = async (chat_id, message_id) => {
-    await updateFieldDb(chat_id,`bot.session_messages_ids.${message_id}`, message_id);
+    await updateFieldInUserDoc(chat_id,`bot.session_messages_ids.${message_id}`, message_id);
 };
 
 export const getSessionMessagesIds = async chat_id => await getFieldFromDoc(chat_id,`bot.session_messages_ids`);
 
-export const clearSessionMessagesIdsInDb = async chat_id => await updateFieldDb(chat_id,`bot.session_messages_ids`, {});
+export const clearSessionMessagesIdsInDb = async chat_id => await updateFieldInUserDoc(chat_id,`bot.session_messages_ids`, {});
 
 //TODO: find out how to delete all messages without bugs
 export const removeSessionMessagesIds = async (bot, chat_id) => {
     const messagesIds = await getSessionMessagesIds(chat_id);
     // const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
-    console.log(messagesIds);
     try {
         Object.values(messagesIds).forEach(message_id => bot.deleteMessage(chat_id, message_id));
         // await Promise.all(deleteMessagesReqs);
@@ -267,7 +262,7 @@ export const saveCarrierPhoneNumberToDb = async (chat_id, phoneNumber) => {
     const trip = await getNotCompletedTrip(chat_id);
     if (isNil(trip)) return;
 
-    await updateFieldDb(chat_id,`carrier.phone_numbers.${phoneNumber}`, phoneNumber);
+    await updateFieldInUserDoc(chat_id,`carrier.phone_numbers.${phoneNumber}`, phoneNumber);
 };
 
 export const removeTripFromDb = async (chat_id, trip_id) => {
@@ -277,5 +272,5 @@ export const removeTripFromDb = async (chat_id, trip_id) => {
         return result;
     }, {});
 
-    await updateFieldDb(chat_id,'trips', newTrips);
+    await updateFieldInUserDoc(chat_id,'trips', newTrips);
 };

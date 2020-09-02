@@ -1,6 +1,6 @@
 import { head } from 'lodash';
 import { parseData } from '../../../common/utils/utils';
-import { updateFieldDb } from '../../../services/helpers';
+import { updateFieldInUserDoc } from '../../../services/helpers';
 import { calendarKeyboard } from '../../../modules/keyboards/keyboards';
 import { getMonthNumberByValue, sendCurrentDateHtml } from './findTripDateUtils';
 import CalendarComponent from './findTripCalendarComponent';
@@ -9,7 +9,7 @@ import { FIND_TRIP_SEARCH_TRIPS } from '../../../common/constants/commonСonstan
 const calendarComponent = new CalendarComponent();
 
 const setFindDatePickerDataToDb = async (chat_id, field, data) => {
-    await updateFieldDb(chat_id, `find_trip.date.${field}`, data);
+    await updateFieldInUserDoc(chat_id, `find_trip.date.${field}`, data);
 };
 
 export const changeFindTripCalendarMonth = async (query, bot, isUp) => {

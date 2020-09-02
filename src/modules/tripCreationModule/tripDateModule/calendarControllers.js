@@ -19,7 +19,7 @@ import {
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE,
 } from '../../../common/constants/commonСonstants';
 import {
-    updateFieldDb,
+    updateFieldInUserDoc,
     getNotCompletedTrip,
     toggleIsTripStartDateCompleted,
     getIsStartDateCreatingCompleted,
@@ -51,7 +51,7 @@ const setDatePickerDataToDb = async (chat_id, field, data) => {
 
     const tripDateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
     const readyField = isStartDateCreatingCompleted ? `stop_date_${field}` : `start_date_${field}`;
-    await updateFieldDb(chat_id, `trips.${notCompletedTrip.trip_id}.${tripDateType}.${readyField}`, data);
+    await updateFieldInUserDoc(chat_id, `trips.${notCompletedTrip.trip_id}.${tripDateType}.${readyField}`, data);
 };
 
 export const changeCalendarMonth = async (query, bot, isUp) => {
@@ -115,7 +115,7 @@ export const userChangedDate = async (query, bot) => {
             trip_id,
         });
 
-        await updateFieldDb(chat_id, `trips.${trip_id}`, tripData);
+        await updateFieldInUserDoc(chat_id, `trips.${trip_id}`, tripData);
     } else {
         const alReqs = [
             await setDatePickerDataToDb(chat_id, 'day', start_date_day),
