@@ -4,14 +4,22 @@ import { firestore } from '../services/firebaseService';
 import { API_CONSTANTS } from '../common/constants';
 import { arrToObjectMap, getCityObject, } from '../common/utils/utils';
 
-export const getDoc = async docName => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
+export const getDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME) => {
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
     const result = await alreadyUploadedRestaurantSnapshot.data();
     return result;
 };
 
 export const setNewDocToUsersCollection = (docName, data) => {
     firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).set(data)
+        .then(() => {
+            console.count('Document successfully written!');
+        })
+        .catch(error => console.error('Error writing document: ', error));
+};
+
+export const setNewDocToTripsLinkerCollection = (docName, data) => {
+    firestore.collection(API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS).doc(docName.toString()).set(data)
         .then(() => {
             console.count('Document successfully written!');
         })
@@ -35,6 +43,14 @@ export const getAllTrips = async chat_id => {
 
 export const updateFieldInUserDoc = (docName, fieldPath, data) => {
     firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).update({ [fieldPath]: data })
+        .then(() => {
+            console.count('Document successfully written!');
+        })
+        .catch(error => console.error('Error writing document: ', error));
+};
+
+export const updateFieldInTipsLinkerCollection = (docName, fieldPath, data) => {
+    firestore.collection(API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS).doc(docName.toString()).update({ [fieldPath]: data })
         .then(() => {
             console.count('Document successfully written!');
         })
@@ -138,6 +154,24 @@ export const saveTripInDb = async docName => {
     if (isNil(trip)) return;
 
     await updateFieldInUserDoc(docName,`trips.${trip.trip_id}.is_creation_completed`, true);
+    await saveTripToLinkerCollection(docName, trip);
+};
+
+const saveTripToLinkerCollection = async (docName, {trip_id, cities }) => {
+    const formattedCities = Object.values(cities);
+    const reqs = formattedCities.slice(0, -1).map(async ({ place_id, name }, index) => {
+        const linkShortId = shortId.generate();
+        const data = { trip_id, cities };
+
+        const alreadyExists = await getIfExistDoc(place_id, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS);
+        if (alreadyExists) {
+            await updateFieldInTipsLinkerCollection(place_id,`${linkShortId}`, data);
+        } else {
+            await setNewDocToTripsLinkerCollection(place_id, { [linkShortId]: data });
+        }
+    });
+
+    await Promise.all(reqs);
 };
 
 export const addCityToTripInDB = async (id, city) => {
@@ -155,8 +189,8 @@ export const addCityToFindTripInDB = async (id, city) => {
     updateFieldInUserDoc(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
 };
 
-export const getIfExistDoc = async docName => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).get();
+export const getIfExistDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME) => {
+    const alreadyUploadedRestaurantSnapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
     return alreadyUploadedRestaurantSnapshot.exists;
 };
 
