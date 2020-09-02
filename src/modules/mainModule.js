@@ -26,12 +26,11 @@ const mainModule = (expressApp, bot) => {
     appRouters(expressApp, bot);
 
     bot.onText(/\/start/, async query => {
-        const { chat: { id } } = query;
+        const {chat: {id}} = query;
+        await addNewUserToDb(query);
         await clearSessionMessagesIdsInDb(id);
-
-        goToTheMainMenu(bot, id);
-        resetSessionDataInDb(id);
-        addNewUserToDb(query);
+        await goToTheMainMenu(bot, id);
+        await resetSessionDataInDb(id);
     });
 
     bot.on('message', async msg => {

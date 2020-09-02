@@ -1,12 +1,11 @@
 import shortid from 'shortid';
 import {
     getIfExistDoc,
-    addNewTripToDb,
-    getKeyboardMessageId,
+    addNewCreatingTrip,
     setNewDocToUsersCollection,
     addSessionMessagesIdsToDb,
 } from '../../services/helpers';
-import { initialKeyboard, calendarNotCompletedKeyboard } from '../../modules/keyboards/keyboards';
+import { initialKeyboard } from '../../modules/keyboards/keyboards';
 import {
     FIND_TRIP,
     PROPOSE_TRIP,
@@ -106,6 +105,7 @@ const getCarrierObject = ({
         },
         cities: {},
     },
+    create_trip: {},
     carrier: {
         chat_id,
         carrier_name,
@@ -145,29 +145,12 @@ export const addNewUserToDb = async query => {
 export const addNewTrip = async msg => {
     const { chat: { id: chat_id } } = msg;
 
-    // console.log(msg);
-
     const trip_id = shortid.generate();
     const tripObject = getTripObject({ trip_id });
-    await addNewTripToDb(chat_id, tripObject, trip_id)
+    await addNewCreatingTrip(chat_id, tripObject, trip_id)
 };
 
 export const getCityObject = (city) => city;
-
-export const arrToObjectMap = (arr, fieldId) => arr.reduce((result, obj) => {
-        result[obj[`${fieldId}`]] = obj;
-        return result;
-    }, {});
-
-export const removeKeyboard = (bot, msg) => {
-    const { text, chat: { id: chat_id }} = msg;
-    const keyboardMessageId = getKeyboardMessageId(chat_id);
-
-    bot.editMessageText(text, {keyboardMessageId, chat_id, reply_markup: {remove_keyboard: true}})
-        .catch(() => {})
-        .then(() => {})
-};
-
 
 export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
 
@@ -190,16 +173,13 @@ export const getIsBotMessage = messageText => [
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 ].includes(messageText);
 
-export const sendMessageAndRemoveKeyboard = (bot, id, msg) =>
-    sendMessage(bot, id, msg, { parse_mode: 'HTML', ...calendarNotCompletedKeyboard });
-
 export const getFormattedData = ({ day, hour, month, minutes }) => {
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
     const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedMinutes = isNil(minutes) ? 0.0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
+    const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes} хв` : `0${minutes} хв`;
 
-    return `${formattedDay}/${formattedMonth}, ${formattedHour}:${formattedMinutes}`;
+    return `${formattedHour}:${formattedMinutes} ${formattedDay}/${formattedMonth}`;
 };
 
 export const sendMessage = async (bot, id, message, config) => await bot.sendMessage(id, message, config)
@@ -209,8 +189,8 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
 export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
-export const getTripHtmlSummary = (trip, carrierInfo, leftPadding = '') => {
-    const formattedCities = Object.values(trip.cities);
+export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo} ) => {
+    const sortedCities = getSortedCities(Object.values(trip.cities));
 
     const {
         start_date_day,
@@ -239,13 +219,17 @@ export const getTripHtmlSummary = (trip, carrierInfo, leftPadding = '') => {
         minutes: stop_date_minutes,
     });
 
-    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${head(formattedCities)?.vicinity} <i>${formattedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(formattedCities)?.vicinity}`;
-    const time = `${leftPadding}📅 <b>Час відправлення:</b> ${startDate}\n${leftPadding}📅 <b>Час прибуття:</b>  ${finishDate}`;
+    const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
+    const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
+    const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
     const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
     const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
     const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
 
-    return `${cities}\n${time}\n${price}\n${availablePlaces}\n${phoneNumber}`;
+    return showCarrierFullInfo
+        ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`
+        : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
 };
 
 export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());
@@ -255,3 +239,6 @@ export const createAction = (type, payload) => JSON.stringify(Object.assign({}, 
 export const parseCityAction = action => action.split('|');
 export const createCityAction = (type, payload) => type + '|' + payload;
 export const createNextCityAction = (type, placeId, nextCityIndex) => `${type}|${placeId}|${nextCityIndex}`;
+
+// cities
+export const getSortedCities = cities => cities.sort((a, b) => (a.order > b.order) ? 1 : -1);

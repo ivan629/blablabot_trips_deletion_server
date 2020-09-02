@@ -2,7 +2,7 @@ import moment from 'moment';
 import { isNil, chunk, last } from 'lodash';
 import { createAction } from '../../../common/utils/utils';
 import { MONTHS, WEEK_DAYS } from './findTripDateConstants';
-import { getFindTripDate, getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../../services/helpers';
+import { getFindTripDate, getIsStartDateCreatingCompleted } from '../../../services/helpers';
 import { FIND_TRIP_MONTH_DOWN, FIND_TRIP_MONTH_UP, FIND_TRIP_DATE_CHANGED } from '../../../common/constants/commonСonstants';
 
 function daysInMonth(month, year) {
@@ -82,7 +82,7 @@ class FindTripCalendarComponent {
         const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
 
         if (isStartDateCreatingCompleted) {
-            const {start_date: {start_date_hour, start_date_day, start_date_year, start_date_month}} = await getNotCompletedTrip(chat_id);
+            const {start_date: {start_date_hour, start_date_day, start_date_year, start_date_month}} = await getCreatingTrip(chat_id);
             // we allow to set the same trip end day, with min hours threshold
             const minDayThreshold = start_date_hour < 24 ? start_date_day - 1 : start_date_day;
             minDateMillisecondsThreshold = this.getDateMilliseconds(minDayThreshold, start_date_month, start_date_year);

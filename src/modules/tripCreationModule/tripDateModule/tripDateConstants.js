@@ -9,6 +9,10 @@ export const WEEK_DAYS = [
         callback_data: 'none',
     },
     {
+        text: 'Ср',
+        callback_data: 'none',
+    },
+    {
         text: 'Чт',
         callback_data: 'none',
     },

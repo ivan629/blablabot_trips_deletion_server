@@ -14,7 +14,6 @@ const tripPriceListeners = (bot) => {
         const { chat: { id } } = msg;
         const shouldListenTripPrice = await getIsTripPriceSettings(id);
 
-        console.log(msg.text);
         if (!getIsBotMessage(msg.text) && shouldListenTripPrice) {
             await handlePriceSetting(bot, msg, id)
         }

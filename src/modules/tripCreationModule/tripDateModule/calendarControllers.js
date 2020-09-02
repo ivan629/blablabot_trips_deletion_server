@@ -20,7 +20,7 @@ import {
 } from '../../../common/constants/commonСonstants';
 import {
     updateFieldInUserDoc,
-    getNotCompletedTrip,
+    getCreatingTrip,
     toggleIsTripStartDateCompleted,
     getIsStartDateCreatingCompleted,
 } from '../../../services/helpers';
@@ -44,14 +44,14 @@ export const showTimeComponent = async (bot, msg) => {
 };
 
 const setDatePickerDataToDb = async (chat_id, field, data) => {
-    const notCompletedTrip = await getNotCompletedTrip(chat_id);
+    const notCompletedTrip = await getCreatingTrip(chat_id);
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
 
     if (isNil(notCompletedTrip)) return;
 
     const tripDateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
     const readyField = isStartDateCreatingCompleted ? `stop_date_${field}` : `start_date_${field}`;
-    await updateFieldInUserDoc(chat_id, `trips.${notCompletedTrip.trip_id}.${tripDateType}.${readyField}`, data);
+    await updateFieldInUserDoc(chat_id, `create_trip.${tripDateType}.${readyField}`, data);
 };
 
 export const changeCalendarMonth = async (query, bot, isUp) => {
@@ -87,7 +87,7 @@ export const userChangedDate = async (query, bot) => {
     const start_date_month = getMonthNumberByValue(monthText);
     const { payload: start_date_day } = parseData(data);
 
-    const notCompletedTrip = await getNotCompletedTrip(chat_id);
+    const notCompletedTrip = await getCreatingTrip(chat_id);
     const [month, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     const newYear = +year;
 
@@ -104,29 +104,16 @@ export const userChangedDate = async (query, bot) => {
     });
 
     await bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
+    await sendMessage(bot, chat_id, 'Чудово!', calendarKeyboard(GO_TO_TIME_PICKER));
 
-    if (isNil(notCompletedTrip)) {
-        const trip_id = shortid.generate();
-        const tripData = getTripObject({
-            start_date_day,
-            start_date_month,
-            start_date_year,
-            trip_creation_date,
-            trip_id,
-        });
+    const alReqs = [
+        await setDatePickerDataToDb(chat_id, 'day', start_date_day),
+        await setDatePickerDataToDb(chat_id, 'month', start_date_month),
+        await setDatePickerDataToDb(chat_id, 'year', start_date_year),
+     ];
 
-        await updateFieldInUserDoc(chat_id, `trips.${trip_id}`, tripData);
-    } else {
-        const alReqs = [
-            await setDatePickerDataToDb(chat_id, 'day', start_date_day),
-            await setDatePickerDataToDb(chat_id, 'month', start_date_month),
-            await setDatePickerDataToDb(chat_id, 'year', start_date_year),
-         ];
-
-        await Promise.all(alReqs);
-    }
-
-    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(GO_TO_TIME_PICKER), true);
+    await Promise.all(alReqs);
+    // await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(GO_TO_TIME_PICKER), true);
 };
 
 export const setTripHour = async (query, bot) => {

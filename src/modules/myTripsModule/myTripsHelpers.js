@@ -1,21 +1,21 @@
 import { isEmpty } from 'lodash';
 import { TRIP_LIST_CAPTION, NOT_FOUNT_TRIPS_MESSAGES } from '../../common/constants/commonСonstants';
 import { goToMenuKeyboard, removeTripKeyBoard } from './../keyboards/keyboards';
-import { getAllTrips, getCarrierInfo, removeTripFromDb } from './../../services/helpers';
+import { getMyTripsIds, getAllTrips, getCarrierInfo, removeTripFromDb, getDoc } from './../../services/helpers';
 import { getTripHtmlSummary, parseData, sendMessage } from './../../common/utils/utils';
+import { API_CONSTANTS } from '../../common/constants';
 
 export const getMyCreatedTrips = async ({ chat: { id } }) => {
-    const trips = await getAllTrips(id);
+    const tripsIds = await getMyTripsIds(id);
+    const tripsReqs = Object.values(tripsIds).map(async tripId => await getDoc(tripId, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME));
+    const trips = await Promise.all(tripsReqs);
     const carrierInfo = await getCarrierInfo(id);
 
     const formattedTrips = Object.values(trips);
-    return formattedTrips.map((trip, index) => {
-        const itemNumber = index + 1;
-        return {
-            trip_id: trip.trip_id,
-            html: `${getTripHtmlSummary(trip, carrierInfo, '\t').replace(/,/g, "")}\n`
-        }
-    });
+    return formattedTrips.map((trip, index) => ({
+        trip_id: trip.trip_id,
+        html: `${getTripHtmlSummary({ trip, carrierInfo, leftPadding: '\t' }).replace(/,/g, "")}\n`
+    }));
 };
 
 export const sendTripsList = async (bot, msg) => {
