@@ -1,7 +1,7 @@
 import { isNil, chunk, last } from 'lodash';
 import moment from 'moment';
 import { createAction } from '../../../common/utils/utils';
-import { MONTHS, WEEK_DAYS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
+import { MONTHS, WEEK_DAYS } from '../../../common/constants/calendarConstants';
 import { MONTH_DOWN, MONTH_UP, DATE_CHANGED } from '../../../common/constants/commonСonstants';
 import {
     getCurrentTripDate,

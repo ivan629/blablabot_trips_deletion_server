@@ -61,7 +61,6 @@ export const setNewDocToTripsCollection = (docName, data) => {
 };
 
 export const updateFieldInUserDoc = (docName, fieldPath, data) => {
-    console.log('console.log(docName, fieldPath, data);', docName, fieldPath, data);
     firestore.collection(API_CONSTANTS.DB_USERS_COLLECTION_NAME).doc(docName.toString()).update({ [fieldPath]: data })
         .then(() => {
             console.count('Document successfully written!');
@@ -197,11 +196,11 @@ export const saveTripInDb = async docName => {
     await updateFieldInUserDoc(docName,`trips.${trip.trip_id}`, trip.trip_id);
 };
 
-const saveTripToLinkerCollection = async (docName, {trip_id, cities }) => {
+const saveTripToLinkerCollection = async (docName, {trip_id, cities, start_date }) => {
     const sortedCities = getSortedCities(Object.values(cities));
     const reqs = sortedCities.slice(0, -1).map(async ({ place_id, name, order }, index) => {
         const linkShortId = shortId.generate();
-        const data = { trip_id, cities, current_city_order: order };
+        const data = { start_date, trip_id, cities, current_city_order: order };
 
         const alreadyExists = await getIfExistDoc(place_id, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS);
         if (alreadyExists) {
@@ -221,11 +220,6 @@ const saveTripToTripsCollection = async trip => {
 export const addCityToTripInDB = async (id, city) => {
     const cityObject = getCityObject(city);
     updateFieldInUserDoc(id, `create_trip.cities.${cityObject.place_id}`, cityObject)
-};
-
-export const addCityToFindTripInDB = async (id, city) => {
-    const cityObject = getCityObject(city);
-    updateFieldInUserDoc(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
 };
 
 export const getIfExistDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME) => {
@@ -281,10 +275,6 @@ export const getSessionMessagesIds = async chat_id => await getFieldFromDoc(chat
 export const clearSessionMessagesIdsInDb = async chat_id => await updateFieldInUserDoc(chat_id,`bot.session_messages_ids`, {});
 
 export const getCreatingTripCities = async chat_id => await getFieldFromDoc(chat_id,'create_trip.cities', {});
-
-export const getFindTripCities = async chat_id => {
-    return await getFieldFromDoc(chat_id,'find_trip.cities',  {});
-};
 
 export const saveCarrierPhoneNumberToDb = async (chat_id, phoneNumber) => {
     await updateFieldInUserDoc(chat_id,`carrier.phone_numbers.${phoneNumber}`, phoneNumber);

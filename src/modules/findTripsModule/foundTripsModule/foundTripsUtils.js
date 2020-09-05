@@ -1,40 +1,60 @@
-import { isNil, size, find } from 'lodash';
+import { isNil, find, isEmpty } from 'lodash';
+import { saveNewFindTripDateToDb, getCustomDateForFindTrips } from '../findTripsUtils';
 import { API_CONSTANTS } from '../../../common/constants';
-import { getTripHtmlSummary, sendMessage } from '../../../common/utils/utils';
+import { findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
+import { getFormattedDayMonth, getTripHtmlSummary, sendMessage} from '../../../common/utils/utils';
 import { getDoc, getFieldFromDoc } from '../../../services/helpers';
 
 const delimiter = '〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️';
 
 const getTripsListHtml = trips => {
-    const caption = '🔸🔸🔸 <b>Знайдені поїздки</b> 🔹🔹🔹';
+    let caption;
     const list = `${trips.map(trip => {
+        const { start_date_month, start_date_day, start_date_year } = trip.start_date;
+
+        caption = `🔸🔸🔸 <b>${getFormattedDayMonth(start_date_month, start_date_day)} ${start_date_year}</b> 🔹🔹🔹`;
         const tripHtml = getTripHtmlSummary({ trip, showCarrierFullInfo: true, carrierInfo: trip });
         
-        return size(trips) > 1 ? `\n${tripHtml}\n\n${delimiter}\n` : `\n${tripHtml}\n`
+        return `\n${tripHtml}\n\n${delimiter}\n`
     })}`;
 
     return `${caption}\n${list}`
 };
 
+export const getShouldAddTrip = (trip, date, stopCityPlaceId, customDate) => {
+    const stopFoundCity = find(Object.values(trip.cities), {place_id: stopCityPlaceId});
+
+    if (!isNil(customDate)) {
+        return stopFoundCity && stopFoundCity.order > trip.current_city_order
+            && customDate.day === trip.start_date.start_date_day
+            && customDate.month === trip.start_date.start_date_month
+            && customDate.year === +trip.start_date.start_date_year;
+    }
+
+    return stopFoundCity && stopFoundCity.order > trip.current_city_order
+        && +trip.start_date.start_date_year === +date.year
+        && trip.start_date.start_date_month === +date.month
+        && trip.start_date.start_date_day === +date.day;
+};
 
 // TODO: need to add time check
-export const findTrips = async chat_id => {
+export const findTrips = async (chat_id, customDay) => {
+    const finalCustomDate = getCustomDateForFindTrips(customDay);
     const foundTrip = await getFieldFromDoc(chat_id,'find_trip');
 
     if (isNil(foundTrip)) return [];
 
-    const  { cities } = foundTrip;
+    const  { cities, date } = foundTrip;
+
     const { place_id: startCityPlaceId } = find(cities, { order: 1 });
     const { place_id: stopCityPlaceId } = find(cities, { order: 2 });
     const found_trips_links = await getDoc(startCityPlaceId, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS, {});
 
-
     // create finalTripsLinks
     const finalTripsLinks = [];
     Object.values(found_trips_links).forEach(trip => {
-        const stopFoundCity = find(Object.values(trip.cities), { place_id: stopCityPlaceId });
-        console.log(startCityPlaceId, stopCityPlaceId, trip.current_city_order);
-        if (stopFoundCity && stopFoundCity.order > trip.current_city_order) finalTripsLinks.push(trip)
+        const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
+        if (shouldAddTrip) finalTripsLinks.push(trip)
     });
 
     // create real final trips
@@ -44,13 +64,23 @@ export const findTrips = async chat_id => {
 };
 
 export const showTripsList = (bot, chat_id, trips) => {
-    const html = getTripsListHtml(trips);
-    sendMessage(bot, chat_id, html, { parse_mode: 'HTML' });
+    let html = `\n\n\n 😭 нажаль ми не знайшли поїздок\n🤔 спробуйте іншу дату\n\n${delimiter}`;
+
+    if (isEmpty(trips)) {
+        return sendMessage(bot, chat_id, html, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
+    }
+
+    html = getTripsListHtml(trips);
+    sendMessage(bot, chat_id, html, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
 };
 
-export const showFoundTrips = async (bot, msg) => {
-    const { chat: { id: chat_id } } = msg;
+export const showFoundTrips = async (bot, id, customDay) => {
+    const trips = await findTrips(id, customDay);
+    showTripsList(bot, id, trips);
+};
 
-    const trips = await findTrips(chat_id);
-    showTripsList(bot, chat_id, trips);
+export const handlesSaveNewFindTripDateToDb = async (chat_id, customDay) => {
+    const { day, month, year } = getCustomDateForFindTrips(customDay);
+
+    await saveNewFindTripDateToDb(chat_id, day, month, year);
 };

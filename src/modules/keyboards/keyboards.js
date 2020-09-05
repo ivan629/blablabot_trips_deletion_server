@@ -25,6 +25,8 @@ import {
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
 } from '../../common/constants/commonСonstants';
 
+import { FIND_TRIPS_KEYBOARDS_DAY } from '../../common/constants/findTripConstants';
+
 export const phoneNumberKeyboard = {
     reply_markup: {
         resize_keyboard: true,
@@ -101,14 +103,14 @@ export const tripPriceSettingsKeyboardFinish = {
 
 export const availableSeatsKeyboard = {
     reply_markup: {
-        inline_keyboard: chunk(new Array(30).fill(null).reduce((result, item, index) => {
+        inline_keyboard: chunk(new Array(8).fill(null).reduce((result, item, index) => {
             result.push({
                 text: index + 1,
                 callback_data: createAction(SET_AVAILABLE_SEATS_CUNT, index + 1),
             });
 
             return result;
-        }, []), 6)
+        }, []), 4)
     }
 };
 
@@ -203,6 +205,19 @@ export const initialKeyboard = {
                 }
             ],
         ]
+    }
+};
+
+export const findTripsDaysAndCalendarKeyboard = {
+    reply_markup: {
+        inline_keyboard: chunk(new Array(4).fill(null).reduce((result, item, index) => {
+            result.push({
+                text: FIND_TRIPS_KEYBOARDS_DAY[index],
+                callback_data: createAction(FIND_TRIPS_KEYBOARDS_DAY[index], index),
+            });
+
+            return result;
+        }, []), 2)
     }
 };
 

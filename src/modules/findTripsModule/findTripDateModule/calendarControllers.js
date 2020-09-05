@@ -1,16 +1,11 @@
 import { head } from 'lodash';
 import { parseData } from '../../../common/utils/utils';
-import { updateFieldInUserDoc } from '../../../services/helpers';
+import { saveNewFindTripDateToDb } from '../findTripsUtils';
 import { calendarKeyboard } from '../../../modules/keyboards/keyboards';
 import { getMonthNumberByValue, sendCurrentDateHtml } from './findTripDateUtils';
-import CalendarComponent from './findTripCalendarComponent';
+import findTripCalendarComponent from './findTripCalendarComponent';
 import { FIND_TRIP_SEARCH_TRIPS } from '../../../common/constants/commonСonstants';
 
-const calendarComponent = new CalendarComponent();
-
-const setFindDatePickerDataToDb = async (chat_id, field, data) => {
-    await updateFieldInUserDoc(chat_id, `find_trip.date.${field}`, data);
-};
 
 export const changeFindTripCalendarMonth = async (query, bot, isUp) => {
     const {chat, reply_markup, message_id} = query.message;
@@ -31,14 +26,19 @@ export const changeFindTripCalendarMonth = async (query, bot, isUp) => {
         newYear = +oldYear - 1;
     }
 
-    const calendar = await calendarComponent.getCalendar({ customMonthNumber, newYear, shouldDisableGoToNextMonthButton, chat_id: chat.id });
+    const calendar = await findTripCalendarComponent({
+        newYear,
+        chat_id: chat.id,
+        customMonthNumber,
+        shouldDisableGoToNextMonthButton,
+    });
 
     await bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id},);
 };
 
 export const userFindTripChangedDate = async (query, bot) => {
     const { message, data } = query;
-    const { chat, reply_markup, trip_creation_date, message_id } = message;
+    const { chat, reply_markup, message_id } = message;
 
     const { id: chat_id } = chat;
     const [monthText, start_date_year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
@@ -52,21 +52,15 @@ export const userFindTripChangedDate = async (query, bot) => {
     const currentYear = new Date().getFullYear();
     if (currentYear !== newYear) shouldDisableGoToNextMonthButton = true;
 
-    const calendar = await calendarComponent.getCalendar({
+    const calendar = await findTripCalendarComponent({
         newYear,
         customMonthNumber: +start_date_month,
         shouldDisableGoToNextMonthButton,
         chat_id: chat.id,
-        chosenDay: start_date_day
+        alreadyChosenDay: start_date_day
     });
 
     await bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
-    const alReqs = [
-        await setFindDatePickerDataToDb(chat_id, 'day', start_date_day),
-        await setFindDatePickerDataToDb(chat_id, 'month', start_date_month),
-        await setFindDatePickerDataToDb(chat_id, 'year', start_date_year),
-     ];
-
-    await Promise.all(alReqs);
+    await saveNewFindTripDateToDb(chat.id, start_date_day, start_date_month, start_date_year);
     await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS));
 };

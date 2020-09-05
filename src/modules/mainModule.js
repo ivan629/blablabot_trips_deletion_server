@@ -3,6 +3,7 @@ import tripCreationModule from '../modules/tripCreationModule/tripCreationModule
 import myTripsModule from '../modules/myTripsModule/myTripsModule';
 import userPayModule from '../modules/userPayModule/userPayModule';
 import findTripModule from '../modules/findTripsModule/findTripModule';
+import { clearFindTrip } from '../modules/findTripsModule/findTripsUtils';
 
 import {
     resetSessionDataInDb,
@@ -43,6 +44,7 @@ const mainModule = (expressApp, bot) => {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);
+                await clearFindTrip(id);
                 await goToTheMainMenu(bot, id);
             }
             default: {

@@ -2,10 +2,9 @@ import config from 'config';
 import fetch from 'node-fetch';
 import { isEmpty, isNil, size } from 'lodash';
 import {
-    getFindTripCities,
-    addCityToFindTripInDB,
     toggleIsFindTripCitiesCreating,
 } from '../../../services/helpers';
+import { getFindTripCities, addCityToFindTripInDB } from '../../../modules/findTripsModule/findTripsUtils';
 import { findTripGoToCalendarKeyboard, blockedFindTripCitiesKeyboard } from '../../../modules/keyboards/keyboards';
 import {
     sendMessage,
@@ -65,7 +64,7 @@ export const addCityToFindTripCities = async (bot, query) => {
     const [addCityAction, placeId] = parseCityAction(query.data);
     const cityDetails  = await getCityDetails(placeId);
 
-    if (cityDetails && !cityDetails.status.ok) console.log('Error', cityDetails);
+    if (cityDetails && cityDetails.status !== 'OK') console.log('Error', cityDetails);
 
     const findTripCities = await getFindTripCities(id);
     const order = size(findTripCities) + 1;

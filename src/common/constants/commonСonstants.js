@@ -61,6 +61,7 @@ export const FIND_TRIP_SEARCH_TRIPS_BLOCKED = '⛔ Шукати';
 export const FIND_TRIP_MONTH_DOWN = 'ftmd';
 export const FIND_TRIP_MONTH_UP = 'ftmp';
 export const FIND_TRIP_CONGRATS_MESSAGE_STOP = 'Опісля натисніть <b>🔍 Шукати</b>';
+export const FIND_TRIP_QUICK_DATE_PICKER = '☄️ Швидке меню';
 
 // cities
 export const SHOW_NEXT_CITY = '⬇️ Показати наступну локацію';

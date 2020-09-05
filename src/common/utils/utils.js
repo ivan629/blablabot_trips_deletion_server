@@ -173,14 +173,20 @@ export const getIsBotMessage = messageText => [
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 ].includes(messageText);
 
-export const getFormattedData = ({ day, hour, month, minutes }) => {
+export const getFormattedDayMonth = (month, day) => {
     const formattedDay = day < 10 ? `0${day}` : day;
-    const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
     const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes} хв` : `0${minutes} хв`;
-
-    return `${formattedHour}:${formattedMinutes} ${formattedDay}/${formattedMonth}`;
+    return `${formattedDay}/${formattedMonth}`
 };
+
+const getFormattedHourMinutes = (hour, minutes) => {
+    const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
+    const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes} хв` : `0${minutes} хв`;
+    return `${formattedHour}/${formattedMinutes}`
+};
+
+export const getFormattedData = ({ day, month, hour, minutes }) =>
+    `${getFormattedHourMinutes(hour, minutes)} ${getFormattedDayMonth(month, day)}`;
 
 export const sendMessage = async (bot, id, message, config) => await bot.sendMessage(id, message, config)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
