@@ -3,6 +3,8 @@ import tripCreationModule from '../modules/tripCreationModule/tripCreationModule
 import myTripsModule from '../modules/myTripsModule/myTripsModule';
 import userPayModule from '../modules/userPayModule/userPayModule';
 import findTripModule from '../modules/findTripsModule/findTripModule';
+import { clearFindTrip } from './findTripsModule/findTripsUtils';
+import calendarComponentListeners from '../common/components/calendarComponent/calendarComponentListeners';
 
 import {
     resetSessionDataInDb,
@@ -22,16 +24,18 @@ const mainModule = (expressApp, bot) => {
     userPayModule(bot);
     findTripModule(bot);
 
+    // set shared calendar listeners
+    calendarComponentListeners(bot);
+
     // routers
     appRouters(expressApp, bot);
 
     bot.onText(/\/start/, async query => {
-        const { chat: { id } } = query;
+        const {chat: {id}} = query;
+        await addNewUserToDb(query);
         await clearSessionMessagesIdsInDb(id);
-
-        goToTheMainMenu(bot, id);
-        resetSessionDataInDb(id);
-        addNewUserToDb(query);
+        await goToTheMainMenu(bot, id);
+        await resetSessionDataInDb(id);
     });
 
     bot.on('message', async msg => {
@@ -44,6 +48,7 @@ const mainModule = (expressApp, bot) => {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);
+                await clearFindTrip(id);
                 await goToTheMainMenu(bot, id);
             }
             default: {

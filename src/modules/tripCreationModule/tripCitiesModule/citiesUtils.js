@@ -2,7 +2,7 @@ import config from 'config';
 import fetch from 'node-fetch';
 import { isEmpty, isNil, size } from 'lodash';
 import {
-    getTripCities,
+    getCreatingTripCities,
     addCityToTripInDB,
     toggleIsTripCitiesCreating,
 } from '../../../services/helpers';
@@ -32,12 +32,14 @@ export const addCityToTrip = async (bot, query) => {
     const [addCityAction, placeId] = parseCityAction(query.data);
     const cityDetails  = await getCityDetails(placeId);
 
-    if (cityDetails && !cityDetails.status.ok) console.log('Error', cityDetails);
+    if (cityDetails && cityDetails.status !== 'OK' ) console.log('Error', cityDetails);
+
+    const tripCities = await getCreatingTripCities(id);
+    const order = size(tripCities) + 1;
 
     const { formatted_address, place_id, vicinity, name, geometry } = cityDetails.result;
-    const newCity = { formatted_address, place_id, vicinity, name, location: geometry.location };
+    const newCity = { order, formatted_address, place_id, vicinity, name, location: geometry.location };
 
-    const tripCities = await getTripCities(id);
     const citiesIdsList = Object.values(tripCities).map(({ place_id }) => place_id);
     const isAlreadyAdded = citiesIdsList.includes(newCity.place_id);
     const canBeTheFinalCity = citiesIdsList.length > 0 && !isAlreadyAdded;

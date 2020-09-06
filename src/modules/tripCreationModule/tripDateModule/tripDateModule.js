@@ -1,4 +1,3 @@
-import CalendarComponent from '../../../modules/tripCreationModule/tripDateModule/calendarComponent';
 import {
     CALENDAR_START_TRIP_MESSAGE,
     CALENDAR_CONGRATS_MESSAGE_START,
@@ -6,13 +5,12 @@ import {
     CALENDAR_HELP_MESSAGE,
     BLOCKED_GO_TO_TIME_PICKER,
 } from '../../../common/constants/commonСonstants';
-import tripDateListeners from '../../../modules/tripCreationModule/tripDateModule/tripDateListeners';
+import { getIsStartDateCreatingCompleted, toggleIsTripStartDateCompleted } from '../../../services/helpers';
+import { calendarKeyboard } from '../../keyboards/keyboards';
 import { sendMessage } from '../../../common/utils/utils';
-import { calendarKeyboard } from '../../../modules/keyboards/keyboards';
-import { showTripEndCalendarComponent } from '../../../modules/tripCreationModule/tripDateModule/calendarControllers';
-import { getIsStartDateCreatingCompleted } from '../../../services/helpers';
+import tripDateListeners from '../../../modules/tripCreationModule/tripDateModule/tripDateListeners';
+import tripCreationCalendarContainer from './tripCreationCalendarContainer';
 
-const calendarComponent = new CalendarComponent();
 
 class tripDateModule {
     runStartTripDatePicker(bot, msg) {
@@ -22,22 +20,25 @@ class tripDateModule {
         this.sendCalendar(CALENDAR_START_TRIP_MESSAGE, true)
     }
 
+    setListeners(bot) {
+        tripDateListeners(bot)
+    }
+
     async runStopTripDatePicker(bot, msg) {
         this.bot = bot;
         this.msg = msg;
 
-        await showTripEndCalendarComponent(this.msg, this.bot);
+        await toggleIsTripStartDateCompleted(msg.chat.id);
         this.sendCalendar()
-    }
-
-    setListeners(bot) {
-        tripDateListeners(bot)
     }
 
     async sendCalendar() {
         const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(this.msg.chat.id);
         const congratsMessage = isStartDateCreatingCompleted ? CALENDAR_CONGRATS_MESSAGE_STOP: CALENDAR_CONGRATS_MESSAGE_START;
-        const calendar = await calendarComponent.getCalendar({ chat_id: this.msg.chat.id });
+        const calendar = await tripCreationCalendarContainer({
+            bot: this.bot,
+            chat_id: this.msg.chat.id,
+        });
 
         sendMessage(this.bot, this.msg.chat.id, congratsMessage, { parse_mode: 'HTML', ...calendar });
         sendMessage(this.bot, this.msg.chat.id, CALENDAR_HELP_MESSAGE, {

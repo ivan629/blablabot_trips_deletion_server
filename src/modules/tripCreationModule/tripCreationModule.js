@@ -6,8 +6,10 @@ import TripCreationSummariseModule from './tripCreationSummariseModule/tripCreat
 import AvailableSeatsModule from './availableSeatsModule/availableSeatsModule';
 import PhoneNumberModule from './phoneNumberModule/phoneNumberModule';
 import {
-    addSessionMessagesIdsToDb, removeSessionMessagesIds,
+    addSessionMessagesIdsToDb,
+    removeSessionMessagesIds,
     toggleIsTripCitiesCreating,
+    toggleIsTripCreatingInProgress,
 } from '../../services/helpers';
 import { addNewTrip } from '../../common/utils/utils';
 import {
@@ -41,6 +43,7 @@ const tripCreationModule = bot => {
 
         switch (msg.text) {
             case PROPOSE_TRIP: {
+                await toggleIsTripCreatingInProgress(msg.chat.id, true);
                 await addNewTrip(msg);
                 await tripCitiesModule.start(bot, msg);
             }

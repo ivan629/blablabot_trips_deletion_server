@@ -1,10 +1,17 @@
-import { MONTHS } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
 import { sendMessage } from '../../../common/utils/utils';
-import { getFindTripDateText } from '../../../services/helpers';
+import { calendarKeyboard } from '../../keyboards/keyboards';
+import {
+    FIND_TRIP_SEARCH_TRIPS_BLOCKED,
+    CALENDAR_CONGRATS_MESSAGE_START,
+    FIND_TRIP_CONGRATS_MESSAGE_STOP,
+} from '../../../common/constants/commonСonstants';
+import calendarComponent from '../../../common/components/calendarComponent/calendarComponent';
 
-export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value) + 1;
-
-export const sendCurrentDateHtml = async (id, bot, calendarKeyboard) => {
-    const html = await getFindTripDateText(id);
-    sendMessage(bot, id, html, { parse_mode: 'HTML', ...calendarKeyboard });
+export const sendFindTripCalendar = async (bot, chat_id) => {
+    const calendar = await calendarComponent({ bot, chat_id });
+    sendMessage(bot, chat_id, CALENDAR_CONGRATS_MESSAGE_START, { parse_mode: 'HTML', ...calendar });
+    sendMessage(bot, chat_id, FIND_TRIP_CONGRATS_MESSAGE_STOP, {
+        parse_mode: 'HTML',
+        ...calendarKeyboard(FIND_TRIP_SEARCH_TRIPS_BLOCKED),
+    });
 };

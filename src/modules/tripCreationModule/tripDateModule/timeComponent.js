@@ -1,12 +1,12 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../../common/utils/utils';
-import { TIME_PICKER_MINUTES } from '../../../modules/tripCreationModule/tripDateModule/tripDateConstants';
+import { TIME_PICKER_MINUTES } from './tripDateConstants';
 import { SET_TRIP_HOUR, SET_TRIP_MINUTES } from '../../../common/constants/commonСonstants';
-import { getCurrentTripDate, getIsStartDateCreatingCompleted, getNotCompletedTrip } from '../../../services/helpers';
+import { getCurrentTripCreationDate, getIsStartDateCreatingCompleted, getCreatingTrip } from '../../../services/helpers';
 
 // TODO: fix but when trip finish time, show all hours
 export const timeComponent = async chat_id => {
-    const { year, day, month } = await getCurrentTripDate(chat_id);
+    const { year, day, month } = await getCurrentTripCreationDate(chat_id);
     const currentMonth = new Date().getMonth() + 1;
     const currentDay = new Date().getDate();
     const currentHour = new Date().getHours();
@@ -25,7 +25,7 @@ export const timeComponent = async chat_id => {
             stop_date_month,
             stop_date_year,
         },
-    } = await getNotCompletedTrip(chat_id);
+    } = await getCreatingTrip(chat_id);
 
     const hours = new Array(24).fill(null).reduce((result, item, calendarHour) => {
         const formattedCalendarHour = calendarHour + 1;
