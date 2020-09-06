@@ -1,3 +1,4 @@
+const ERROR_MESSAGE = 'Please send correct args';
 const SMALL_CALENDAR_DAYS_COUNT = 35;
 const LARGE_CALENDAR_DAYS_COUNT = 42;
 
@@ -54,11 +55,25 @@ function getNextMonthDays(currentMonth, currentYear, calendarDays) {
     }, []);
 }
 
+function checkIsNotValidParams(currentMonth, currentYear) {
+    return typeof currentMonth !== 'number'
+        || typeof currentYear !== 'number'
+}
+
+function getNormalizedArgs(currentMonth, currentYear) {
+    return { normalizedCurrentMonth: +currentMonth, normalizedCurrentYear: +currentYear };
+}
+
 function calendarSchema(currentMonth, currentYear) {
+    const { normalizedCurrentMonth, normalizedCurrentYear } = getNormalizedArgs(currentMonth, currentYear);
+    const isNotValid = checkIsNotValidParams(normalizedCurrentMonth, normalizedCurrentYear);
+
+    if (isNotValid) return ERROR_MESSAGE;
+
     const calendarDays = [];
-    calendarDays.push(...getPreviousMonthDays(currentMonth, currentYear));
-    calendarDays.push(...getCurrentMonthDays(currentMonth, currentYear, calendarDays));
-    calendarDays.push(...getNextMonthDays(currentMonth, currentYear, calendarDays));
+    calendarDays.push(...getPreviousMonthDays(normalizedCurrentMonth, normalizedCurrentYear));
+    calendarDays.push(...getCurrentMonthDays(normalizedCurrentMonth, normalizedCurrentYear, calendarDays));
+    calendarDays.push(...getNextMonthDays(normalizedCurrentMonth, normalizedCurrentYear, calendarDays));
 
     return calendarDays.sort((a, b) => (a.order > b.order) ? 1 : -1);
 }

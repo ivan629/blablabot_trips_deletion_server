@@ -1,32 +1,45 @@
 import shortid from 'shortid';
 import {
     getIfExistDoc,
+    getFindTripDate,
     addNewCreatingTrip,
-    setNewDocToUsersCollection,
     addSessionMessagesIdsToDb,
+    getCurrentTripCreationDate,
+    setNewDocToUsersCollection,
+    getIsTripCreatingInProgress,
+    getIsFindTripCreatingInProgress,
 } from '../../services/helpers';
-import { initialKeyboard } from '../../modules/keyboards/keyboards';
+import { getDefaultTripMinCalendarDateThreshold } from '../components/calendarComponent/calendarComponentUtils'
+import {
+    tripCreationUserChangedDate,
+    getTripCreationMinCalendarDateThreshold,
+} from '../../modules/tripCreationModule/tripDateModule/tripCreationCalendarUtils'
+import { initialKeyboard, calendarKeyboard } from '../../modules/keyboards/keyboards';
+import { handlesSaveNewFindTripDateToDbFromCalendar } from '../../modules/findTripsModule/foundTripsModule/foundTripsUtils';
+
 import {
     FIND_TRIP,
     PROPOSE_TRIP,
     START_MESSAGE,
+    GO_TO_TIME_PICKER,
     CONFIRM_TRIP_PRICE,
     CHOOSE_CITY_MESSAGE,
     CHOOSE_ROLE_MESSAGE,
     GO_TO_THE_MAIN_MENU,
+    FIND_TRIP_SEARCH_TRIPS,
     NEXT_CITY_IN_THE_TRIP,
     NOT_FOUND_CITY_MESSAGE,
     FINAL_CITY_IN_THE_TRIP,
     CITIES_INITIAL_HELP_TEXT,
+    GO_TO_TRIP_PRICE_SETTINGS,
     TRIP_PRICE_BLOCKED_MESSAGE,
     CONFIRM_TRIP_PRICE_BLOCKED,
-    GO_TO_TRIP_PRICE_SETTINGS,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
-} from '../../common/constants/commonСonstants';
-import { getCityDetailsUrl } from '../../common/constants/urlHelpers';
-import { head, isNil, last } from "lodash";
+} from '../constants/commonСonstants';
+import { getCityDetailsUrl } from '../constants/urlHelpers';
+import { head, isNil, last } from 'lodash';
 
 export const getTripObject = ({
                                   stop_city = null,
@@ -182,7 +195,7 @@ export const getFormattedDayMonth = (month, day) => {
 const getFormattedHourMinutes = (hour, minutes) => {
     const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
     const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes} хв` : `0${minutes} хв`;
-    return `${formattedHour}/${formattedMinutes}`
+    return `${formattedHour}:${formattedMinutes}`
 };
 
 export const getFormattedData = ({ day, month, hour, minutes }) =>
@@ -248,3 +261,50 @@ export const createNextCityAction = (type, placeId, nextCityIndex) => `${type}|$
 
 // cities
 export const getSortedCities = cities => cities.sort((a, b) => (a.order > b.order) ? 1 : -1);
+
+// calendar
+export const handleUserDateChanged = async (bot, query) => {
+    const chatId = query.message.chat.id;
+    const isFindTripInProgress = await getIsFindTripCreatingInProgress(chatId);
+    const isTripCreatingInProgress = await getIsTripCreatingInProgress(chatId);
+
+    if (isFindTripInProgress) {
+        await handlesSaveNewFindTripDateToDbFromCalendar(query);
+        const message = await getCurrentTripDateText(chatId);
+        sendMessage(bot, chatId, message, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS));
+    }
+
+    if (isTripCreatingInProgress) {
+        await tripCreationUserChangedDate(query);
+        const message = await getCurrentTripDateText(chatId);
+        sendMessage(bot, chatId, message, calendarKeyboard(GO_TO_TIME_PICKER));
+    }
+};
+
+export const handleGetDefaultTripMinCalendarDateThresholdCallback = async chat_id => {
+    const isFindTripInProgress = await getIsFindTripCreatingInProgress(chat_id);
+    const isTripCreatingInProgress = await getIsTripCreatingInProgress(chat_id);
+
+    if (isFindTripInProgress) return getDefaultTripMinCalendarDateThreshold();
+    if (isTripCreatingInProgress) return await getTripCreationMinCalendarDateThreshold(chat_id);
+
+    return false;
+};
+
+export const handleGetCurrentDateForChosenDayInCalendar = async chat_id => {
+    const isFindTripInProgress = await getIsFindTripCreatingInProgress(chat_id);
+    const isTripCreatingInProgress = await getIsTripCreatingInProgress(chat_id);
+
+    if (isFindTripInProgress) return getFindTripDate(chat_id);
+    if (isTripCreatingInProgress) return await getCurrentTripCreationDate(chat_id);
+
+    return false;
+};
+
+export const getCurrentTripDateText = async docName => {
+    const { day, month } = await handleGetCurrentDateForChosenDayInCalendar(docName);
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `📅 ${formattedDay}/${formattedMonth}`
+};

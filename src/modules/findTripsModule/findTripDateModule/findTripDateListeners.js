@@ -1,12 +1,3 @@
-import {
-    FIND_TRIP_MONTH_DOWN,
-    FIND_TRIP_MONTH_UP,
-    FIND_TRIP_DATE_CHANGED,
-} from '../../../common/constants/commonСonstants';
-import {
-    userFindTripChangedDate,
-    changeFindTripCalendarMonth,
-} from './calendarControllers';
 import { parseData } from '../../../common/utils/utils';
 import { FIND_TRIPS_KEYBOARDS_DAY } from '../../../common/constants/findTripConstants';
 import { sendFindTripCalendar } from './findTripDateUtils';
@@ -21,19 +12,6 @@ const findTripDateListeners = (bot) => {
             case FIND_TRIPS_KEYBOARDS_DAY[3]: {
                 sendFindTripCalendar(bot, id)
             }
-                break;
-            case FIND_TRIP_MONTH_DOWN: {
-                changeFindTripCalendarMonth(query, bot);
-            }
-                break;
-            case FIND_TRIP_MONTH_UP: {
-                changeFindTripCalendarMonth(query, bot, true)
-            }
-                break;
-            case FIND_TRIP_DATE_CHANGED: {
-                userFindTripChangedDate(query, bot);
-            }
-                break;
             default: {
                 break;
             }

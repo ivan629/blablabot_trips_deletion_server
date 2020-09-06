@@ -1,12 +1,10 @@
 import {
-    FIND_TRIP_SEARCH_TRIPS_BLOCKED,
-    FIND_TRIP_CONGRATS_MESSAGE_STOP,
     CALENDAR_CONGRATS_MESSAGE_START,
     FIND_TRIP_QUICK_DATE_PICKER,
 } from '../../../common/constants/commonСonstants';
 import { sendMessage } from '../../../common/utils/utils';
 import findTripDateListeners from './findTripDateListeners';
-import { goToMenuKeyboard, calendarKeyboard, findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
+import { goToMenuKeyboard, findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
 
 class findTripDateModule {
     async runStartTripDatePicker(bot, msg) {

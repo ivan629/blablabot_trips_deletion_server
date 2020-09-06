@@ -5,7 +5,7 @@ export const getCustomDateForFindTrips = customDayMessage => {
     const date = new Date();
     const currentDay = date.getDate();
     const currentYear = date.getFullYear();
-    const currentMonth = date.getMonth() + 1;
+    const currentMonth = date.getMonth();
 
     switch (customDayMessage) {
         case 0: {

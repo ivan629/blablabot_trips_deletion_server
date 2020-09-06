@@ -1,9 +1,10 @@
-import { isNil, find, isEmpty } from 'lodash';
+import {isNil, find, isEmpty, head} from 'lodash';
 import { saveNewFindTripDateToDb, getCustomDateForFindTrips } from '../findTripsUtils';
+import { getDoc, getFieldFromDoc } from '../../../services/helpers';
 import { API_CONSTANTS } from '../../../common/constants';
 import { findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
-import { getFormattedDayMonth, getTripHtmlSummary, sendMessage} from '../../../common/utils/utils';
-import { getDoc, getFieldFromDoc } from '../../../services/helpers';
+import { getFormattedDayMonth, getTripHtmlSummary, parseData, sendMessage } from '../../../common/utils/utils';
+import { getMonthNumberByValue } from '../../tripCreationModule/tripDateModule/tripCreationCalendarUtils';
 
 const delimiter = '〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️';
 
@@ -50,7 +51,6 @@ export const findTrips = async (chat_id, customDay) => {
     const { place_id: stopCityPlaceId } = find(cities, { order: 2 });
     const found_trips_links = await getDoc(startCityPlaceId, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS, {});
 
-    // create finalTripsLinks
     const finalTripsLinks = [];
     Object.values(found_trips_links).forEach(trip => {
         const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
@@ -59,8 +59,7 @@ export const findTrips = async (chat_id, customDay) => {
 
     // create real final trips
     const tripsReqs = finalTripsLinks.map(async ({ trip_id }) => await getDoc(trip_id, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME));
-    const finalRealTrips = await Promise.all(tripsReqs);
-    return finalRealTrips;
+    return await Promise.all(tripsReqs);
 };
 
 export const showTripsList = (bot, chat_id, trips) => {
@@ -81,6 +80,17 @@ export const showFoundTrips = async (bot, id, customDay) => {
 
 export const handlesSaveNewFindTripDateToDb = async (chat_id, customDay) => {
     const { day, month, year } = getCustomDateForFindTrips(customDay);
+    await saveNewFindTripDateToDb(chat_id, day, month, year);
+};
+
+export const handlesSaveNewFindTripDateToDbFromCalendar = async (query) => {
+    const { message, data } = query;
+    const { chat, reply_markup } = message;
+    const { id: chat_id } = chat;
+
+    const [monthText, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
+    const month = getMonthNumberByValue(monthText);
+    const { payload: day } = parseData(data);
 
     await saveNewFindTripDateToDb(chat_id, day, month, year);
 };

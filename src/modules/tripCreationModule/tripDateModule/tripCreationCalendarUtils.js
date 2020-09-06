@@ -1,12 +1,11 @@
 import { head, isNil } from 'lodash';
-import { getMonthNumberByValue, sendCurrentDateHtml } from './tripDateUtils';
-import CalendarComponent from '../../../modules/tripCreationModule/tripDateModule/calendarComponent';
-import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
 import { calendarKeyboard } from '../../keyboards/keyboards';
 import { parseData, sendMessage } from '../../../common/utils/utils';
+import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
+import { MONTHS } from '../../../common/constants/calendarConstants';
 import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../../keyboards/keyboards';
+import { getDefaultTripMinCalendarDateThreshold, getDateMilliseconds } from '../../../common/components/calendarComponent/calendarComponentUtils';
 import {
-    GO_TO_TIME_PICKER,
     TIME_CHOOSING_MESSAGE,
     GO_TO_TRIP_END_TIME_PICKER,
     TIME_CHOOSING_HELP_MESSAGE,
@@ -21,9 +20,34 @@ import {
     getCreatingTrip,
     toggleIsTripStartDateCompleted,
     getIsStartDateCreatingCompleted,
+    getCurrentTripDateText,
 } from '../../../services/helpers';
 
-const calendarComponent = new CalendarComponent();
+export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
+
+export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {
+    const html = await getCurrentTripDateText(id, isOnlyDate);
+    sendMessage(bot, id, html, { parse_mode: 'HTML', ...calendarKeyboard });
+};
+
+export const getTripCreationMinCalendarDateThreshold = async chat_id => {
+    let minDateMillisecondsThreshold = getDefaultTripMinCalendarDateThreshold();
+    const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
+
+
+    if (isStartDateCreatingCompleted) {
+        const { start_date: { start_date_hour, start_date_day, start_date_year, start_date_month } } = await getCreatingTrip(chat_id);
+        // we allow to set the same trip end day, with min hours threshold
+        const minDay = start_date_hour < 24 ? start_date_day - 1 : start_date_day;
+
+        // TODO: we add + one to fix a bug with isDayValid func
+        const minMonth = start_date_month + 1;
+        minDateMillisecondsThreshold = getDateMilliseconds(minDay, minMonth , +start_date_year);
+    }
+
+    return minDateMillisecondsThreshold;
+};
+
 
 export const showTripEndCalendarComponent = async (msg, bot) => {
     const { chat: { id } } = msg;
@@ -76,42 +100,21 @@ export const changeCalendarMonth = async (query, bot, isUp) => {
     bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
 };
 
-export const userChangedDate = async (query, bot) => {
+export const tripCreationUserChangedDate = async query => {
     const { message, data } = query;
-    const { chat, reply_markup, trip_creation_date, message_id } = message;
-
+    const { chat, reply_markup } = message;
     const { id: chat_id } = chat;
     const [monthText, start_date_year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     const start_date_month = getMonthNumberByValue(monthText);
     const { payload: start_date_day } = parseData(data);
 
-    const notCompletedTrip = await getCreatingTrip(chat_id);
-    const [month, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const newYear = +year;
-
-    let shouldDisableGoToNextMonthButton = false;
-    const currentYear = new Date().getFullYear();
-    if (currentYear !== newYear) shouldDisableGoToNextMonthButton = true;
-
-    const calendar = await calendarComponent.getCalendar({
-        newYear,
-        customMonthNumber: +start_date_month,
-        shouldDisableGoToNextMonthButton,
-        chat_id: chat.id,
-        chosenDay: start_date_day
-    });
-
-    await bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
-    await sendMessage(bot, chat_id, 'Чудово!', calendarKeyboard(GO_TO_TIME_PICKER));
-
     const alReqs = [
         await setDatePickerDataToDb(chat_id, 'day', start_date_day),
         await setDatePickerDataToDb(chat_id, 'month', start_date_month),
         await setDatePickerDataToDb(chat_id, 'year', start_date_year),
-     ];
+    ];
 
     await Promise.all(alReqs);
-    // await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(GO_TO_TIME_PICKER), true);
 };
 
 export const setTripHour = async (query, bot) => {

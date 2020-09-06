@@ -55,11 +55,8 @@ export const FIND_TRIP_GO_TO_CALENDAR = '📅 Вказати дату відпр
 export const FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT = '😎 Чудово! Додайте наступне місто у подорожі 🚃';
 export const FIND_TRIP_SHOW_NEXT_CITIES_ACTION_TYPE = '1a';
 export const FIND_TRIP_MAX_CITIES_CONT_MESSAGE = '👿 Ви не можете додати ще одне місто';
-export const FIND_TRIP_DATE_CHANGED = 'ftdc';
 export const FIND_TRIP_SEARCH_TRIPS = '🔍 Шукати';
 export const FIND_TRIP_SEARCH_TRIPS_BLOCKED = '⛔ Шукати';
-export const FIND_TRIP_MONTH_DOWN = 'ftmd';
-export const FIND_TRIP_MONTH_UP = 'ftmp';
 export const FIND_TRIP_CONGRATS_MESSAGE_STOP = 'Опісля натисніть <b>🔍 Шукати</b>';
 export const FIND_TRIP_QUICK_DATE_PICKER = '☄️ Швидке меню';
 

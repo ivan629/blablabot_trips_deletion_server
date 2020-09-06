@@ -1,6 +1,6 @@
 import shortId from 'shortid';
 import { isNil, get } from 'lodash';
-import { firestore } from '../services/firebaseService';
+import { firestore } from './firebaseService';
 import { API_CONSTANTS } from '../common/constants';
 import { getSortedCities, getCityObject, } from '../common/utils/utils';
 
@@ -97,7 +97,7 @@ export const getMyTripsIds = async chat_id => {
     return get(result, 'trips', []);
 };
 
-export const getCurrentTripDate = async chat_id => {
+export const getCurrentTripCreationDate = async chat_id => {
     const data = await getCreatingTrip(chat_id);
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const dateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
@@ -145,7 +145,7 @@ export const removeFindTripCities = async id => {
 };
 
 export const getCurrentTripDateText = async (docName, isOnlyDate) => {
-    const { day, hour, month, minutes } = await getCurrentTripDate(docName);
+    const { day, hour, month, minutes } = await getCurrentTripCreationDate(docName);
 
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
@@ -153,14 +153,6 @@ export const getCurrentTripDateText = async (docName, isOnlyDate) => {
     const formattedMinutes = isNil(minutes) ? 0 : minutes < 10 ? `0${minutes} хв` : `${minutes} хв`;
 
     return `📅 ${formattedDay}/${formattedMonth}   ⏰ ${isOnlyDate ? '🤷‍♀️' : `${formattedHour}:${formattedMinutes}`}`;
-};
-
-export const getFindTripDateText = async docName => {
-    const { day, month } = await getFindTripDate(docName);
-    const formattedDay = day < 10 ? `0${day}` : day;
-    const formattedMonth = month < 10 ? `0${month}` : month;
-
-    return `📅 ${formattedDay}/${formattedMonth}`
 };
 
 export const toggleIsTripCitiesCreating = async (id, data) => {
@@ -171,6 +163,8 @@ export const resetSessionDataInDb = async id => {
     const alreadyExists = await getIfExistDoc(id);
 
     if (alreadyExists) {
+        await toggleIsTripCreatingInProgress(id, false);
+        await toggleIsFindTripProgress(id, false);
         await toggleIsFindTripCitiesCreating(id, false);
         await toggleIsTripCitiesCreating(id, false);
         await removeFindTripCities(id, false);
@@ -292,3 +286,14 @@ export const removeTripFromDb = async (chat_id, trip_id_to_remove) => {
     // remove trip from trips collection
     await removeDoc(trip_id_to_remove);
 };
+
+// trip creation / find
+
+export const getIsTripCreatingInProgress = async chat_id => await getFieldFromDoc(chat_id,'bot.is_trip_creating_in_progress', false);
+
+export const getIsFindTripCreatingInProgress = async chat_id => await getFieldFromDoc(chat_id,'bot.is_find_trip_in_progress', false);
+
+export const toggleIsTripCreatingInProgress = async (chat_id, value) => await updateFieldInUserDoc(chat_id,'bot.is_trip_creating_in_progress', value);
+
+export const toggleIsFindTripProgress = async (chat_id, value) => await updateFieldInUserDoc(chat_id,'bot.is_find_trip_in_progress', value);
+
