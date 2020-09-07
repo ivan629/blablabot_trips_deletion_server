@@ -102,16 +102,13 @@ export const changeCalendarMonth = async (query, bot, isUp) => {
 
 export const tripCreationUserChangedDate = async query => {
     const { message, data } = query;
-    const { chat, reply_markup } = message;
-    const { id: chat_id } = chat;
-    const [monthText, start_date_year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const start_date_month = getMonthNumberByValue(monthText);
-    const { payload: start_date_day } = parseData(data);
+    const { id: chat_id } = message.chat;
+    const { payload: { day, month, year} } = parseData(data);
 
     const alReqs = [
-        await setDatePickerDataToDb(chat_id, 'day', start_date_day),
-        await setDatePickerDataToDb(chat_id, 'month', start_date_month),
-        await setDatePickerDataToDb(chat_id, 'year', start_date_year),
+        await setDatePickerDataToDb(chat_id, 'day', day),
+        await setDatePickerDataToDb(chat_id, 'month', month),
+        await setDatePickerDataToDb(chat_id, 'year', year),
     ];
 
     await Promise.all(alReqs);

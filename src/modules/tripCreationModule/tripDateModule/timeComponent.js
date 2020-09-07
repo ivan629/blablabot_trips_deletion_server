@@ -7,7 +7,7 @@ import { getCurrentTripCreationDate, getIsStartDateCreatingCompleted, getCreatin
 // TODO: fix but when trip finish time, show all hours
 export const timeComponent = async chat_id => {
     const { year, day, month } = await getCurrentTripCreationDate(chat_id);
-    const currentMonth = new Date().getMonth() + 1;
+    const currentMonth = new Date().getMonth();
     const currentDay = new Date().getDate();
     const currentHour = new Date().getHours();
     const currentYear = new Date().getFullYear();
@@ -30,6 +30,7 @@ export const timeComponent = async chat_id => {
     const hours = new Array(24).fill(null).reduce((result, item, calendarHour) => {
         const formattedCalendarHour = calendarHour + 1;
         let isNotValidHour = false;
+
 
         if (isStartDateCreatingCompleted) {
             isNotValidHour = stop_date_day === start_date_day

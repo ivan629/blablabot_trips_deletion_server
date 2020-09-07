@@ -4,13 +4,13 @@ import {getTripCreationMinCalendarDateThreshold} from './tripCreationCalendarUti
 const FindTripCalendarComponent = async ({
                                              chat_id,
                                              customNewYear,
-                                             alreadyChosenDay,
+                                             alreadyChosenDate,
                                              customMonthNumber,
                                              shouldDisableGoToNextMonthButton,
                                          }) => calendarComponent({
         chat_id,
         customNewYear,
-        alreadyChosenDay,
+        alreadyChosenDate,
         customMonthNumber,
         shouldDisableGoToNextMonthButton,
         getMinCalendarDateThresholdCallback: () => getTripCreationMinCalendarDateThreshold(chat_id),
