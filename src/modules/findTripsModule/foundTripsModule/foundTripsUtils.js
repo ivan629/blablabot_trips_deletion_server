@@ -79,18 +79,12 @@ export const showFoundTrips = async (bot, id, customDay) => {
 };
 
 export const handlesSaveNewFindTripDateToDb = async (chat_id, customDay) => {
-    const { day, month, year } = getCustomDateForFindTrips(customDay);
-    await saveNewFindTripDateToDb(chat_id, day, month, year);
+    const selectedDate = getCustomDateForFindTrips(customDay);
+    await saveNewFindTripDateToDb(chat_id, selectedDate);
 };
 
 export const handlesSaveNewFindTripDateToDbFromCalendar = async (query) => {
-    const { message, data } = query;
-    const { chat, reply_markup } = message;
-    const { id: chat_id } = chat;
-
-    const [monthText, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const month = getMonthNumberByValue(monthText);
-    const { payload: day } = parseData(data);
-
-    await saveNewFindTripDateToDb(chat_id, day, month, year);
+    const { id: chat_id } = query.message.chat;
+    const { payload } = parseData(query.data);
+    await saveNewFindTripDateToDb(chat_id, payload);
 };

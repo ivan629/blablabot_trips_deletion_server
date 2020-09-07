@@ -43,18 +43,23 @@ export const checkIfTimeIsValid = ({ year, month, day, minDateMillisecondsThresh
     return new Date().getFullYear() > year || getDateMilliseconds(day, month + 1, year) > minDateMillisecondsThreshold;
 };
 
-export const getDaysButtons = (chat_id, daysForCalendar, finalChosenDay, minDateMillisecondsThreshold) =>
-    daysForCalendar.reduce((result, { month: calendarMonth, day: calendarDay, year: currentYear }, index) => {
+export const getDaysButtons = (chat_id, daysForCalendar, alreadyChosenDate, minDateMillisecondsThreshold) =>
+    daysForCalendar.reduce((result, { month: calendarMonth, day: calendarDay, year: calendarYear }, index) => {
         const isTimeEnable = checkIfTimeIsValid({
             chat_id,
             day: calendarDay,
-            year: currentYear,
+            year: calendarYear,
             month: calendarMonth,
             minDateMillisecondsThreshold,
         });
 
-        const text = isTimeEnable ? `${finalChosenDay === calendarDay ? '✅' : calendarDay}` : '🚫';
-        const callback_data = isTimeEnable ? createAction(DATE_CHANGED, index) : 'none';
+        const payload = { month: calendarMonth, day: calendarDay, year: calendarYear };
+        const isAlreadyChosenDate = alreadyChosenDate.day === calendarDay
+            && alreadyChosenDate.month === calendarMonth
+            && alreadyChosenDate.year === calendarYear
+
+        const text = isTimeEnable ? `${isAlreadyChosenDate ? '✅' : calendarDay}` : '🚫';
+        const callback_data = isTimeEnable ? createAction(DATE_CHANGED, payload) : 'none';
 
         if (calendarDay > 0) result.push({text , callback_data});
         return result;
@@ -134,15 +139,13 @@ export const calendarChangeMonth = async (query, bot, isUp) => {
     }
 
 
-    let alreadyChosenDay
-    const { day, month } = await handleGetCurrentDateForChosenDayInCalendar(chat.id);
-    if (month === customMonthNumber) alreadyChosenDay = day;
+    const alreadyChosenDate = await handleGetCurrentDateForChosenDayInCalendar(chat.id);
 
     const calendar = await calendarComponent({
         customNewYear,
         chat_id: chat.id,
         customMonthNumber,
-        alreadyChosenDay,
+        alreadyChosenDate,
         shouldDisableGoToNextMonthButton,
         getMinCalendarDateThresholdCallback: () => handleGetDefaultTripMinCalendarDateThresholdCallback(chat.id),
     });
@@ -157,7 +160,7 @@ export const calendarChangedDate = async (query, bot) => {
 
     const [monthText, dayToSave] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     const customMonthNumber = getMonthNumberByValue(monthText);
-    const { payload: alreadyChosenDay } = parseData(data);
+    const { payload: alreadyChosenDate } = parseData(data);
 
     const [monthValue, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     const newYear = +year;
@@ -170,7 +173,7 @@ export const calendarChangedDate = async (query, bot) => {
         chat_id,
         newYear,
         customMonthNumber,
-        alreadyChosenDay,
+        alreadyChosenDate,
         shouldDisableGoToNextMonthButton,
         getMinCalendarDateThresholdCallback: () => handleGetDefaultTripMinCalendarDateThresholdCallback(chat_id),
     });

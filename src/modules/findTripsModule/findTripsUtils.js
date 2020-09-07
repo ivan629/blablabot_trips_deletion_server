@@ -39,7 +39,7 @@ const setFindDatePickerDataToDb = async (chat_id, field, data) => {
     await updateFieldInUserDoc(chat_id, `find_trip.date.${field}`, data);
 };
 
-export const saveNewFindTripDateToDb = async (chat_id, day, month, year) => {
+export const saveNewFindTripDateToDb = async (chat_id, { day, month, year }) => {
     const alReqs = [
         await setFindDatePickerDataToDb(chat_id, 'day', day),
         await setFindDatePickerDataToDb(chat_id, 'month', month),

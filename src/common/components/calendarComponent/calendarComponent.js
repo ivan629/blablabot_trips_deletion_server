@@ -14,8 +14,8 @@ import {
 const FindTripCalendarComponent = async ({
                                              chat_id,
                                              customNewYear,
-                                             alreadyChosenDay,
                                              customMonthNumber,
+                                             alreadyChosenDate = {},
                                              shouldDisableGoToNextMonthButton,
                                              getMinCalendarDateThresholdCallback = getDefaultTripMinCalendarDateThreshold
                                          }) => {
@@ -27,7 +27,7 @@ const FindTripCalendarComponent = async ({
     const daysForCalendar = calendarSchema(currentMonthNumber, currentYear);
 
     const minDateMillisecondsThreshold = await getMinCalendarDateThresholdCallback();
-    const daysButtons = getDaysButtons(chat_id, daysForCalendar, alreadyChosenDay, minDateMillisecondsThreshold);
+    const daysButtons = getDaysButtons(chat_id, daysForCalendar, alreadyChosenDate, minDateMillisecondsThreshold);
     const monthButton = getMonthButton(currentCalendarMonth, currentYear);
     const chunkedDaysArrayButtons = chunk(daysButtons, WEEK_DAYS.length);
 
