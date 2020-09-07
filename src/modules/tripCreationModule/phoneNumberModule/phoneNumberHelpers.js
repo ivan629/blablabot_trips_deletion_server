@@ -3,7 +3,7 @@ import {
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
     GO_TO_TRIP_SUMMARISE_MESSAGE,
 } from '../../../common/constants/commonСonstants'
-import { phoneNumberKeyboard, phoneNumberKeyboardGoToSummarise} from '../../../modules/keyboards/keyboards'
+import { phoneNumberKeyboard, phoneNumberKeyboardGoToSummarise} from '../../keyboards/keyboards'
 import { saveCarrierPhoneNumberToDb } from '../../../services/helpers'
 
 export const sendPhoneNumberInitialData = (bot, msg) => {

@@ -1,6 +1,5 @@
-import { AVAILABLE_SEATS_MESSAGE } from '../../../common/constants/commonСonstants';
 import availableSeatsListeners from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsListeners';
-import { sendInitialData } from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsHelpers';
+import { sendInitialData } from './availableSeatsHelpers';
 
 class AvailableSeatsModule {
     runAvailableTripSeatsPicker(bot, msg) {

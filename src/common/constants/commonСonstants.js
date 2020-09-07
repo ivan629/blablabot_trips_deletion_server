@@ -73,7 +73,7 @@ export const TRIP_LIST_CAPTION = '🔹🔹🔹️️Створені поїзд�
 export const NOT_FOUNT_TRIPS_MESSAGES = 'У вас немає поїздок 🤷';
 
 // settings
-export const SETTINGS = '⚙️ Налаштування';
+export const LANGUAGE = '🇺🇦️ Українська';
 
 // phone number
 export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';
