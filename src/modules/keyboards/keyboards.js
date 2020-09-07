@@ -2,7 +2,7 @@ import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
     USER_PAY_START,
-    SETTINGS,
+    LANGUAGE,
     MY_TRIPS,
     FIND_TRIP,
     PROPOSE_TRIP,
@@ -200,8 +200,8 @@ export const initialKeyboard = {
             ],
             [
                 {
-                    text: SETTINGS,
-                    callback_data: createAction(SETTINGS)
+                    callback_data: createAction(LANGUAGE),
+                    text: LANGUAGE,
                 }
             ],
         ]

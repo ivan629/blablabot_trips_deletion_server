@@ -4,7 +4,6 @@ import { getDoc, getFieldFromDoc } from '../../../services/helpers';
 import { API_CONSTANTS } from '../../../common/constants';
 import { findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
 import { getFormattedDayMonth, getTripHtmlSummary, parseData, sendMessage } from '../../../common/utils/utils';
-import { getMonthNumberByValue } from '../../tripCreationModule/tripDateModule/tripCreationCalendarUtils';
 
 const delimiter = '〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️';
 
@@ -52,9 +51,11 @@ export const findTrips = async (chat_id, customDay) => {
     const found_trips_links = await getDoc(startCityPlaceId, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS, {});
 
     const finalTripsLinks = [];
-    Object.values(found_trips_links).forEach(trip => {
-        const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
-        if (shouldAddTrip) finalTripsLinks.push(trip)
+    Object.values(found_trips_links).forEach(trips_link => {
+        Object.values(trips_link).forEach(trip => {
+            const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
+            if (shouldAddTrip) finalTripsLinks.push(trip)
+        });
     });
 
     // create real final trips

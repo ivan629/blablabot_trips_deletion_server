@@ -3,7 +3,7 @@ import {
     SET_AVAILABLE_SEATS_CUNT,
     GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
 } from '../../../common/constants/commonСonstants';
-import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsHelpers';
+import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from './availableSeatsHelpers';
 
 const AvailableSeatsListeners = bot => {
     bot.on('callback_query', query => {
