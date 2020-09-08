@@ -6,7 +6,7 @@ import {
     MY_TRIPS_CHOOSE_ROLE_MESSAGE,
 } from '../../common/constants/commonСonstants';
 import {
-    removeTripKeyBoard,
+    myTripActionsKeyBoard,
     cancelBookedTripKeyboard,
     myTripsChooseRoleKeyboard,
 } from '../keyboards/keyboards';
@@ -29,7 +29,7 @@ export const getFormattedTripsList = (trips, customCarrierInfo) => {
 
         return ({
             trip_id: trip.trip_id,
-            html: `${getTripHtmlSummary({trip, carrierInfo, leftPadding: '\t'}).replace(/,/g, "")}\n`
+            html: `${getTripHtmlSummary({trip, carrierInfo, showCarrierFullInfo: true }).replace(/,/g, "")}\n`
         });
     });
 };
@@ -48,7 +48,7 @@ export const sendOwnDrivingTripsList = async (bot, msg) => {
     if (isEmpty(carrierTrips)) return sendMessage(bot, msg.chat.id, NOT_FOUNT_TRIPS_MESSAGES);
 
     await sendMessage(bot, msg.chat.id, TRIP_LIST_CAPTION, { parse_mode: 'HTML' });
-    carrierTrips.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...removeTripKeyBoard(trip_id) }));
+    carrierTrips.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...myTripActionsKeyBoard(trip_id) }));
 };
 
 export const sendBookedTripsList = async (bot, msg) => {

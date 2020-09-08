@@ -25,6 +25,8 @@ import {
     SHOW_I_AM_DRIVING_MESSAGE,
     CONFIRM_TRIP_PRICE_BLOCKED,
     CANCEL_TRIP_BOOKING_ACTION,
+    TRIP_PASSENGERS_BUTTON_TEXT,
+    TRIP_PASSENGERS_BUTTON_ACTION,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
@@ -304,7 +306,7 @@ export const cancelBookedTripKeyboard = tripId => ({
     }
 });
 
-export const removeTripKeyBoard = trip_id => ({
+export const myTripActionsKeyBoard = trip_id => ({
     reply_markup: {
         resize_keyboard: true,
         inline_keyboard: [
@@ -312,6 +314,10 @@ export const removeTripKeyBoard = trip_id => ({
                 {
                     text: REMOVE_TRIP_BUTTON,
                     callback_data: createAction(REMOVE_TRIP_BUTTON, trip_id)
+                },
+                {
+                    text: TRIP_PASSENGERS_BUTTON_TEXT,
+                    callback_data: createAction(TRIP_PASSENGERS_BUTTON_ACTION, trip_id)
                 }
             ],
         ]
