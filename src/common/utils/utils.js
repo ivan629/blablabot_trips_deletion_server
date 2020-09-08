@@ -62,6 +62,8 @@ export const getTripObject = ({
                                   trip_price = null,
                                   available_seats_count = null,
                                   trip_id = null,
+                                  booked_seats_count = 0,
+                                  booked_users_ids = {},
                               } ) => ({
 
     trip_id,
@@ -72,7 +74,11 @@ export const getTripObject = ({
     stop_date_milliseconds,
     start_date_milliseconds,
     is_creation_completed,
-    available_seats_count,
+    book: {
+        available_seats_count,
+        booked_seats_count,
+        booked_users_ids,
+    },
     start_date: {
         is_start_date_completed,
         start_date_month,
@@ -126,6 +132,7 @@ const getCarrierObject = ({
         carrier_last_name,
         phone_numbers,
     },
+    booked_trips_ids: {},
     trips: {}
 });
 
@@ -238,13 +245,15 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
         minutes: stop_date_minutes,
     });
 
+    const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
+
     const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
     const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
     const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
     const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
     const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
     const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
-    const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${trip.available_seats_count} `;
+    const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${availableSeatsCount}/${trip.book.available_seats_count}`;
 
     return showCarrierFullInfo
         ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`

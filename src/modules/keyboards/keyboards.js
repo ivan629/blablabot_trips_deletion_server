@@ -1,24 +1,31 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
-    USER_PAY_START,
     LANGUAGE,
     MY_TRIPS,
     FIND_TRIP,
     PROPOSE_TRIP,
+    BOOK_TRIP_TEXT,
+    USER_PAY_START,
+    UNBOOK_TRIP_TEXT,
+    BOOK_TRIP_ACTION,
+    UNBOOK_TRIP_ACTION,
     REMOVE_TRIP_BUTTON,
     CONFIRM_TRIP_PRICE,
     GO_TO_THE_MAIN_MENU,
     FINISH_TRIP_CREATION,
     SEND_MY_PHONE_NUMBER,
+    GO_TO_TRIP_SUMMARISE,
     NEXT_CITY_IN_THE_TRIP,
     FINAL_CITY_IN_THE_TRIP,
     SET_AVAILABLE_SEATS_CUNT,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    GO_TO_TRIP_SUMMARISE,
     FIND_TRIP_GO_TO_CALENDAR,
+    GO_TO_TRIP_PRICE_SETTINGS,
+    SHOW_BOOKED_TRIPS_MESSAGE,
+    SHOW_I_AM_DRIVING_MESSAGE,
+    CONFIRM_TRIP_PRICE_BLOCKED,
+    CANCEL_TRIP_BOOKING_ACTION,
+    BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
@@ -221,6 +228,48 @@ export const findTripsDaysAndCalendarKeyboard = {
     }
 };
 
+export const myTripsTripActionKeyboard = (trip_id, alreadyBookedTripsIds, includeReplyMarkup = false) => {
+    const text = Object.values(alreadyBookedTripsIds).includes(trip_id) ? UNBOOK_TRIP_TEXT : BOOK_TRIP_TEXT;
+    const callback_data = Object.values(alreadyBookedTripsIds).includes(trip_id)
+        ? createAction(UNBOOK_TRIP_ACTION, trip_id)
+        : createAction(BOOK_TRIP_ACTION, trip_id);
+
+    const button = {
+        resize_keyboard: true,
+        inline_keyboard: [
+            [
+                {
+                    text,
+                    callback_data
+                }
+            ],
+        ]
+    }
+
+    return includeReplyMarkup ? { reply_markup: button } : button
+};
+
+export const myTripsChooseRoleKeyboard = {
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            [
+                {
+                    text: SHOW_BOOKED_TRIPS_MESSAGE,
+                },
+                {
+                    text: SHOW_I_AM_DRIVING_MESSAGE,
+                }
+            ],
+            [
+                {
+                    text: GO_TO_THE_MAIN_MENU,
+                },
+            ]
+        ]
+    }
+};
+
 export const calendarKeyboard = nextButtonAction => ({
     reply_markup: {
         resize_keyboard: true,
@@ -237,6 +286,20 @@ export const calendarKeyboard = nextButtonAction => ({
                     callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
             ]
+        ]
+    }
+});
+
+export const cancelBookedTripKeyboard = tripId => ({
+    reply_markup: {
+        resize_keyboard: true,
+        inline_keyboard: [
+            [
+                {
+                    text: UNBOOK_TRIP_TEXT,
+                    callback_data: createAction(CANCEL_TRIP_BOOKING_ACTION, tripId)
+                }
+            ],
         ]
     }
 });

@@ -5,5 +5,9 @@
     "level": "debug",
     "consoleEnabled": true,
     "fileEnabled": false
+  },
+  "telegramBotConfig": {
+    "tokenOld": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE",
+    "token": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
   }
 }

@@ -23,8 +23,10 @@ export const removeSessionMessagesIds = async (bot, chat_id) => {
     }
 };
 
+export const getTrip = async trip_id => await getDoc(trip_id, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME);
+
 export const removeFieldInCollection = (docName, fieldToRemove, collection) => {
-    return firestore.collection(collection).doc(docName).update({ [fieldToRemove]: firebase.firestore.FieldValue.delete() })
+    return firestore.collection(collection).doc(docName.toString()).update({ [fieldToRemove]: firebase.firestore.FieldValue.delete() })
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error));
 };
@@ -75,6 +77,20 @@ export const updateFieldInUserDoc = (docName, fieldPath, data) => {
 
 export const updateFieldInTipsLinkerCollection = (docName, fieldPath, data) => {
     firestore.collection(API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS).doc(docName.toString()).update({ [fieldPath]: data })
+        .then(() => {
+            console.count('Document successfully written!');
+        })
+        .catch(error => console.error('Error writing document: ', error));
+};
+
+export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSeatsCount, book_user_id) => {
+    firestore.collection(API_CONSTANTS.DB_TRIPS_COLLECTION_NAME)
+        .doc(docName.toString())
+        .update({
+            ['book.available_seats_count']: availableSeatsCount,
+            ['book.booked_seats_count']: bookedSeatsCount,
+            [`book.booked_users_ids.${book_user_id}`]: book_user_id,
+        })
         .then(() => {
             console.count('Document successfully written!');
         })
@@ -245,7 +261,7 @@ export const getIsStartDateCreatingCompleted = async chat_id => {
 };
 
 export const setAvailableSeatsDataInDB = async (chat_id, data) => {
-    await updateFieldInUserDoc(chat_id,'create_trip.available_seats_count', data);
+    await updateFieldInUserDoc(chat_id,'create_trip.book.available_seats_count', data);
 };
 
 export const getIsTripPriceSettings = async (chat_id) => {

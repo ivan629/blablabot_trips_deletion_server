@@ -68,9 +68,19 @@ export const SHOW_ACTION_TYPE = '1a';
 export const USER_PAY_START = '💲 Тарифи';
 
 // my trips
+export const BOOKED_TRIP_LIST_CAPTION = '🔸🔸🔸 Заброньовані поїздки!🔹🔹🔹';
 export const REMOVE_TRIP_BUTTON = 'Видалити 🗑️';
-export const TRIP_LIST_CAPTION = '🔹🔹🔹️️Створені поїздки!🔹🔹🔹';
+export const TRIP_LIST_CAPTION = '🔸🔸🔸️️Створені поїздки!🔹🔹🔹';
 export const NOT_FOUNT_TRIPS_MESSAGES = 'У вас немає поїздок 🤷';
+export const BOOK_TRIP_TEXT  = '🎫 Забронювати';
+export const UNBOOK_TRIP_TEXT  = '❌ Скасувати бронювання';
+export const UNBOOK_TRIP_ACTION  = 'ubta';
+export const BOOK_TRIP_ACTION  = 'bta';
+export const MY_TRIPS_CHOOSE_ROLE_MESSAGE  = 'Виберіть ролль 💡';
+export const NOT_FOUND_TRIPS_MESSAGE = `😭 нажаль ми не знайшли поїздок\n🤔 спробуйте іншу дату`;
+export const SHOW_BOOKED_TRIPS_MESSAGE = '🎫 Заброньовані';
+export const SHOW_I_AM_DRIVING_MESSAGE = '😎 Я везу';
+export const CANCEL_TRIP_BOOKING_ACTION = 'cbt'
 
 // settings
 export const LANGUAGE = '🇺🇦️ Українська';

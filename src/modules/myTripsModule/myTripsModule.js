@@ -1,5 +1,17 @@
-import { MY_TRIPS, REMOVE_TRIP_BUTTON } from '../../common/constants/commonСonstants';
-import { sendTripsList, removeTrip } from './myTripsHelpers';
+import {
+    MY_TRIPS,
+    REMOVE_TRIP_BUTTON,
+    SHOW_I_AM_DRIVING_MESSAGE,
+    SHOW_BOOKED_TRIPS_MESSAGE,
+    CANCEL_TRIP_BOOKING_ACTION
+} from '../../common/constants/commonСonstants';
+import {
+    removeTrip,
+    cancelTripBooking,
+    sendBookedTripsList,
+    handleShowRolesKeyboard,
+    sendOwnDrivingTripsList,
+} from './myTripsUtils';
 import { parseData } from '../../common/utils/utils';
 
 const myTripsModule = bot => {
@@ -11,6 +23,10 @@ const myTripsModule = bot => {
                 removeTrip(bot, query);
             }
                 break;
+            case CANCEL_TRIP_BOOKING_ACTION: {
+                cancelTripBooking(bot, query);
+            }
+                break;
             default: {
                 break;
             }
@@ -20,9 +36,16 @@ const myTripsModule = bot => {
     bot.on('message', async msg => {
         switch (msg.text) {
             case MY_TRIPS: {
-              sendTripsList(bot, msg)
+                handleShowRolesKeyboard(bot, msg);
             }
-
+                break;
+            case SHOW_I_AM_DRIVING_MESSAGE: {
+                sendOwnDrivingTripsList(bot, msg);
+            }
+                break;
+            case SHOW_BOOKED_TRIPS_MESSAGE: {
+                sendBookedTripsList(bot, msg);
+            }
                 break;
             default: {
                 break;
