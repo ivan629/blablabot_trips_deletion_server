@@ -79,7 +79,7 @@ export const NOT_FOUND_TRIPS_MESSAGE = `😭 нажаль ми не знайшл
 
 
 // settings
-export const SETTINGS = '⚙️ Налаштування';
+export const LANGUAGE = '🇺🇦️ Українська';
 
 // phone number
 export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';

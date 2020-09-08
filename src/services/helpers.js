@@ -1,5 +1,6 @@
 import shortId from 'shortid';
 import { isNil, get } from 'lodash';
+import firebase from 'firebase';
 import { firestore } from './firebaseService';
 import { API_CONSTANTS } from '../common/constants';
 import { getSortedCities, getCityObject, } from '../common/utils/utils';
@@ -22,12 +23,16 @@ export const removeSessionMessagesIds = async (bot, chat_id) => {
     }
 };
 
-export const removeDoc = (docName, collection = API_CONSTANTS.DB_TRIPS_COLLECTION_NAME) => {
-    firestore.collection(collection).doc(docName).delete().then(() =>  {
-        console.log("Document successfully deleted!");
-    }).catch((error) =>  {
-        console.error("Error removing document: ", error);
-    });
+export const removeFieldInCollection = (docName, fieldToRemove, collection) => {
+    return firestore.collection(collection).doc(docName).update({ [fieldToRemove]: firebase.firestore.FieldValue.delete() })
+        .then(() => console.log("Document successfully deleted!"))
+        .catch((error) => console.error("Error removing document: ", error));
+};
+
+export const removeDocInCollection = (docName, collection) => {
+    return firestore.collection(collection).doc(docName).delete()
+        .then(() => console.log("Document successfully deleted!"))
+        .catch((error) => console.error("Error removing document: ", error));
 };
 
 export const getDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME, defaultValue) => {
@@ -195,10 +200,9 @@ export const getCarrierInfo = async docName => {
 export const saveTripInDb = async docName => {
     const carrier = await getFieldFromDoc(docName, 'carrier');
     const trip = await getCreatingTrip(docName);
+
     await saveTripToLinkerCollection(docName, trip);
-
     const newTripObject = { ...trip, ...carrier };
-
     await saveTripToTripsCollection(newTripObject);
     await updateFieldInUserDoc(docName,'create_trip', {});
     await updateFieldInUserDoc(docName,`trips.${trip.trip_id}`, trip.trip_id);
@@ -212,9 +216,9 @@ const saveTripToLinkerCollection = async (docName, {trip_id, cities, start_date 
 
         const alreadyExists = await getIfExistDoc(place_id, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS);
         if (alreadyExists) {
-            await updateFieldInTipsLinkerCollection(place_id,`${linkShortId}`, data);
+            await updateFieldInTipsLinkerCollection(place_id,`${trip_id}.${linkShortId}`, data);
         } else {
-            await setNewDocToTripsLinkerCollection(place_id, { [linkShortId]: data });
+            await setNewDocToTripsLinkerCollection(place_id, { [trip_id]: { [linkShortId]: data } });
         }
     });
 
@@ -295,10 +299,26 @@ export const removeTripFromDb = async (chat_id, trip_id_to_remove) => {
         return result;
     }, {});
 
-    await updateFieldInUserDoc(chat_id,'trips', newTripsIds);
+    const tripToRemove = await getDoc(trip_id_to_remove, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME, { cities: [] });
+
+    // we don't remove the last city in linker table
+    const formattedCities = Object.values(tripToRemove.cities)
+        .sort((a, b) => (a.order > b.order) ? -1 : 1)
+        .splice(-1,1);
+
+    const citiesIds = formattedCities.map(({ place_id }) => place_id);
+
+    // remove trip from trips linker collection
+    const reqs = citiesIds.map(place_id => {
+        removeFieldInCollection(place_id, trip_id_to_remove, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS);
+    })
+    await Promise.all(reqs);
 
     // remove trip from trips collection
-    await removeDoc(trip_id_to_remove);
+    await removeDocInCollection(trip_id_to_remove, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME);
+
+    // remove trip ids from user collection
+    await updateFieldInUserDoc(chat_id,'trips', newTripsIds);
 };
 
 // trip creation / find

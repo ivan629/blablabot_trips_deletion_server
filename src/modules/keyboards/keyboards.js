@@ -6,7 +6,7 @@ import {
     BOOK_TRIP_ACTION,
     UNBOOK_TRIP_ACTION,
     USER_PAY_START,
-    SETTINGS,
+    LANGUAGE,
     MY_TRIPS,
     FIND_TRIP,
     PROPOSE_TRIP,
@@ -204,8 +204,8 @@ export const initialKeyboard = {
             ],
             [
                 {
-                    text: SETTINGS,
-                    callback_data: createAction(SETTINGS)
+                    callback_data: createAction(LANGUAGE),
+                    text: LANGUAGE,
                 }
             ],
         ]

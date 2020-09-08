@@ -51,9 +51,11 @@ export const findTrips = async (chat_id, customDay) => {
     const found_trips_links = await getDoc(startCityPlaceId, API_CONSTANTS.BLA_BLA_CAR_LINKER_TRIPS, {});
 
     const finalTripsLinks = [];
-    Object.values(found_trips_links).forEach(trip => {
-        const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
-        if (shouldAddTrip) finalTripsLinks.push(trip)
+    Object.values(found_trips_links).forEach(trips_link => {
+        Object.values(trips_link).forEach(trip => {
+            const shouldAddTrip = getShouldAddTrip(trip, date, stopCityPlaceId, finalCustomDate);
+            if (shouldAddTrip) finalTripsLinks.push(trip)
+        });
     });
 
     // create real final trips

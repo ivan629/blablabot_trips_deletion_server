@@ -11,7 +11,7 @@ export const getMyCreatedTrips = async ({ chat: { id } }) => {
     const trips = await Promise.all(tripsReqs);
     const carrierInfo = await getCarrierInfo(id);
 
-    const formattedTrips = Object.values(trips);
+    const formattedTrips = Object.values(trips).filter(trip => !isEmpty(trip));
     return formattedTrips.map((trip, index) => ({
         trip_id: trip.trip_id,
         html: `${getTripHtmlSummary({ trip, carrierInfo, leftPadding: '\t' }).replace(/,/g, "")}\n`

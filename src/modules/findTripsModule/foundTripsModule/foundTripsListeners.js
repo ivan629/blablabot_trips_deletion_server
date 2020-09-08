@@ -30,8 +30,8 @@ const foundTripsListeners = bot => {
             case FIND_TRIPS_KEYBOARDS_DAY[0]:
             case FIND_TRIPS_KEYBOARDS_DAY[1]:
             case FIND_TRIPS_KEYBOARDS_DAY[2]: {
-                await showFoundTrips(bot, id, payload);
                 await handlesSaveNewFindTripDateToDb(id, payload);
+                await showFoundTrips(bot, id, payload);
             }
                 break;
             case BOOK_TRIP_ACTION: {

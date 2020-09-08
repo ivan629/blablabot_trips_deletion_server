@@ -1,5 +1,5 @@
 import phoneNumberListeners  from '../../../modules/tripCreationModule/phoneNumberModule/phoneNumberListeners';
-import { sendPhoneNumberInitialData }  from '../../../modules/tripCreationModule/phoneNumberModule/phoneNumberHelpers';
+import { sendPhoneNumberInitialData }  from './phoneNumberHelpers';
 
 
 class phoneNumberModule {

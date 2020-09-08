@@ -201,7 +201,7 @@ export const getFormattedDayMonth = (month, day) => {
 
 const getFormattedHourMinutes = (hour, minutes) => {
     const formattedHour = isNil(hour) ? 0 : hour < 10 ? `0${hour}` : hour;
-    const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes} хв` : `0${minutes} хв`;
+    const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${formattedHour}:${formattedMinutes}`
 };
 
