@@ -1,6 +1,10 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
+    BOOK_TRIP_TEXT,
+    UNBOOK_TRIP_TEXT,
+    BOOK_TRIP_ACTION,
+    UNBOOK_TRIP_ACTION,
     USER_PAY_START,
     SETTINGS,
     MY_TRIPS,
@@ -219,6 +223,40 @@ export const findTripsDaysAndCalendarKeyboard = {
             return result;
         }, []), 2)
     }
+};
+
+export const myTripsTripActionKeyboard = (trip_id, alreadyBookedTripsIds, includeReplyMarkup = true) => {
+    const text = Object.values(alreadyBookedTripsIds).includes(trip_id) ? UNBOOK_TRIP_TEXT : BOOK_TRIP_TEXT;
+    const callback_data = Object.values(alreadyBookedTripsIds).includes(trip_id)
+        ? createAction(UNBOOK_TRIP_ACTION, trip_id)
+        : createAction(BOOK_TRIP_ACTION, trip_id);
+
+    return includeReplyMarkup ? ({
+            reply_markup: {
+                resize_keyboard: true,
+                inline_keyboard: [
+                    [
+                        {
+                            text,
+                            callback_data
+                        }
+                    ],
+                ]
+            }
+        })
+        : (
+            {
+                resize_keyboard: true,
+                inline_keyboard: [
+                    [
+                        {
+                            text,
+                            callback_data
+                        }
+                    ],
+                ]
+            }
+        )
 };
 
 export const calendarKeyboard = nextButtonAction => ({

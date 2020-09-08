@@ -71,6 +71,12 @@ export const USER_PAY_START = '💲 Тарифи';
 export const REMOVE_TRIP_BUTTON = 'Видалити 🗑️';
 export const TRIP_LIST_CAPTION = '🔹🔹🔹️️Створені поїздки!🔹🔹🔹';
 export const NOT_FOUNT_TRIPS_MESSAGES = 'У вас немає поїздок 🤷';
+export const BOOK_TRIP_TEXT  = '🎫 Забронювати';
+export const UNBOOK_TRIP_TEXT  = '❌ Скасувати бронювання';
+export const UNBOOK_TRIP_ACTION  = 'ubta';
+export const BOOK_TRIP_ACTION  = 'bta';
+export const NOT_FOUND_TRIPS_MESSAGE = `😭 нажаль ми не знайшли поїздок\n🤔 спробуйте іншу дату`;
+
 
 // settings
 export const SETTINGS = '⚙️ Налаштування';

@@ -1,6 +1,10 @@
-import { FIND_TRIP_QUICK_DATE_PICKER, FIND_TRIP_SEARCH_TRIPS } from '../../../common/constants/commonСonstants';
+import {
+    FIND_TRIP_QUICK_DATE_PICKER,
+    FIND_TRIP_SEARCH_TRIPS,
+    BOOK_TRIP_ACTION,
+} from '../../../common/constants/commonСonstants';
 import { FIND_TRIPS_KEYBOARDS_DAY } from '../../../common/constants/findTripConstants';
-import { showFoundTrips, handlesSaveNewFindTripDateToDb } from './foundTripsUtils';
+import { showFoundTrips, handlesSaveNewFindTripDateToDb, handleBookTrip } from './foundTripsUtils';
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import { goToMenuKeyboard } from '../../keyboards/keyboards';
 
@@ -28,6 +32,10 @@ const foundTripsListeners = bot => {
             case FIND_TRIPS_KEYBOARDS_DAY[2]: {
                 await showFoundTrips(bot, id, payload);
                 await handlesSaveNewFindTripDateToDb(id, payload);
+            }
+                break;
+            case BOOK_TRIP_ACTION: {
+                await handleBookTrip(bot, query);
             }
                 break;
             default: {
