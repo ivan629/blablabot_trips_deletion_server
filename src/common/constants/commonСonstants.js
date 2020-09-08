@@ -81,6 +81,8 @@ export const NOT_FOUND_TRIPS_MESSAGE = `😭 нажаль ми не знайшл
 export const SHOW_BOOKED_TRIPS_MESSAGE = '🎫 Заброньовані';
 export const SHOW_I_AM_DRIVING_MESSAGE = '😎 Я везу';
 export const CANCEL_TRIP_BOOKING_ACTION = 'cbt'
+export const TRIP_PASSENGERS_BUTTON_TEXT = '👥 Пасажири'
+export const TRIP_PASSENGERS_BUTTON_ACTION = 'tpbt'
 
 // settings
 export const LANGUAGE = '🇺🇦️ Українська';
