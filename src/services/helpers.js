@@ -23,8 +23,10 @@ export const removeSessionMessagesIds = async (bot, chat_id) => {
     }
 };
 
+export const getTrip = async trip_id => await getDoc(trip_id, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME);
+
 export const removeFieldInCollection = (docName, fieldToRemove, collection) => {
-    return firestore.collection(collection).doc(docName).update({ [fieldToRemove]: firebase.firestore.FieldValue.delete() })
+    return firestore.collection(collection).doc(docName.toString()).update({ [fieldToRemove]: firebase.firestore.FieldValue.delete() })
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error));
 };
