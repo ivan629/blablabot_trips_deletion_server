@@ -253,10 +253,11 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
     const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
     const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
     const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
-    const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${availableSeatsCount}/${trip.book.available_seats_count}`;
+    const allSeats = `️${leftPadding}💺️ <b>Кількість місць:</b> ${trip.book.available_seats_count}`;
+    const availablePlaces = `️${leftPadding}💺️ <b>Кількість доступних місць:</b> ${availableSeatsCount}`;
 
     return showCarrierFullInfo
-        ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`
+        ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${allSeats}\n${availablePlaces}`
         : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
 };
 

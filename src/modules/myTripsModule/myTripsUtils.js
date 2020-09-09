@@ -1,9 +1,11 @@
 import { isEmpty } from 'lodash';
 import {
     TRIP_LIST_CAPTION,
+    NO_PASSENGERS_MESSAGE,
     NOT_FOUNT_TRIPS_MESSAGES,
     BOOKED_TRIP_LIST_CAPTION,
     MY_TRIPS_CHOOSE_ROLE_MESSAGE,
+    NOT_FOUNT_BOOKED_TRIPS_MESSAGES,
 } from '../../common/constants/commonСonstants';
 import {
     myTripActionsKeyBoard,
@@ -55,6 +57,8 @@ export const sendBookedTripsList = async (bot, msg) => {
     const chatId = msg.chat.id;
     const bookedTripsIds = await getFieldFromDoc(chatId, 'booked_trips_ids', []);
 
+    if (isEmpty(bookedTripsIds)) return sendMessage(bot, msg.chat.id, NOT_FOUNT_BOOKED_TRIPS_MESSAGES);
+
     const reqs = Object.values(bookedTripsIds).map(async tripId => await getTrip(tripId));
     const bookedTripsObjects = await Promise.all(reqs);
     const formattedTripsList = getFormattedTripsList(bookedTripsObjects)
@@ -77,4 +81,26 @@ export const cancelTripBooking = async (bot, query) => {
 
 export const handleShowRolesKeyboard = async (bot, msg) => {
     await sendMessage(bot, msg.chat.id, MY_TRIPS_CHOOSE_ROLE_MESSAGE, myTripsChooseRoleKeyboard);
+};
+
+const getPassengersList = passengersObjects => `${passengersObjects.map(({ carrier_name, carrier_last_name, phone_numbers }) => {
+    const passenger = `👤 <b>${carrier_name} ${carrier_last_name}</b>`
+    const phoneNumber = `☎️ <b>Контактний номер</b>  ${Object.values(phone_numbers).map(number => `+${number}`)}`;
+    return `\n\n${passenger}\n${phoneNumber}`;
+})}`
+
+export const showPassengers = async (bot, query) => {
+    const { message: { chat: { id }}, data } = query;
+    const { payload: tripId } = parseData(data);
+    const { book: { booked_users_ids } } = await getTrip(tripId);
+
+    if(isEmpty(booked_users_ids)) {
+        return  sendMessage(bot, id, NO_PASSENGERS_MESSAGE);
+    }
+
+    const bookedUsersReqs = Object.values(booked_users_ids).map(userId => getFieldFromDoc(userId, 'carrier'))
+    const passengersObjects = await Promise.all(bookedUsersReqs);
+    const passengersList = getPassengersList(passengersObjects);
+
+    sendMessage(bot, id, passengersList, { parse_mode: 'HTML' });
 };
