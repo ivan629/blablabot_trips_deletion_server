@@ -38,8 +38,8 @@ export const removeDocInCollection = (docName, collection) => {
 };
 
 export const getDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME, defaultValue) => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
-    const result = await alreadyUploadedRestaurantSnapshot.data();
+    const snapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
+    const result = await snapshot.data();
     return result || defaultValue;
 };
 
@@ -83,13 +83,13 @@ export const updateFieldInTipsLinkerCollection = (docName, fieldPath, data) => {
         .catch(error => console.error('Error writing document: ', error));
 };
 
-export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSeatsCount, book_user_id) => {
+export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSeatsCount, book_user_id, shouldRemoveUserId) => {
     firestore.collection(API_CONSTANTS.DB_TRIPS_COLLECTION_NAME)
         .doc(docName.toString())
         .update({
             ['book.available_seats_count']: availableSeatsCount,
             ['book.booked_seats_count']: bookedSeatsCount,
-            [`book.booked_users_ids.${book_user_id}`]: book_user_id,
+            [`book.booked_users_ids.${book_user_id}`]: shouldRemoveUserId ? firebase.firestore.FieldValue.delete() : book_user_id,
         })
         .then(() => {
             console.count('Document successfully written!');

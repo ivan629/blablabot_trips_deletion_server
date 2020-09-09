@@ -25,7 +25,7 @@ export const unBookTripInDb = async query => {
 
     const newBookedSeatsCount = booked_seats_count === 0 ? 0 : booked_seats_count - 1;
     await removeFieldInCollection(chat_id, `booked_trips_ids.${trip_id}`, API_CONSTANTS.DB_USERS_COLLECTION_NAME);
-    await updateAvailableSeatsInTip(trip_id, available_seats_count, newBookedSeatsCount, chat_id);
+    await updateAvailableSeatsInTip(trip_id, available_seats_count, newBookedSeatsCount, chat_id, true);
 };
 
 export const editTripMessage = async (bot, query, isAfterBooked) => {
