@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isNil, isEmpty } from 'lodash';
 import {
     TRIP_LIST_CAPTION,
     NO_PASSENGERS_MESSAGE,
@@ -18,11 +18,18 @@ import {
     getMyTripsIds,
     getCarrierInfo,
     getFieldFromDoc,
-    removeTripFromDb
+    removeTripFromDb,
+    removeFieldInCollection,
 } from '../../services/helpers';
 import { API_CONSTANTS } from '../../common/constants';
 import { unBookTripInDb } from '../findTripsModule/foundTripsModule/bookTipUtils';
-import { getTripHtmlSummary, parseData, sendMessage } from '../../common/utils/utils';
+import {
+    getTripHtmlSummary,
+    parseData,
+    sendMessage,
+    getFormattedPhoneNumber,
+    getFormattedCities
+} from '../../common/utils/utils';
 
 export const getFormattedTripsList = (trips, customCarrierInfo) => {
     const formattedTrips = Object.values(trips).filter(trip => !isEmpty(trip));
@@ -67,15 +74,34 @@ export const sendBookedTripsList = async (bot, msg) => {
     formattedTripsList.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...cancelBookedTripKeyboard(trip_id) }));
 };
 
+export const notificateUsers = async (bot, query, tripId) => {
+    const { message: { chat: { first_name, last_name }} } = query;
+    const trip = await getTrip(tripId);
+
+    if(isNil(trip)) return;
+
+    const message = `❌ <b>${first_name} ${last_name}</b> видалив поїздку <b>${getFormattedCities(trip)}</b>`;
+    const messagesReqs = Object.values(trip.book.booked_users_ids).map(async (userId) => {
+        await sendMessage(bot, userId, message, { parse_mode: 'HTML' });
+        await removeFieldInCollection(userId, `booked_trips_ids.${tripId}`, API_CONSTANTS.DB_USERS_COLLECTION_NAME);
+    });
+
+    await Promise.all(messagesReqs);
+}
 export const removeTrip = async (bot, query) => {
     const { message: { message_id, chat: { id }}, data } = query;
     const { payload: tripId } = parseData(data);
+
+    await notificateUsers(bot, query, tripId);
     await bot.deleteMessage(id, message_id);
     await removeTripFromDb(id, tripId);
 };
 
 export const cancelTripBooking = async (bot, query) => {
-    await unBookTripInDb(query);
+    const { payload: trip_id } = parseData(query.data);
+    const trip = await getTrip(trip_id);
+
+    await unBookTripInDb(query, trip);
     await bot.deleteMessage(query.message.chat.id, query.message.message_id);
 };
 
@@ -85,7 +111,7 @@ export const handleShowRolesKeyboard = async (bot, msg) => {
 
 const getPassengersList = passengersObjects => `${passengersObjects.map(({ carrier_name, carrier_last_name, phone_numbers }) => {
     const passenger = `👤 <b>${carrier_name} ${carrier_last_name}</b>`
-    const phoneNumber = `☎️ <b>Контактний номер</b>  ${Object.values(phone_numbers).map(number => `+${number}`)}`;
+    const phoneNumber = `☎️ <b>Контактний номер</b> ${Object.values(phone_numbers).map(number => getFormattedPhoneNumber(number))}`;
     return `\n\n${passenger}\n${phoneNumber}`;
 })}`
 

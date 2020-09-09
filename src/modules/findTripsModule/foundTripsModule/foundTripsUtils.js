@@ -65,6 +65,7 @@ export const findTrips = async (chat_id, customDay) => {
 
 export const showTripsList = async (bot, chat_id, trips) => {
     const bookedTripsIds = await getFieldFromDoc(chat_id,'booked_trips_ids', []);
+    console.log(trips);
     const tripsList = getTripsListHtml(trips);
 
     if (isEmpty(trips)) return sendMessage(bot, chat_id, NOT_FOUND_TRIPS_MESSAGE, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
