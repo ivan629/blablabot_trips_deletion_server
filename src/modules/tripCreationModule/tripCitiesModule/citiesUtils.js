@@ -6,7 +6,7 @@ import {
     addCityToTripInDB,
     toggleIsTripCitiesCreating,
 } from '../../../services/helpers';
-import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../../modules/keyboards/keyboards';
+import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../keyboards/keyboards';
 import {
     sendMessage,
     sendLocation,
@@ -73,7 +73,7 @@ export const fetchCitiesAutocomplete = async city =>  {
     let result;
 
     try {
-        const api = encodeURI(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${city}&inputtype=textquery&fields=formatted_address,name,geometry,place_id&key=${mapKey}`);
+        const api = encodeURI(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${city}&inputtype=textquery&fields=formatted_address,name,geometry,place_id&language=uk&key=${mapKey}`);
         const response = await fetch(api);
         result = await response.json();
     } catch (error) {

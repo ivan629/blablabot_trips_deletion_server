@@ -203,12 +203,6 @@ export const initialKeyboard = {
                     callback_data: createAction(MY_TRIPS)
                 },
                 {
-                    text: USER_PAY_START,
-                    callback_data: createAction(USER_PAY_START)
-                }
-            ],
-            [
-                {
                     callback_data: createAction(LANGUAGE),
                     text: LANGUAGE,
                 }

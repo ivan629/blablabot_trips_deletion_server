@@ -102,6 +102,11 @@ export const getFieldFromDoc = async (docName, filedPath, defaultValue = undefin
     return get(result, filedPath, defaultValue);
 };
 
+export const getFieldFromTripsDoc = async (docName, filedPath, defaultValue = undefined) => {
+    const result = await getDoc(docName, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME);
+    return get(result, filedPath, defaultValue);
+};
+
 export const getFindTripDate = async chat_id => {
     return await getFieldFromDoc(chat_id, 'find_trip.date', { day: null, month: null, year: null })
 };
@@ -200,14 +205,13 @@ export const getCarrierInfo = async docName => {
 };
 
 export const saveTripInDb = async docName => {
-    const carrier = await getFieldFromDoc(docName, 'carrier');
-    const trip = await getCreatingTrip(docName);
+    const { carrier, create_trip } = await getDoc(docName, API_CONSTANTS.DB_USERS_COLLECTION_NAME);
 
-    await saveTripToLinkerCollection(docName, trip);
-    const newTripObject = { ...trip, ...carrier };
+    await saveTripToLinkerCollection(docName, create_trip);
+    const newTripObject = { ...carrier, ...create_trip };
     await saveTripToTripsCollection(newTripObject);
     await updateFieldInUserDoc(docName,'create_trip', {});
-    await updateFieldInUserDoc(docName,`trips.${trip.trip_id}`, trip.trip_id);
+    await updateFieldInUserDoc(docName,`trips.${create_trip.trip_id}`, create_trip.trip_id);
 };
 
 const saveTripToLinkerCollection = async (docName, {trip_id, cities, start_date }) => {

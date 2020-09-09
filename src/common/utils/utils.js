@@ -194,8 +194,8 @@ export const getIsBotMessage = messageText => [
 ].includes(messageText);
 
 export const getFormattedDayMonth = (month, day) => {
-    const formattedDay = day < 10 ? `0${day}` : day;
-    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day.toString();
+    const formattedMonth = month < 10 ? `0${month}` : month.toString();
     return `${formattedDay}/${formattedMonth}`
 };
 
@@ -204,6 +204,8 @@ const getFormattedHourMinutes = (hour, minutes) => {
     const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${formattedHour}:${formattedMinutes}`
 };
+
+export const getFormattedPhoneNumber = number => number.includes('+') ? number : `+${number}`;
 
 export const getFormattedData = ({ day, month, hour, minutes }) =>
     `${getFormattedHourMinutes(hour, minutes)} ${getFormattedDayMonth(month, day)}`;
@@ -215,9 +217,12 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
 export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
-export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo} ) => {
+export const getFormattedCities = trip => {
     const sortedCities = getSortedCities(Object.values(trip.cities));
+    return `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;;
+}
 
+export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo} ) => {
     const {
         start_date_day,
         start_date_hour,
@@ -247,12 +252,11 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
 
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
 
-    const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
-    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
-    const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
+    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities(trip)}`;
+    const carrierName = `${leftPadding}👤 <b>${carrierInfo?.carrier_name} ${carrierInfo?.carrier_last_name}</b>`;
     const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
     const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
+    const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo?.phone_numbers).map(number => getFormattedPhoneNumber(number))} `;
     const allSeats = `️${leftPadding}💺️ <b>Кількість місць:</b> ${trip.book.available_seats_count}`;
     const availablePlaces = `️${leftPadding}💺️ <b>Кількість доступних місць:</b> ${availableSeatsCount}`;
 
