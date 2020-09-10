@@ -62,7 +62,7 @@ export const FIND_TRIP_QUICK_DATE_PICKER = '☄️ Швидке меню';
 
 // cities
 export const SHOW_NEXT_CITY = '⬇️ Показати наступну локацію';
-export const SHOW_ACTION_TYPE = '1a';
+export const SHOW_NEXT_CITY_ACTION = 'snca';
 
 // USER_PAY_START
 export const USER_PAY_START = '💲 Тарифи';
@@ -110,6 +110,5 @@ export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE = '👿 Ви не в
 export const GO_TO_AVAILABLE_SEATS_SETTING = '✅ Вказати вільні місця 💺';
 export const AVAILABLE_SEATS_MESSAGE = 'Панель вибору місць 🧐';
 export const AVAILABLE_SEATS_BLOCKED_MESSAGE = '👿 Ви не обрали кількість вільних місць!';
-export const AVAILABLE_SEATS_MESSAGE_2 = 'Виберіть кількість вільних місць 🤗';
-export const AVAILABLE_SEATS_CONGRATS_MESSAGE = 'Щоб продовжити натисніть <b>✅ вказати ціну поїздки</b>';
-export const AVAILABLE_SEATS_MESSAGE_1 = 'Ви обрали';
+export const CHOOSE_AVAILABLE_SEATS_MESSAGE = 'Виберіть кількість вільних місць 🤗';
+export const CHOSEN_AVAILABLE_SEATS_MESSAGE_PART = 'Ви обрали';

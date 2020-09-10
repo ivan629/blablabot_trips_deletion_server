@@ -18,7 +18,7 @@ import {
 import {
     SHOW_NEXT_CITY,
     CHOOSE_FIND_TRIP_CITY,
-    SHOW_ACTION_TYPE,
+    SHOW_NEXT_CITY_ACTION,
     FIND_TRIP_MAX_CITIES_CONT_MESSAGE,
     NOT_FOUND_CITY_MESSAGE,
     FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT,
@@ -41,7 +41,7 @@ const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
             }],
             [{
                 text: `${SHOW_NEXT_CITY} (${allCitiesSize})`,
-                callback_data: createNextCityAction(SHOW_ACTION_TYPE, data.text, nextCityIndex),
+                callback_data: createNextCityAction(SHOW_NEXT_CITY_ACTION, data.text, nextCityIndex),
             }]
         ] : [
             [{

@@ -1,3 +1,4 @@
+// todo: find out why we need this import
 import { initialKeyboard } from '../../modules/keyboards/keyboards';
 import CalendarModule from './tripDateModule/tripDateModule';
 import TripCitiesModule from './tripCitiesModule/tripCitiesModule';
@@ -22,10 +23,10 @@ import {
     GO_TO_AVAILABLE_SEATS_SETTING,
 } from '../../common/constants/commonСonstants';
 
-const phoneNumberModule = new PhoneNumberModule();
 const calendarModule = new CalendarModule();
 const tripPriceModule = new TripPriceModule();
 const tripCitiesModule = new TripCitiesModule();
+const phoneNumberModule = new PhoneNumberModule();
 const availableSeatsModule = new AvailableSeatsModule();
 const tripCreationSummariseModule = new TripCreationSummariseModule();
 
@@ -38,10 +39,10 @@ const tripCreationModule = bot => {
     tripCreationSummariseModule.setListeners(bot);
 
     bot.on('message', async msg => {
-        const { chat: { id }, message_id } = msg;
-        addSessionMessagesIdsToDb(id, message_id);
+        const { chat: { id }, text, message_id } = msg;
+        await addSessionMessagesIdsToDb(id, message_id);
 
-        switch (msg.text) {
+        switch (text) {
             case PROPOSE_TRIP: {
                 await toggleIsTripCreatingInProgress(msg.chat.id, true);
                 await addNewTrip(msg);
@@ -55,7 +56,7 @@ const tripCreationModule = bot => {
                 break;
             case GO_TO_TRIP_END_TIME_PICKER: {
                 await removeSessionMessagesIds(bot, id);
-                calendarModule.runStopTripDatePicker(bot, msg);
+                await calendarModule.runStopTripDatePicker(bot, msg);
             }
                 break;
             case GO_TO_AVAILABLE_SEATS_SETTING: {
@@ -63,15 +64,15 @@ const tripCreationModule = bot => {
             }
                 break;
             case CONFIRM_TRIP_PRICE: {
-                phoneNumberModule.runPhoneNumberModule(bot, msg);
+                await phoneNumberModule.runPhoneNumberModule(bot, msg);
             }
                 break;
             case GO_TO_TRIP_SUMMARISE: {
-                tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
+                await tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
             }
                 break;
             case FINISH_TRIP_CREATION: {
-                tripCreationSummariseModule.saveTrip(bot, msg);
+                await tripCreationSummariseModule.saveTrip(bot, msg);
             }
                 break;
             default: {

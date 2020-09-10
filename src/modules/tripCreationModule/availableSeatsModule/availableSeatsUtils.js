@@ -2,8 +2,7 @@ import { parseData, sendMessage } from '../../../common/utils/utils';
 import { setAvailableSeatsDataInDB } from '../../../services/helpers';
 import {
     AVAILABLE_SEATS_MESSAGE,
-    AVAILABLE_SEATS_MESSAGE_1,
-    AVAILABLE_SEATS_MESSAGE_2,
+    CHOOSE_AVAILABLE_SEATS_MESSAGE,
     AVAILABLE_SEATS_BLOCKED_MESSAGE
 } from '../../../common/constants/commonСonstants';
 import {
@@ -12,26 +11,22 @@ import {
     availableSeatsCongratsKeyboard,
 } from '../../keyboards/keyboards';
 
+import { availableSeatsMessages } from '../../../common/messages/index';
+
 export const setAvailableSeatsData = async (bot, query) => {
     const { message: { chat: { id }}, data } = query;
-
     const payload = parseData(data).payload;
     await setAvailableSeatsDataInDB(id, payload);
-    sendMessage(
-        bot,
-        id,
-        AVAILABLE_SEATS_MESSAGE_1 + ` <b>${payload}</b> ` + `${payload > 1 ? 'вільне місць 💺' : 'вільних місце 💺'}`,
-        { parse_mode: 'HTML', ...availableSeatsCongratsKeyboard },
-        );
+
+    const config = { parse_mode: 'HTML', ...availableSeatsCongratsKeyboard };
+    await sendMessage(bot, id, availableSeatsMessages.getSettAvailableSeatsDataMessage(payload), config);
 };
 
 export const sendInitialData = async (bot, msg) => {
-    const { id } = msg.chat;
-    await sendMessage(bot, id, AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboard);
-    sendMessage(bot, id, AVAILABLE_SEATS_MESSAGE_2, availableSeatsKeyboardBlocked);
+    await sendMessage(bot, msg.chat.id, AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboard);
+    await sendMessage(bot, msg.chat.id, CHOOSE_AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboardBlocked);
 };
 
 export const sendAvailableSeatsBlockedMessage = async (bot, msg) => {
-    const { id } = msg.chat;
-    sendMessage(bot, id, AVAILABLE_SEATS_BLOCKED_MESSAGE);
+    await sendMessage(bot, msg.chat.id, AVAILABLE_SEATS_BLOCKED_MESSAGE);
 };

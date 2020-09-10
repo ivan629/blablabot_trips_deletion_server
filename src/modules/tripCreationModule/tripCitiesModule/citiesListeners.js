@@ -4,12 +4,13 @@ import {
     addCityToTrip,
     handleShowCities,
     sendBlockedCityMessage,
-} from '../../../modules/tripCreationModule/tripCitiesModule/citiesUtils';
-import {
-    CHOOSE_TRIP_CITY,
-    SHOW_ACTION_TYPE,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-} from '../../../common/constants/commonСonstants';
+} from './citiesUtils';
+import tripCreationMessages,
+{
+    SHOW_NEXT_CITY_ACTION,
+    BLOCKED_FINAL_CITY_KEY,
+    CHOOSE_TRIP_CITY_ACTION,
+} from '../../../common/messages/tripCreationMessages';
 
 const citiesListeners = bot => {
     bot.on('message', async (msg) => {
@@ -20,7 +21,7 @@ const citiesListeners = bot => {
         }
 
         switch (msg.text) {
-            case BLOCKED_FINAL_CITY_IN_THE_TRIP: {
+            case tripCreationMessages(BLOCKED_FINAL_CITY_KEY): {
                 sendBlockedCityMessage(bot, msg);
             }
                 break;
@@ -36,15 +37,14 @@ const citiesListeners = bot => {
         const shouldListen = await getIsTripCitiesCreating(id);
         const [nextCityType, currentCity, nextCityIndex] = data.split('|');
 
-        if (shouldListen && nextCityType === SHOW_ACTION_TYPE) {
+        if (shouldListen && nextCityType === SHOW_NEXT_CITY_ACTION) {
             const formattedData = { id, text: currentCity };
             await handleShowCities(bot, formattedData, nextCityIndex);
             return;
         }
 
-        if (addCityAction === CHOOSE_TRIP_CITY) {
-            addCityToTrip(bot, query);
-            return;
+        if (addCityAction === CHOOSE_TRIP_CITY_ACTION) {
+            await addCityToTrip(bot, query);
         }
     });
 };
