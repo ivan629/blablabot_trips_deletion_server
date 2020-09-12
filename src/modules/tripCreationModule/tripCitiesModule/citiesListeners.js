@@ -5,17 +5,20 @@ import {
     handleShowCities,
     sendBlockedCityMessage,
 } from './citiesUtils';
-import tripCreationMessages,
-{
+import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
+
+const {
+    PROPOSE_TRIP_KEY,
     SHOW_NEXT_CITY_ACTION,
     BLOCKED_FINAL_CITY_KEY,
     CHOOSE_TRIP_CITY_ACTION,
-} from '../../../common/messages/tripCreationMessages';
+} = keysActions;
 
 const citiesListeners = bot => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
-        if (shouldListen) {
+
+        if (shouldListen && msg.text !== tripCreationMessages(PROPOSE_TRIP_KEY)) {
             const formattedData = { id: msg.chat.id, text: msg.text };
             await handleShowCities(bot, formattedData);
         }

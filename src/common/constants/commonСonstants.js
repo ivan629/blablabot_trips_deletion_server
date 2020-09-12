@@ -16,7 +16,6 @@ export const CONFIRM_TIME = '✅ Підтвердити дату';
 export const BLOCKED_GO_TO_TIME_PICKER_MESSAGE = '👿 Ви не обрали дату!';
 export const DATE_CHANGED = 'cd';
 export const SET_TRIP_HOUR = 'SET_TRIP_HOUR';
-export const CONFIRM_TRIP_DATE = 'підтвердити';
 export const SET_TRIP_MINUTES = 'SET_TRIP_MINUTES';
 export const CHOOSE_TRIP_CITY = '➕ Додати';
 export const PROPOSE_TRIP = '➕ Створити поїздку';
@@ -93,22 +92,3 @@ export const SEND_MY_PHONE_NUMBER = '☎️ Надіслати мій номер
 export const GO_TO_TRIP_SUMMARISE = '🧐 Перевірити інформацію';
 export const GO_TO_TRIP_SUMMARISE_MESSAGE = 'Щоб продовжити нажміть <b>🧐 Перевірити інформацію</b>';
 
-// trip price
-export const CONFIRM_TRIP_PRICE = '✅ Підтвердити ціну';
-export const CONFIRM_TRIP_PRICE_BLOCKED = '⛔ Підтвердити ціну';
-export const SET_TRIP_PRICE_MESSAGE_INITIAL = 'Введіть ціну поїзки будь ласка 🤑';
-export const GO_TO_TRIP_PRICE_SETTINGS = '✅ Вказати ціну поїздки 💰';
-export const GO_TO_TRIP_PRICE_SETTINGS_BLOCKED = '⛔ Вказати ціну поїздки 💰';
-export const TRIP_PRICE_SETTINGS_FINISH_MESSAGE = 'Натисніть <b>✅ підтвердити ціну!</b>';
-export const TRIP_PRICE_SETTINGS_INITIAL_MESSAGE = 'Вказати ціну поїздки';
-export const TRIP_PRICE_BLOCKED_MESSAGE = '👿 Вкажіть правильну ціну!';
-
-// available seats
-export const SET_AVAILABLE_SEATS_CUNT = 'SET_AVAILABLE_SEATS_CUNT';
-export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS = '⛔ Вказати вільні місця 💺️';
-export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE = '👿 Ви не вказали годину прибуття!';
-export const GO_TO_AVAILABLE_SEATS_SETTING = '✅ Вказати вільні місця 💺';
-export const AVAILABLE_SEATS_MESSAGE = 'Панель вибору місць 🧐';
-export const AVAILABLE_SEATS_BLOCKED_MESSAGE = '👿 Ви не обрали кількість вільних місць!';
-export const CHOOSE_AVAILABLE_SEATS_MESSAGE = 'Виберіть кількість вільних місць 🤗';
-export const CHOSEN_AVAILABLE_SEATS_MESSAGE_PART = 'Ви обрали';

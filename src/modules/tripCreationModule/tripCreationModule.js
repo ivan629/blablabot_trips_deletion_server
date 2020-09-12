@@ -14,14 +14,11 @@ import {
 } from '../../services/helpers';
 import { addNewTrip } from '../../common/utils/utils';
 import {
-    PROPOSE_TRIP,
-    CONFIRM_TRIP_PRICE,
     GO_TO_TRIP_SUMMARISE,
     FINISH_TRIP_CREATION,
-    FINAL_CITY_IN_THE_TRIP,
-    GO_TO_TRIP_END_TIME_PICKER,
-    GO_TO_AVAILABLE_SEATS_SETTING,
 } from '../../common/constants/commonСonstants';
+
+import { tripCreationMessages, keysActions } from '../../common/messages/tripCreationMessages'
 
 const calendarModule = new CalendarModule();
 const tripPriceModule = new TripPriceModule();
@@ -43,27 +40,27 @@ const tripCreationModule = bot => {
         await addSessionMessagesIdsToDb(id, message_id);
 
         switch (text) {
-            case PROPOSE_TRIP: {
+            case tripCreationMessages(keysActions.PROPOSE_TRIP_KEY): {
                 await toggleIsTripCreatingInProgress(msg.chat.id, true);
                 await addNewTrip(msg);
                 await tripCitiesModule.start(bot, msg);
             }
                 break;
-            case FINAL_CITY_IN_THE_TRIP: {
+            case tripCreationMessages(keysActions.FINAL_CITY_IN_THE_TRIP_KEY): {
                 calendarModule.runStartTripDatePicker(bot, msg);
-                await toggleIsTripCitiesCreating(id, false);
+                await toggleIsTripCitiesCreating(id, false); // defect
             }
                 break;
-            case GO_TO_TRIP_END_TIME_PICKER: {
+            case tripCreationMessages(keysActions.GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY): {
                 await removeSessionMessagesIds(bot, id);
                 await calendarModule.runStopTripDatePicker(bot, msg);
             }
                 break;
-            case GO_TO_AVAILABLE_SEATS_SETTING: {
+            case tripCreationMessages(keysActions.GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY): {
                 availableSeatsModule.runAvailableTripSeatsPicker(bot, msg);
             }
                 break;
-            case CONFIRM_TRIP_PRICE: {
+            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY): {
                 await phoneNumberModule.runPhoneNumberModule(bot, msg);
             }
                 break;

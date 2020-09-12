@@ -1,13 +1,8 @@
 import { getIsTripPriceSettings, toggleIsTripPriceCreating } from '../../../services/helpers';
-import {
-    CONFIRM_TRIP_PRICE,
-    SET_TRIP_PRICE_MESSAGE_INITIAL,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-} from '../../../common/constants/commonСonstants';
-import { handlePriceSetting, sendTripPriceBlockedMessage } from '../../../modules/tripCreationModule/tripPriceModule/tripPriceControllers';
-import { tripPriceSettingsKeyboardInitial } from '../../../modules/keyboards/keyboards';
 import { sendMessage, getIsBotMessage } from '../../../common/utils/utils';
+import { tripPriceSettingsKeyboardInitial } from '../../keyboards/keyboards';
+import { handlePriceSetting, sendTripPriceBlockedMessage } from './tripPriceControllers';
+import { keysActions, tripCreationMessages } from '../../../common/messages/tripCreationMessages';
 
 const tripPriceListeners = (bot) => {
     bot.on('message', async msg => {
@@ -19,16 +14,21 @@ const tripPriceListeners = (bot) => {
         }
 
         switch (msg.text) {
-            case GO_TO_TRIP_PRICE_SETTINGS: {
+            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY): {
                 await toggleIsTripPriceCreating(msg.chat.id, true);
-                sendMessage(bot, msg.chat.id, SET_TRIP_PRICE_MESSAGE_INITIAL, tripPriceSettingsKeyboardInitial);
+                sendMessage(
+                    bot,
+                    msg.chat.id,
+                    tripCreationMessages(keysActions.SET_TRIP_PRICE_INITIAL_MESSAGES_KEY),
+                    tripPriceSettingsKeyboardInitial,
+                    );
             }
                 break;
-            case CONFIRM_TRIP_PRICE_BLOCKED: {
+            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY): {
                 await sendTripPriceBlockedMessage(bot, msg);
             }
                 break;
-            case CONFIRM_TRIP_PRICE: {
+            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY): {
                 await toggleIsTripPriceCreating(msg.chat.id, false);
             }
                 break;
@@ -36,8 +36,6 @@ const tripPriceListeners = (bot) => {
                 break;
             }
         }
-    });
-    bot.on('callback_query', query => {
     });
 };
 

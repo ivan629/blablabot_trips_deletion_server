@@ -1,17 +1,11 @@
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import { setAvailableSeatsDataInDB } from '../../../services/helpers';
 import {
-    AVAILABLE_SEATS_MESSAGE,
-    CHOOSE_AVAILABLE_SEATS_MESSAGE,
-    AVAILABLE_SEATS_BLOCKED_MESSAGE
-} from '../../../common/constants/commonСonstants';
-import {
     availableSeatsKeyboard,
     availableSeatsKeyboardBlocked,
     availableSeatsCongratsKeyboard,
 } from '../../keyboards/keyboards';
-
-import { availableSeatsMessages } from '../../../common/messages/index';
+import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages'
 
 export const setAvailableSeatsData = async (bot, query) => {
     const { message: { chat: { id }}, data } = query;
@@ -19,14 +13,14 @@ export const setAvailableSeatsData = async (bot, query) => {
     await setAvailableSeatsDataInDB(id, payload);
 
     const config = { parse_mode: 'HTML', ...availableSeatsCongratsKeyboard };
-    await sendMessage(bot, id, availableSeatsMessages.getSettAvailableSeatsDataMessage(payload), config);
+    await sendMessage(bot, id, tripCreationMessages(keysActions.CHOSEN_AVAILABLE_SEATS_MESSAGES_KEY)(payload), config);
 };
 
 export const sendInitialData = async (bot, msg) => {
-    await sendMessage(bot, msg.chat.id, AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboard);
-    await sendMessage(bot, msg.chat.id, CHOOSE_AVAILABLE_SEATS_MESSAGE, availableSeatsKeyboardBlocked);
+    await sendMessage(bot, msg.chat.id, tripCreationMessages(keysActions.AVAILABLE_SEATS_MESSAGE_KEY), availableSeatsKeyboard);
+    await sendMessage(bot, msg.chat.id, tripCreationMessages(keysActions.CHOOSE_AVAILABLE_SEATS_MESSAGES_KEY), availableSeatsKeyboardBlocked);
 };
 
 export const sendAvailableSeatsBlockedMessage = async (bot, msg) => {
-    await sendMessage(bot, msg.chat.id, AVAILABLE_SEATS_BLOCKED_MESSAGE);
+    await sendMessage(bot, msg.chat.id, tripCreationMessages(keysActions.AVAILABLE_SEATS_BLOCKED_MESSAGE_KEY));
 };

@@ -13,7 +13,7 @@ import {
     MONTH_DOWN,
     MONTH_UP,
 } from '../../constants/commonСonstants';
-import calendarComponent from "./calendarComponent";
+import calendarComponent from './calendarComponent';
 
 export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
 

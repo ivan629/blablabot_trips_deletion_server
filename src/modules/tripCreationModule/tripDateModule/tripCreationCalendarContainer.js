@@ -1,5 +1,5 @@
+import { getTripCreationMinCalendarDateThreshold } from './tripCreationCalendarUtils';
 import calendarComponent from '../../../common/components/calendarComponent/calendarComponent';
-import {getTripCreationMinCalendarDateThreshold} from './tripCreationCalendarUtils';
 
 const FindTripCalendarComponent = async ({
                                              chat_id,

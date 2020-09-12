@@ -4,35 +4,30 @@ import {
     LANGUAGE,
     MY_TRIPS,
     FIND_TRIP,
-    PROPOSE_TRIP,
     BOOK_TRIP_TEXT,
-    USER_PAY_START,
     UNBOOK_TRIP_TEXT,
     BOOK_TRIP_ACTION,
     UNBOOK_TRIP_ACTION,
     REMOVE_TRIP_BUTTON,
-    CONFIRM_TRIP_PRICE,
     GO_TO_THE_MAIN_MENU,
     FINISH_TRIP_CREATION,
     SEND_MY_PHONE_NUMBER,
     GO_TO_TRIP_SUMMARISE,
     NEXT_CITY_IN_THE_TRIP,
-    FINAL_CITY_IN_THE_TRIP,
-    SET_AVAILABLE_SEATS_CUNT,
     FIND_TRIP_GO_TO_CALENDAR,
-    GO_TO_TRIP_PRICE_SETTINGS,
     SHOW_BOOKED_TRIPS_MESSAGE,
     SHOW_I_AM_DRIVING_MESSAGE,
-    CONFIRM_TRIP_PRICE_BLOCKED,
     CANCEL_TRIP_BOOKING_ACTION,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
-    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
 } from '../../common/constants/commonСonstants';
 
 import { FIND_TRIPS_KEYBOARDS_DAY } from '../../common/constants/findTripConstants';
+
+import { keysActions, tripCreationMessages } from '../../common/messages/tripCreationMessages'
+import { FINAL_CITY_IN_THE_TRIP_KEY } from '../../common/messages/tripCreationMessages/calendarKeysActions';
+import { SET_AVAILABLE_SEATS_CUNT, BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY } from '../../common/messages/tripCreationMessages/availableSeatsKeysActions';
 
 export const phoneNumberKeyboard = {
     reply_markup: {
@@ -72,18 +67,8 @@ export const tripPriceSettingsKeyboardInitial = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: CONFIRM_TRIP_PRICE_BLOCKED,
-                    callback_data: createAction(CONFIRM_TRIP_PRICE_BLOCKED)
-                },
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
 };
@@ -92,18 +77,8 @@ export const tripPriceSettingsKeyboardFinish = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: CONFIRM_TRIP_PRICE,
-                    callback_data: createAction(CONFIRM_TRIP_PRICE)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
 };
@@ -145,18 +120,8 @@ export const availableSeatsCongratsKeyboard = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_TRIP_PRICE_SETTINGS,
-                    callback_data: createAction(GO_TO_TRIP_PRICE_SETTINGS)
-                }
-            ],
-            [
-               {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-               }
-          ],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
 };
@@ -165,18 +130,8 @@ export const availableSeatsKeyboardBlocked = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
-                    callback_data: createAction(GO_TO_TRIP_PRICE_SETTINGS_BLOCKED)
-                }
-            ],
-            [
-               {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-               }
-          ],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
 };
@@ -186,24 +141,11 @@ export const initialKeyboard = {
         resize_keyboard: true,
         keyboard: [
             [
-                {
-                    text: FIND_TRIP,
-                    callback_data: createAction(FIND_TRIP),
-                },
-                {
-                    text: PROPOSE_TRIP,
-                    callback_data: createAction(PROPOSE_TRIP)
-                }
-            ],
+                { text: FIND_TRIP },
+                { text: tripCreationMessages(keysActions.PROPOSE_TRIP_KEY) }],
             [
-                {
-                    text: MY_TRIPS,
-                    callback_data: createAction(MY_TRIPS)
-                },
-                {
-                    callback_data: createAction(LANGUAGE),
-                    text: LANGUAGE,
-                }
+                { text: MY_TRIPS },
+                { text: LANGUAGE },
             ],
 
         ]
@@ -272,13 +214,11 @@ export const calendarKeyboard = nextButtonAction => ({
             [
                 {
                     text: nextButtonAction,
-                    callback_data: createAction(nextButtonAction)
                 }
             ],
             [
                 {
                     text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
                 },
             ]
         ]
@@ -338,18 +278,8 @@ export const blockedTimeStopPickerKeyboard = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-                    callback_data: createAction(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
 };
@@ -386,18 +316,8 @@ export const creatingCitiesKeyboards = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FINAL_CITY_IN_THE_TRIP,
-                    callback_data: createAction(FINAL_CITY_IN_THE_TRIP)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: tripCreationMessages(FINAL_CITY_IN_THE_TRIP_KEY) }],
+            [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
 };

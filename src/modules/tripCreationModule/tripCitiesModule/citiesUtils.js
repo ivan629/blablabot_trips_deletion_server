@@ -6,7 +6,6 @@ import {
     addCityToTripInDB,
     toggleIsTripCitiesCreating,
 } from '../../../services/helpers';
-import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../keyboards/keyboards';
 import {
     sendMessage,
     sendLocation,
@@ -16,9 +15,10 @@ import {
     createCityAction,
     createNextCityAction
 } from '../../../common/utils/utils';
+import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../keyboards/keyboards';
+import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
 
-import tripCreationMessages,
-{
+const {
     SHOW_NEXT_CITY_KEY,
     CHOOSE_TRIP_CITY_KEY,
     SHOW_NEXT_CITY_ACTION,
@@ -28,8 +28,7 @@ import tripCreationMessages,
     CITIES_ADD_NEW_HELP_TEXT_KEY,
     CITIES_INITIAL_HELP_TEXT_KEY,
     CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY
-}
-from '../../../common/messages/tripCreationMessages';
+} = keysActions;
 
 export const addCityToTrip = async (bot, query) => {
     const { message: { chat: { id }} } = query;

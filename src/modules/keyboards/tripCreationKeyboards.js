@@ -1,16 +1,13 @@
 import { chunk } from 'lodash';
 import {
-    CONFIRM_TRIP_PRICE,
     GO_TO_THE_MAIN_MENU,
     GO_TO_TRIP_SUMMARISE,
     SEND_MY_PHONE_NUMBER,
     FINISH_TRIP_CREATION,
-    SET_AVAILABLE_SEATS_CUNT,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED
 } from '../../common/constants/commonСonstants';
 import { createAction } from '../../common/utils/utils';
+import { SET_AVAILABLE_SEATS_CUNT } from '../../common/messages/tripCreationMessages/availableSeatsKeysActions';
+import {keysActions, tripCreationMessages} from '../../common/messages/tripCreationMessages';
 
 export const phoneNumberKeyboard = {
     reply_markup: {
@@ -36,7 +33,7 @@ export const tripPriceSettingsKeyboardInitial = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: CONFIRM_TRIP_PRICE_BLOCKED }],
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY) }],
             [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
@@ -46,7 +43,7 @@ export const tripPriceSettingsKeyboardFinish = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: CONFIRM_TRIP_PRICE }],
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY) }],
             [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
@@ -79,7 +76,7 @@ export const availableSeatsCongratsKeyboard = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: GO_TO_TRIP_PRICE_SETTINGS }],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
@@ -89,7 +86,7 @@ export const availableSeatsKeyboardBlocked = {
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: GO_TO_TRIP_PRICE_SETTINGS_BLOCKED }],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
