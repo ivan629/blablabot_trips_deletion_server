@@ -3,7 +3,7 @@ import { calendarKeyboard } from '../../keyboards/keyboards';
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import { MONTHS } from '../../../common/constants/calendarConstants';
 import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
-import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../../keyboards/keyboards';
 import { getDefaultTripMinCalendarDateThreshold, getDateMilliseconds } from '../../../common/components/calendarComponent/calendarComponentUtils';
 import {
@@ -61,13 +61,13 @@ export const showTimeComponent = async (bot, msg) => {
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(id);
 
     const helpMessage = isStartDateCreatingCompleted
-        ? tripCreationMessages(TIME_STOP_CHOOSING_HELP_MESSAGE_KEY, msg)
-        : tripCreationMessages(TIME_CHOOSING_HELP_MESSAGE_KEY, msg)
+        ? getLocalizedMessage(TIME_STOP_CHOOSING_HELP_MESSAGE_KEY, msg)
+        : getLocalizedMessage(TIME_CHOOSING_HELP_MESSAGE_KEY, msg)
     const keyboard = isStartDateCreatingCompleted
         ? blockedTimeStopPickerKeyboard(msg)
         : blockedTimePickerKeyboard(msg);
 
-    sendMessage(bot, id, tripCreationMessages(TIME_CHOOSING_MESSAGE_KEY), timePicker);
+    sendMessage(bot, id, getLocalizedMessage(TIME_CHOOSING_MESSAGE_KEY, msg), timePicker);
     sendMessage(bot, id, helpMessage, { parse_mode: 'HTML', ...keyboard });
 };
 
@@ -125,11 +125,11 @@ export const setTripHour = async (query, bot) => {
 
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const keyboardType = isStartDateCreatingCompleted
-        ? tripCreationMessages(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
-        : tripCreationMessages(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
+        ? getLocalizedMessage(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
+        : getLocalizedMessage(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
 
     await setDatePickerDataToDb(chat_id, 'hour', parseData(data).payload);
-    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType));
+    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType, query));
 };
 
 export const setTripMinutes = async (query, bot) => {
@@ -137,24 +137,24 @@ export const setTripMinutes = async (query, bot) => {
 
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
     const keyboardType = isStartDateCreatingCompleted
-        ? tripCreationMessages(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
-        : tripCreationMessages(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
+        ? getLocalizedMessage(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
+        : getLocalizedMessage(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
 
     await setDatePickerDataToDb(chat_id, 'minutes', parseData(data).payload);
-    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType));
+    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType, query));
 };
 
 export const showBlockedGoToTimePickerMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
 };
 
 export const showBlockedGoToTripEnd = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
 };
 
 export const sendBlockedGoToAvailableMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY, msg));
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY, msg));
 };

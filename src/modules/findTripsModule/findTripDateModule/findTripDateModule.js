@@ -8,7 +8,7 @@ import { goToMenuKeyboard, findTripsDaysAndCalendarKeyboard } from '../../keyboa
 
 class findTripDateModule {
     async runStartTripDatePicker(bot, msg) {
-        await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard);
+        await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard(msg));
         await sendMessage(bot, msg.chat.id, CALENDAR_CONGRATS_MESSAGE_START, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
     }
 

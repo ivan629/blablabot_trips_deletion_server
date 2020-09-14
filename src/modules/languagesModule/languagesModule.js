@@ -1,13 +1,13 @@
 import { parseData } from '../../common/utils/utils';
 import { showLanguagesPanel, handleChangeLanguage } from './languagesUtils';
-import { keysActions, tripCreationMessages } from '../../common/messages/tripCreationMessages';
+import { keysActions, getLocalizedMessage } from '../../common/messages';
 
 const languagesModule = bot => {
     bot.on('callback_query', async query => {
         const data = parseData(query.data);
 
         switch (data.type) {
-            case tripCreationMessages(keysActions.LANGUAGES_ACTION_TYPE, query): {
+            case getLocalizedMessage(keysActions.LANGUAGES_ACTION_TYPE, query): {
                 await handleChangeLanguage(bot, query);
             }
                 break;
@@ -19,7 +19,7 @@ const languagesModule = bot => {
     
     bot.on('message', async msg => {
         switch (msg.text) {
-            case tripCreationMessages(keysActions.LANGUAGES_KEY, msg): {
+            case getLocalizedMessage(keysActions.LANGUAGES_KEY, msg): {
                 await showLanguagesPanel(bot, msg);
             }
             default: {

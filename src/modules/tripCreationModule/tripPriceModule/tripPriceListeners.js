@@ -2,7 +2,7 @@ import { getIsTripPriceSettings, toggleIsTripPriceCreating } from '../../../serv
 import { sendMessage, getIsBotMessage } from '../../../common/utils/utils';
 import { tripPriceSettingsKeyboardInitial } from '../../keyboards/keyboards';
 import { handlePriceSetting, sendTripPriceBlockedMessage } from './tripPriceControllers';
-import { keysActions, tripCreationMessages } from '../../../common/messages/tripCreationMessages';
+import { keysActions, getLocalizedMessage } from '../../../common/messages';
 
 const tripPriceListeners = (bot) => {
     bot.on('message', async msg => {
@@ -14,21 +14,21 @@ const tripPriceListeners = (bot) => {
         }
 
         switch (msg.text) {
-            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY, msg): {
+            case getLocalizedMessage(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY, msg): {
                 await toggleIsTripPriceCreating(msg.chat.id, true);
                 sendMessage(
                     bot,
                     msg.chat.id,
-                    tripCreationMessages(keysActions.SET_TRIP_PRICE_INITIAL_MESSAGES_KEY, msg),
+                    getLocalizedMessage(keysActions.SET_TRIP_PRICE_INITIAL_MESSAGES_KEY, msg),
                     tripPriceSettingsKeyboardInitial(msg),
                     );
             }
                 break;
-            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg): {
+            case getLocalizedMessage(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg): {
                 await sendTripPriceBlockedMessage(bot, msg);
             }
                 break;
-            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, msg): {
+            case getLocalizedMessage(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, msg): {
                 await toggleIsTripPriceCreating(msg.chat.id, false);
             }
                 break;

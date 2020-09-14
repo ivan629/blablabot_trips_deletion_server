@@ -13,10 +13,7 @@ import {
     clearSessionMessagesIdsInDb,
 } from '../services/helpers';
 import { addNewUserToDb, goToTheMainMenu } from '../common/utils/utils';
-import {
-    GO_TO_THE_MAIN_MENU,
-    FINISH_TRIP_CREATION,
-} from '../common/constants/commonСonstants';
+import { keysActions, getLocalizedMessage } from '../common/messages';
 
 const mainModule = (expressApp, bot) => {
     tripCreationModule(bot);
@@ -43,8 +40,8 @@ const mainModule = (expressApp, bot) => {
         addSessionMessagesIdsToDb(id, message_id);
 
         switch (msg.text) {
-            case FINISH_TRIP_CREATION:
-            case GO_TO_THE_MAIN_MENU: {
+            case getLocalizedMessage(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg):
+            case getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg): {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);

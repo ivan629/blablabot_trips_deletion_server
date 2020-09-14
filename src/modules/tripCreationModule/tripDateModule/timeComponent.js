@@ -1,7 +1,7 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../../common/utils/utils';
 import { TIME_PICKER_MINUTES } from './tripDateConstants';
-import { keysActions } from '../../../common/messages/tripCreationMessages';
+import { keysActions } from '../../../common/messages';
 import { getCurrentTripCreationDate, getIsStartDateCreatingCompleted, getCreatingTrip } from '../../../services/helpers';
 
 const { SET_TRIP_HOUR, SET_TRIP_MINUTES } = keysActions;

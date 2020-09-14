@@ -10,7 +10,7 @@ const findTripDateListeners = (bot) => {
 
         switch (data.type) {
             case FIND_TRIPS_KEYBOARDS_DAY[3]: {
-                sendFindTripCalendar(bot, id)
+                sendFindTripCalendar(bot, id, query)
             }
             default: {
                 break;

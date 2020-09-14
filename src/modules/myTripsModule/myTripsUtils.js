@@ -76,5 +76,5 @@ export const cancelTripBooking = async (bot, query) => {
 };
 
 export const handleShowRolesKeyboard = async (bot, msg) => {
-    await sendMessage(bot, msg.chat.id, MY_TRIPS_CHOOSE_ROLE_MESSAGE, myTripsChooseRoleKeyboard);
+    await sendMessage(bot, msg.chat.id, MY_TRIPS_CHOOSE_ROLE_MESSAGE, myTripsChooseRoleKeyboard(msg));
 };

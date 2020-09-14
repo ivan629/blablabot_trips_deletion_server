@@ -29,13 +29,13 @@ export const TIME_CHOOSING_HELP_MESSAGES = {
 export const TIME_STOP_CHOOSING_HELP_MESSAGES = {
     [ua]: 'Опісля нажиміть <b>✅ Вказати вільні місця!</b>',
     [ru]: 'После нажимать <b>✅ Указать свободные места!</b>',
-    [en]: 'Then click <b> ✅Specify available seats!</b>',
+    [en]: 'Then click <b> ✅ Specify available seats!</b>',
 }
 
 export const GO_TO_TIME_PICKER_MESSAGES = {
     [ua]: '✅ Перейти до вибору години ⏰',
     [ru]: '✅ Перейти к выбору часа ⏰',
-    [en]: '✅ Go to time selection ⏰',
+    [en]: '✅ Go to the time selection ⏰',
 }
 
 export const BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGES = {

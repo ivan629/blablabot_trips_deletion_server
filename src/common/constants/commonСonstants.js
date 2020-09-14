@@ -87,7 +87,6 @@ export const LANGUAGE = '🇺🇦️ Українська';
 // phone number
 export const CONGRATS_MESSAGE_FIRST_PART = 'Дякую! номер';
 export const SHARE_CARRIER_PHONE_NUMBER_MESSAGE = 'Продовжити натісніть ☎️ <b>Надіслати мій номер телефону</b>';
-export const PHONE_FINISH_MESSAGE = 'Натісніть <b>🧐 Перевірити інформацію</b>';
 export const SEND_MY_PHONE_NUMBER = '☎️ Надіслати мій номер телефону';
 export const GO_TO_TRIP_SUMMARISE = '🧐 Перевірити інформацію';
 export const GO_TO_TRIP_SUMMARISE_MESSAGE = 'Щоб продовжити нажміть <b>🧐 Перевірити інформацію</b>';

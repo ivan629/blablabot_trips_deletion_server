@@ -18,7 +18,7 @@ const foundTripsListeners = bot => {
         switch (msg.text) {
             case FIND_TRIP_SEARCH_TRIPS: {
                 showFoundTrips(bot, msg.chat.id);
-                await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard);
+                await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard(msg));
             }
                 break;
             default: {

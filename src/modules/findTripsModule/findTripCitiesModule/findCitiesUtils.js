@@ -55,7 +55,7 @@ const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
 
 export const startTripCitiesSearching = async (bot, msg) => {
     const { chat: { id } } = msg;
-    await sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, { parse_mode: 'HTML', ...blockedFindTripCitiesKeyboard });
+    await sendMessage(bot, id, CITIES_INITIAL_HELP_TEXT, { parse_mode: 'HTML', ...blockedFindTripCitiesKeyboard(msg) });
     await toggleIsFindTripCitiesCreating(id, true);
 };
 
@@ -87,7 +87,7 @@ export const addCityToFindTripCities = async (bot, query) => {
 
     if (canBeTheFinalCity) {
         await toggleIsFindTripCitiesCreating(id, false);
-        sendMessage(bot, id, FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT, findTripGoToCalendarKeyboard);
+        sendMessage(bot, id, FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT, findTripGoToCalendarKeyboard(query));
         await addCityToFindTripInDB(id, newCity);
     } else {
         sendMessage(bot, id, FIND_TRIP_CITIES_ADD_NEW_HELP_TEXT);

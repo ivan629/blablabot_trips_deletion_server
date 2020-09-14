@@ -1,17 +1,22 @@
 import { get } from 'lodash';
-import { LANGUAGES } from '../../constants/botSettings';
-import { getLanguage } from '../../../services/helpers';
-import * as tripCitiesKeysActions from './tripCitiesKeysActions';
-import * as calendarKeysActions from './calendarKeysActions';
-import * as availableSeatsKeysActions from './availableSeatsKeysActions';
-import * as tripPriceKeysActions from './tripPriceKeysActions';
-import * as languagesKeysActions from './languagesKeysActions';
+import { LANGUAGES } from '../constants/botSettings';
+import * as tripCitiesKeysActions from './tripCreationMessages/tripCitiesKeysActions';
+import * as calendarKeysActions from './tripCreationMessages/calendarKeysActions';
+import * as availableSeatsKeysActions from './tripCreationMessages/availableSeatsKeysActions';
+import * as tripPriceKeysActions from './tripCreationMessages/tripPriceKeysActions';
+import * as languagesKeysActions from './tripCreationMessages/languagesKeysActions';
+import * as phoneNumberKeysActions from './tripCreationMessages/phoneNumberKeysActions';
+import * as tripSummariseKeysActions from './tripCreationMessages/tripSummariseKeysActions';
+import * as mainKeysActions from './main/mainKeysActions';
 
-import * as citiesMessages from './citiesMessages';
-import * as calendarMessages from './calendarMessages';
-import * as availableSeatsMessages from './availableSeatsMessages';
-import * as tripPriceMessages from './tripPriceMessages';
-import * as languagesMessages from './languagesMessages';
+import * as citiesMessages from './tripCreationMessages/citiesMessages';
+import * as calendarMessages from './tripCreationMessages/calendarMessages';
+import * as availableSeatsMessages from './tripCreationMessages/availableSeatsMessages';
+import * as tripPriceMessages from './tripCreationMessages/tripPriceMessages';
+import * as languagesMessages from './tripCreationMessages/languagesMessages';
+import * as phoneNumberMessages from './tripCreationMessages/phoneNumberMessages';
+import * as tripSummariseMessages from './tripCreationMessages/tripSummariseMessages';
+import * as mainMessages from './main/mainMessages';
 
 const { ua, ru, en } = LANGUAGES;
 
@@ -69,24 +74,45 @@ const languagesMessagesMap = {
     [languagesKeysActions.LANGUAGES_CHANGED_MESSAGES_KEY]: languagesMessages.LANGUAGES_CHANGED_MESSAGES,
 }
 
+const phoneNumberMessagesMap = {
+    [phoneNumberKeysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY]: phoneNumberMessages.SHARE_CARRIER_PHONE_NUMBER_MESSAGES,
+    [phoneNumberKeysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY]: phoneNumberMessages.GO_TO_TRIP_SUMMARISE_MESSAGES,
+    [phoneNumberKeysActions.SEND_MY_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SEND_MY_PHONE_NUMBER_MESSAGES,
+}
+
+const tripSummariseMessagesMap = {
+    [tripSummariseKeysActions.TRIP_CREATION_SUMMARISE_INITIAL_MESSAGES_KEY]: tripSummariseMessages.TRIP_CREATION_SUMMARISE_INITIAL_MESSAGES,
+    [tripSummariseKeysActions.TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGES_KEY]: tripSummariseMessages.TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGES,
+    [tripSummariseKeysActions.FINISH_TRIP_CREATION_MESSAGES_KEY]: tripSummariseMessages.FINISH_TRIP_CREATION_MESSAGES,
+}
+
+const mainMessagesMap = {
+    [mainKeysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY]: mainMessages.GO_TO_THE_MAIN_MENU_MESSAGES,
+}
+
 const messagesMap = {
+    ...mainMessagesMap,
     ...calendarMessagesMap,
     ...languagesMessagesMap,
     ...tripPriceMessagesMap,
     ...tripCitiesMessagesMap,
+    ...phoneNumberMessagesMap,
+    ...tripSummariseMessagesMap,
     ...availableSeatsMessagesMap,
 }
 
 export const keysActions = {
+    ...mainKeysActions,
     ...languagesKeysActions,
     ...calendarKeysActions,
     ...tripPriceKeysActions,
     ...tripCitiesKeysActions,
+    ...phoneNumberKeysActions,
+    ...tripSummariseKeysActions,
     ...availableSeatsKeysActions,
 };
 
-export const tripCreationMessages = (message, eventObject) => {
+export const getLocalizedMessage = (message, eventObject) => {
     const languageCode = get(eventObject, 'from.language_code', ru);
-    console.log(languageCode, eventObject);
     return messagesMap[message][languageCode];
 }

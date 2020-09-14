@@ -16,7 +16,7 @@ import {
     createNextCityAction
 } from '../../../common/utils/utils';
 import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../keyboards/keyboards';
-import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const {
     SHOW_NEXT_CITY_KEY,
@@ -48,27 +48,27 @@ export const addCityToTrip = async (bot, query) => {
     const canBeTheFinalCity = citiesIdsList.length > 0 && !isAlreadyAdded;
 
     if (isAlreadyAdded) {
-        return sendMessage(bot, id, tripCreationMessages(CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY, query));
+        return sendMessage(bot, id, getLocalizedMessage(CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY, query));
     }
 
     if (canBeTheFinalCity) {
-        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY, query), creatingCitiesKeyboards(query));
+        sendMessage(bot, id, getLocalizedMessage(CITIES_ADD_NEW_HELP_TEXT_KEY, query), creatingCitiesKeyboards(query));
         await addCityToTripInDB(id, newCity);
     } else {
-        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY, query));
+        sendMessage(bot, id, getLocalizedMessage(CITIES_ADD_NEW_HELP_TEXT_KEY, query));
         await addCityToTripInDB(id, newCity);
     }
 };
 
 export const startCitiesCreating = async (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(CITIES_INITIAL_HELP_TEXT_KEY, msg), { parse_mode: 'HTML', ...blockedCitiesKeyboard });
+    sendMessage(bot, id, getLocalizedMessage(CITIES_INITIAL_HELP_TEXT_KEY, msg), { parse_mode: 'HTML', ...blockedCitiesKeyboard(msg) });
     await toggleIsTripCitiesCreating(id, true);
 };
 
 export const sendBlockedCityMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(BLOCKED_FINAL_CITY_KEY, msg));
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_FINAL_CITY_KEY, msg));
 };
 
 export const fetchCitiesAutocomplete = async city =>  {
@@ -90,16 +90,16 @@ const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize, query) =>
     const inline_keyboard = nextCityIndex ?
         [
             [{
-                text: tripCreationMessages(keysActions.CHOOSE_TRIP_CITY_KEY, query),
+                text: getLocalizedMessage(keysActions.CHOOSE_TRIP_CITY_KEY, query),
                 callback_data: createCityAction(CHOOSE_TRIP_CITY_ACTION, place_id),
             }],
             [{
-                text: `${tripCreationMessages(keysActions.SHOW_NEXT_CITY_KEY, query)} (${allCitiesSize})`,
+                text: `${getLocalizedMessage(keysActions.SHOW_NEXT_CITY_KEY, query)} (${allCitiesSize})`,
                 callback_data: createNextCityAction(SHOW_NEXT_CITY_ACTION, data.text, nextCityIndex),
             }]
         ] : [
             [{
-                text: tripCreationMessages(keysActions.CHOOSE_TRIP_CITY_KEY, query),
+                text: getLocalizedMessage(keysActions.CHOOSE_TRIP_CITY_KEY, query),
                 callback_data: createCityAction(CHOOSE_TRIP_CITY_ACTION, place_id),
             }]
         ];
@@ -130,6 +130,6 @@ export const handleShowCities = async (bot, data, customCityIndex, msg) =>  {
             sendMessage(bot, data.id, cityName, {parse_mode: 'HTML', ...getCitiesButton(data, place_id, nextCityIndex, leftCities, msg)})
         });
     } else {
-        await sendMessage(bot, data.id, tripCreationMessages(keysActions.NOT_FOUND_CITY_MESSAGE_KEY, msg));
+        await sendMessage(bot, data.id, getLocalizedMessage(keysActions.NOT_FOUND_CITY_MESSAGE_KEY, msg));
     }
 };

@@ -5,7 +5,7 @@ import {
     handleShowCities,
     sendBlockedCityMessage,
 } from './citiesUtils';
-import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const {
     PROPOSE_TRIP_KEY,
@@ -18,13 +18,13 @@ const citiesListeners = bot => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
 
-        if (shouldListen && msg.text !== tripCreationMessages(PROPOSE_TRIP_KEY, msg)) {
+        if (shouldListen && msg.text !== getLocalizedMessage(PROPOSE_TRIP_KEY, msg)) {
             const formattedData = { id: msg.chat.id, text: msg.text };
             await handleShowCities(bot, formattedData, null, msg);
         }
 
         switch (msg.text) {
-            case tripCreationMessages(BLOCKED_FINAL_CITY_KEY, msg): {
+            case getLocalizedMessage(BLOCKED_FINAL_CITY_KEY, msg): {
                 sendBlockedCityMessage(bot, msg);
             }
                 break;

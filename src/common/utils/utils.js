@@ -29,7 +29,6 @@ import {
     START_MESSAGE,
     CHOOSE_CITY_MESSAGE,
     CHOOSE_ROLE_MESSAGE,
-    GO_TO_THE_MAIN_MENU,
     FIND_TRIP_SEARCH_TRIPS,
     NEXT_CITY_IN_THE_TRIP,
     NOT_FOUND_CITY_MESSAGE,
@@ -37,12 +36,11 @@ import {
     CITIES_INITIAL_HELP_TEXT,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
 } from '../constants/commonСonstants';
 import { getCityDetailsUrl } from '../constants/urlHelpers';
 import { head, isNil, last } from 'lodash';
 
-import { tripCreationMessages, keysActions } from '../messages/tripCreationMessages';
+import { getLocalizedMessage, keysActions } from '../messages';
 
 const { GO_TO_TIME_PICKER_MESSAGE_KEY } = keysActions;
 const { uk, ru, en } = LANGUAGES;
@@ -186,14 +184,15 @@ export const getIsBotMessage = messageText => [
     PROPOSE_TRIP,
     START_MESSAGE,
     CHOOSE_CITY_MESSAGE,
-    GO_TO_THE_MAIN_MENU,
     NEXT_CITY_IN_THE_TRIP,
     FINAL_CITY_IN_THE_TRIP,
     CITIES_INITIAL_HELP_TEXT,
     NOT_FOUND_CITY_MESSAGE,
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
+    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[uk],
+    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[ru],
+    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[en],
     CITIES_ADD_NEW_HELP_TEXT_MESSAGES[uk],
     CITIES_ADD_NEW_HELP_TEXT_MESSAGES[ru],
     CITIES_ADD_NEW_HELP_TEXT_MESSAGES[en],
@@ -292,13 +291,13 @@ export const handleUserDateChanged = async (bot, query) => {
     if (isFindTripInProgress) {
         await handlesSaveNewFindTripDateToDbFromCalendar(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS));
+        sendMessage(bot, chatId, message, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS, query));
     }
 
     if (isTripCreatingInProgress) {
         await tripCreationUserChangedDate(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY, query)));
+        sendMessage(bot, chatId, message, calendarKeyboard(getLocalizedMessage(GO_TO_TIME_PICKER_MESSAGE_KEY, query), query));
     }
 };
 

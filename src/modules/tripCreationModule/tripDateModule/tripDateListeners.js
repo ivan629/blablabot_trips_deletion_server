@@ -7,7 +7,7 @@ import {
     showBlockedGoToTimePickerMessage
 } from './tripCreationCalendarUtils';
 import { parseData } from '../../../common/utils/utils';
-import { tripCreationMessages, keysActions } from '../../../common/messages/tripCreationMessages';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const {
     SET_TRIP_HOUR,
@@ -39,19 +39,19 @@ const tripDateListeners = (bot) => {
 
     bot.on('message', msg => {
         switch (msg.text) {
-            case tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
+            case getLocalizedMessage(GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showTimeComponent(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
+            case getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTimePickerMessage(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
+            case getLocalizedMessage(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTripEnd(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, msg): {
+            case getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, msg): {
                 sendBlockedGoToAvailableMessage(bot, msg);
             }
                 break;

@@ -5,7 +5,7 @@ const { ua, ru, en } = LANGUAGES;
 export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_MESSAGES = {
     [ua]: '⛔ Вказати вільні місця 💺️',
     [ru]: '⛔ Указать свободные места 💺️',
-    [en]: '⛔ Specify free seats 💺️',
+    [en]: '⛔ Specify available seats 💺️',
 }
 
 export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES = {
@@ -17,7 +17,7 @@ export const BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES = {
 export const GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES = {
     [ua]: '✅ Вказати вільні місця 💺',
     [ru]: '✅ Указать свободные места 💺',
-    [en]: '✅ Specify free seats 💺',
+    [en]: '✅ Specify available seats 💺',
 }
 
 export const AVAILABLE_SEATS_MESSAGE = {
