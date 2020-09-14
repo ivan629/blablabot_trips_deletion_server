@@ -39,19 +39,19 @@ const tripDateListeners = (bot) => {
 
     bot.on('message', msg => {
         switch (msg.text) {
-            case tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY): {
+            case tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showTimeComponent(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY): {
+            case tripCreationMessages(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTimePickerMessage(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY): {
+            case tripCreationMessages(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTripEnd(bot, msg);
             }
                 break;
-            case tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY): {
+            case tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, msg): {
                 sendBlockedGoToAvailableMessage(bot, msg);
             }
                 break;

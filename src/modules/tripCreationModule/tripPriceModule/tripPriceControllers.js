@@ -9,12 +9,12 @@ export const handlePriceSetting = async (bot, msg, id) => {
 
     if (isOnlyNumbers) {
         await setTripPrice(id, formattedPrice);
-        sendMessage(bot, id, tripCreationMessages(keysActions.TRIP_PRICE_SETTINGS_FINISH_MESSAGES_KEY), { parse_mode: 'HTML', ...tripPriceSettingsKeyboardFinish })
+        sendMessage(bot, id, tripCreationMessages(keysActions.TRIP_PRICE_SETTINGS_FINISH_MESSAGES_KEY, msg), { parse_mode: 'HTML', ...tripPriceSettingsKeyboardFinish(msg) })
     } else {
-        sendMessage(bot, id, tripCreationMessages(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY));
+        sendMessage(bot, id, tripCreationMessages(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg));
     }
 };
 
 export const sendTripPriceBlockedMessage = (bot, msg) => {
-    sendMessage(bot, msg.chat.id, tripCreationMessages(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY))
+    sendMessage(bot, msg.chat.id, tripCreationMessages(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg))
 };

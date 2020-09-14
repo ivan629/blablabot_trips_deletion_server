@@ -45,7 +45,7 @@ import { head, isNil, last } from 'lodash';
 import { tripCreationMessages, keysActions } from '../messages/tripCreationMessages';
 
 const { GO_TO_TIME_PICKER_MESSAGE_KEY } = keysActions;
-const { ua, ru, en } = LANGUAGES;
+const { uk, ru, en } = LANGUAGES;
 
 export const getTripObject = ({
                                   stop_city = null,
@@ -116,6 +116,7 @@ const getCarrierObject = ({
                               phone_numbers = {}
                           }) => ({
     bot: {
+        language: uk,
         is_trip_cities_creating,
         is_find_trip_city_creating,
         keyboard_message_id,
@@ -178,7 +179,7 @@ export const addNewTrip = async msg => {
 
 export const getCityObject = (city) => city;
 
-export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
+export const goToTheMainMenu = async (bot, id, query) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard(query));
 
 export const getIsBotMessage = messageText => [
     FIND_TRIP,
@@ -193,13 +194,13 @@ export const getIsBotMessage = messageText => [
     BLOCKED_FINAL_CITY_IN_THE_TRIP,
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
-    CITIES_ADD_NEW_HELP_TEXT_MESSAGES[ua],
+    CITIES_ADD_NEW_HELP_TEXT_MESSAGES[uk],
     CITIES_ADD_NEW_HELP_TEXT_MESSAGES[ru],
     CITIES_ADD_NEW_HELP_TEXT_MESSAGES[en],
-    CITIES_INITIAL_HELP_TEXT_MESSAGES[ua],
+    CITIES_INITIAL_HELP_TEXT_MESSAGES[uk],
     CITIES_INITIAL_HELP_TEXT_MESSAGES[ru],
     CITIES_INITIAL_HELP_TEXT_MESSAGES[en],
-    CONFIRM_TRIP_PRICE_MESSAGES[ua],
+    CONFIRM_TRIP_PRICE_MESSAGES[uk],
     CONFIRM_TRIP_PRICE_MESSAGES[ru],
     CONFIRM_TRIP_PRICE_MESSAGES[en],
 ].includes(messageText);
@@ -297,7 +298,7 @@ export const handleUserDateChanged = async (bot, query) => {
     if (isTripCreatingInProgress) {
         await tripCreationUserChangedDate(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY)));
+        sendMessage(bot, chatId, message, calendarKeyboard(tripCreationMessages(GO_TO_TIME_PICKER_MESSAGE_KEY, query)));
     }
 };
 

@@ -10,7 +10,7 @@ class tripDateModule {
         this.bot = bot;
         this.msg = msg;
 
-        this.sendCalendar(tripCreationMessages(keysActions.CALENDAR_START_TRIP_KEY), true)
+        this.sendCalendar(tripCreationMessages(keysActions.CALENDAR_START_TRIP_KEY, msg), true)
     }
 
     setListeners(bot) {
@@ -28,17 +28,17 @@ class tripDateModule {
     async sendCalendar() {
         const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(this.msg.chat.id);
         const congratsMessage = isStartDateCreatingCompleted
-            ? tripCreationMessages(keysActions.CALENDAR_CONGRATS_MESSAGES_STOP_KEY)
-            : tripCreationMessages(keysActions.CALENDAR_CONGRATS_MESSAGE_START_KEY);
+            ? tripCreationMessages(keysActions.CALENDAR_CONGRATS_MESSAGES_STOP_KEY, this.msg)
+            : tripCreationMessages(keysActions.CALENDAR_CONGRATS_MESSAGE_START_KEY, this.msg);
         const calendar = await tripCreationCalendarContainer({
             bot: this.bot,
             chat_id: this.msg.chat.id,
         });
 
         sendMessage(this.bot, this.msg.chat.id, congratsMessage, { parse_mode: 'HTML', ...calendar });
-        sendMessage(this.bot, this.msg.chat.id, tripCreationMessages(keysActions.CALENDAR_HELP_MESSAGE_KEY), {
+        sendMessage(this.bot, this.msg.chat.id, tripCreationMessages(keysActions.CALENDAR_HELP_MESSAGE_KEY, this.msg), {
             parse_mode: 'HTML',
-            ...calendarKeyboard(tripCreationMessages(keysActions.BLOCKED_GO_TO_TIME_PICKER_KEYBOARD_KEY)),
+            ...calendarKeyboard(tripCreationMessages(keysActions.BLOCKED_GO_TO_TIME_PICKER_KEYBOARD_KEY, this.msg)),
         });
     }
 }

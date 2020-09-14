@@ -48,27 +48,27 @@ export const addCityToTrip = async (bot, query) => {
     const canBeTheFinalCity = citiesIdsList.length > 0 && !isAlreadyAdded;
 
     if (isAlreadyAdded) {
-        return sendMessage(bot, id, tripCreationMessages(CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY));
+        return sendMessage(bot, id, tripCreationMessages(CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY, query));
     }
 
     if (canBeTheFinalCity) {
-        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY), creatingCitiesKeyboards);
+        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY, query), creatingCitiesKeyboards(query));
         await addCityToTripInDB(id, newCity);
     } else {
-        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY));
+        sendMessage(bot, id, tripCreationMessages(CITIES_ADD_NEW_HELP_TEXT_KEY, query));
         await addCityToTripInDB(id, newCity);
     }
 };
 
 export const startCitiesCreating = async (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(CITIES_INITIAL_HELP_TEXT_KEY), { parse_mode: 'HTML', ...blockedCitiesKeyboard });
+    sendMessage(bot, id, tripCreationMessages(CITIES_INITIAL_HELP_TEXT_KEY, msg), { parse_mode: 'HTML', ...blockedCitiesKeyboard });
     await toggleIsTripCitiesCreating(id, true);
 };
 
 export const sendBlockedCityMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, tripCreationMessages(BLOCKED_FINAL_CITY_KEY));
+    sendMessage(bot, id, tripCreationMessages(BLOCKED_FINAL_CITY_KEY, msg));
 };
 
 export const fetchCitiesAutocomplete = async city =>  {
@@ -86,20 +86,20 @@ export const fetchCitiesAutocomplete = async city =>  {
     return result;
 };
 
-const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
+const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize, query) => {
     const inline_keyboard = nextCityIndex ?
         [
             [{
-                text: tripCreationMessages(CHOOSE_TRIP_CITY_KEY),
+                text: tripCreationMessages(keysActions.CHOOSE_TRIP_CITY_KEY, query),
                 callback_data: createCityAction(CHOOSE_TRIP_CITY_ACTION, place_id),
             }],
             [{
-                text: `${tripCreationMessages(SHOW_NEXT_CITY_KEY)} (${allCitiesSize})`,
+                text: `${tripCreationMessages(keysActions.SHOW_NEXT_CITY_KEY, query)} (${allCitiesSize})`,
                 callback_data: createNextCityAction(SHOW_NEXT_CITY_ACTION, data.text, nextCityIndex),
             }]
         ] : [
             [{
-                text: tripCreationMessages(CHOOSE_TRIP_CITY_KEY),
+                text: tripCreationMessages(keysActions.CHOOSE_TRIP_CITY_KEY, query),
                 callback_data: createCityAction(CHOOSE_TRIP_CITY_ACTION, place_id),
             }]
         ];
@@ -107,7 +107,7 @@ const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize) => {
     return { reply_markup: { inline_keyboard: inline_keyboard } }
 };
 
-export const handleShowCities = async (bot, data, customCityIndex) =>  {
+export const handleShowCities = async (bot, data, customCityIndex, msg) =>  {
     if (getIsBotMessage(data.text)) return;
 
     // check if this chat id has creating trp in progress
@@ -127,9 +127,9 @@ export const handleShowCities = async (bot, data, customCityIndex) =>  {
 
         sendLocation(bot, data.id, lat, lng).then(() => {
             const cityName = `${cityIndex}. <b>${name}</b>\n    <em>${formatted_address}</em>`;
-            sendMessage(bot, data.id, cityName, {parse_mode: 'HTML', ...getCitiesButton(data, place_id, nextCityIndex, leftCities)})
+            sendMessage(bot, data.id, cityName, {parse_mode: 'HTML', ...getCitiesButton(data, place_id, nextCityIndex, leftCities, msg)})
         });
     } else {
-        await sendMessage(bot, data.id, tripCreationMessages(NOT_FOUND_CITY_MESSAGE_KEY));
+        await sendMessage(bot, data.id, tripCreationMessages(keysActions.NOT_FOUND_CITY_MESSAGE_KEY, msg));
     }
 };

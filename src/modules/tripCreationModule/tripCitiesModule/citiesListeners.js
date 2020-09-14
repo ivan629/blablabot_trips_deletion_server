@@ -18,13 +18,13 @@ const citiesListeners = bot => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
 
-        if (shouldListen && msg.text !== tripCreationMessages(PROPOSE_TRIP_KEY)) {
+        if (shouldListen && msg.text !== tripCreationMessages(PROPOSE_TRIP_KEY, msg)) {
             const formattedData = { id: msg.chat.id, text: msg.text };
-            await handleShowCities(bot, formattedData);
+            await handleShowCities(bot, formattedData, null, msg);
         }
 
         switch (msg.text) {
-            case tripCreationMessages(BLOCKED_FINAL_CITY_KEY): {
+            case tripCreationMessages(BLOCKED_FINAL_CITY_KEY, msg): {
                 sendBlockedCityMessage(bot, msg);
             }
                 break;
@@ -42,7 +42,7 @@ const citiesListeners = bot => {
 
         if (shouldListen && nextCityType === SHOW_NEXT_CITY_ACTION) {
             const formattedData = { id, text: currentCity };
-            await handleShowCities(bot, formattedData, nextCityIndex);
+            await handleShowCities(bot, formattedData, nextCityIndex, query);
             return;
         }
 

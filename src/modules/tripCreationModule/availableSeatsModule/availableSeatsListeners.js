@@ -20,7 +20,7 @@ const AvailableSeatsListeners = bot => {
 
     bot.on('message', async (msg) => {
         switch (msg.text) {
-            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY): {
+            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY, msg): {
                 sendAvailableSeatsBlockedMessage(bot, msg);
             }
                 break;

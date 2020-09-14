@@ -34,7 +34,7 @@ const mainModule = (expressApp, bot) => {
         const {chat: {id}} = query;
         await addNewUserToDb(query);
         await clearSessionMessagesIdsInDb(id);
-        await goToTheMainMenu(bot, id);
+        await goToTheMainMenu(bot, id, query);
         await resetSessionDataInDb(id);
     });
 
@@ -49,7 +49,7 @@ const mainModule = (expressApp, bot) => {
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);
                 await clearFindTrip(id);
-                await goToTheMainMenu(bot, id);
+                await goToTheMainMenu(bot, id, msg);
             }
             default: {
                 break;

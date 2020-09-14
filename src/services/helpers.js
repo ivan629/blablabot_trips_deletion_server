@@ -333,3 +333,9 @@ export const toggleIsTripCreatingInProgress = async (chat_id, value) => await up
 
 export const toggleIsFindTripProgress = async (chat_id, value) => await updateFieldInUserDoc(chat_id,'bot.is_find_trip_in_progress', value);
 
+export const setLanguageToDb = async (chat_id, language) => {
+    await updateFieldInUserDoc(chat_id,'bot.language.', language);
+}
+
+export const getLanguage = async chatId => await getFieldFromDoc(chatId, 'bot.language');
+

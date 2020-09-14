@@ -14,21 +14,21 @@ const tripPriceListeners = (bot) => {
         }
 
         switch (msg.text) {
-            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY): {
+            case tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY, msg): {
                 await toggleIsTripPriceCreating(msg.chat.id, true);
                 sendMessage(
                     bot,
                     msg.chat.id,
-                    tripCreationMessages(keysActions.SET_TRIP_PRICE_INITIAL_MESSAGES_KEY),
-                    tripPriceSettingsKeyboardInitial,
+                    tripCreationMessages(keysActions.SET_TRIP_PRICE_INITIAL_MESSAGES_KEY, msg),
+                    tripPriceSettingsKeyboardInitial(msg),
                     );
             }
                 break;
-            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY): {
+            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg): {
                 await sendTripPriceBlockedMessage(bot, msg);
             }
                 break;
-            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY): {
+            case tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, msg): {
                 await toggleIsTripPriceCreating(msg.chat.id, false);
             }
                 break;

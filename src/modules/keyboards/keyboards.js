@@ -1,7 +1,6 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
 import {
-    LANGUAGE,
     MY_TRIPS,
     FIND_TRIP,
     BOOK_TRIP_TEXT,
@@ -22,9 +21,8 @@ import {
     FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
     BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
 } from '../../common/constants/commonСonstants';
-
+import { LANGUAGES } from '../../common/constants/botSettings';
 import { FIND_TRIPS_KEYBOARDS_DAY } from '../../common/constants/findTripConstants';
-
 import { keysActions, tripCreationMessages } from '../../common/messages/tripCreationMessages'
 import { FINAL_CITY_IN_THE_TRIP_KEY } from '../../common/messages/tripCreationMessages/calendarKeysActions';
 import { SET_AVAILABLE_SEATS_CUNT, BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY } from '../../common/messages/tripCreationMessages/availableSeatsKeysActions';
@@ -63,27 +61,27 @@ export const phoneNumberKeyboardGoToSummarise = {
     }
 };
 
-export const tripPriceSettingsKeyboardInitial = {
+export const tripPriceSettingsKeyboardInitial = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY) }],
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
-};
+});
 
-export const tripPriceSettingsKeyboardFinish = {
+export const tripPriceSettingsKeyboardFinish = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY) }],
+            [{ text: tripCreationMessages(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }]
         ]
     }
-};
+});
 
-export const availableSeatsKeyboard = {
+export const availableSeatsKeyboard = eventObject => ({
     reply_markup: {
         inline_keyboard: chunk(new Array(8).fill(null).reduce((result, item, index) => {
             result.push({
@@ -94,7 +92,7 @@ export const availableSeatsKeyboard = {
             return result;
         }, []), 4)
     }
-};
+});
 
 export const tripSummaryKeyboards = {
     reply_markup: {
@@ -116,41 +114,51 @@ export const tripSummaryKeyboards = {
     }
 };
 
-export const availableSeatsCongratsKeyboard = {
+export const availableSeatsCongratsKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY) }],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
-};
+});
 
-export const availableSeatsKeyboardBlocked = {
+export const availableSeatsKeyboardBlocked = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY) }],
+            [{ text: tripCreationMessages(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
-};
+});
 
-export const initialKeyboard = {
+export const initialKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
             [
                 { text: FIND_TRIP },
-                { text: tripCreationMessages(keysActions.PROPOSE_TRIP_KEY) }],
+                { text: tripCreationMessages(keysActions.PROPOSE_TRIP_KEY, eventObject) }],
             [
                 { text: MY_TRIPS },
-                { text: LANGUAGE },
+                { text: tripCreationMessages(keysActions.LANGUAGES_KEY, eventObject)},
             ],
 
         ]
     }
-};
+});
+
+export const languagesKeyboard = queryObject => ({
+    reply_markup: {
+        resize_keyboard: true,
+        inline_keyboard: chunk(new Array(Object.values(LANGUAGES)).fill(null).map((language, item, index) => ({
+            text: keysActions.LANGUAGES_KEY[language],
+            callback_data: createAction(keysActions.LANGUAGES_ACTION_TYPE, language),
+        })))
+    }
+});
 
 export const findTripsDaysAndCalendarKeyboard = {
     reply_markup: {
@@ -254,7 +262,7 @@ export const removeTripKeyBoard = trip_id => ({
 });
 
 
-export const blockedTimePickerKeyboard = {
+export const blockedTimePickerKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
@@ -272,17 +280,17 @@ export const blockedTimePickerKeyboard = {
             ],
         ]
     }
-};
+});
 
-export const blockedTimeStopPickerKeyboard = {
+export const blockedTimeStopPickerKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY) }],
+            [{ text: tripCreationMessages(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
-};
+});
 
 export const goToMenuKeyboard = {
     reply_markup: {
@@ -312,15 +320,15 @@ export const calendarNotCompletedKeyboard = {
     }
 };
 
-export const creatingCitiesKeyboards = {
+export const creatingCitiesKeyboards = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: tripCreationMessages(FINAL_CITY_IN_THE_TRIP_KEY) }],
+            [{ text: tripCreationMessages(FINAL_CITY_IN_THE_TRIP_KEY, eventObject) }],
             [{ text: GO_TO_THE_MAIN_MENU }],
         ]
     }
-};
+});
 
 export const blockedCitiesKeyboard = {
     reply_markup: {

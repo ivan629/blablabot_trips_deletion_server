@@ -1,13 +1,17 @@
+import { get } from 'lodash';
 import { LANGUAGES } from '../../constants/botSettings';
+import { getLanguage } from '../../../services/helpers';
 import * as tripCitiesKeysActions from './tripCitiesKeysActions';
 import * as calendarKeysActions from './calendarKeysActions';
 import * as availableSeatsKeysActions from './availableSeatsKeysActions';
 import * as tripPriceKeysActions from './tripPriceKeysActions';
+import * as languagesKeysActions from './languagesKeysActions';
 
 import * as citiesMessages from './citiesMessages';
 import * as calendarMessages from './calendarMessages';
 import * as availableSeatsMessages from './availableSeatsMessages';
 import * as tripPriceMessages from './tripPriceMessages';
+import * as languagesMessages from './languagesMessages';
 
 const { ua, ru, en } = LANGUAGES;
 
@@ -59,20 +63,30 @@ const tripPriceMessagesMap = {
     [tripPriceKeysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY]: tripPriceMessages.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED,
 }
 
+const languagesMessagesMap = {
+    [languagesKeysActions.LANGUAGES_KEY]: languagesMessages.LANGUAGES_MESSAGES,
+    [languagesKeysActions.LANGUAGES_START_SELECTION_HELP_TEXT_KEY]: languagesMessages.LANGUAGES_START_SELECTION_HELP_TEXT,
+    [languagesKeysActions.LANGUAGES_CHANGED_MESSAGES_KEY]: languagesMessages.LANGUAGES_CHANGED_MESSAGES,
+}
+
 const messagesMap = {
     ...calendarMessagesMap,
+    ...languagesMessagesMap,
     ...tripPriceMessagesMap,
     ...tripCitiesMessagesMap,
     ...availableSeatsMessagesMap,
 }
 
 export const keysActions = {
+    ...languagesKeysActions,
     ...calendarKeysActions,
     ...tripPriceKeysActions,
     ...tripCitiesKeysActions,
     ...availableSeatsKeysActions,
 };
 
-export const tripCreationMessages = message => {
-    return messagesMap[message][en];
+export const tripCreationMessages = (message, eventObject) => {
+    const languageCode = get(eventObject, 'from.language_code', ru);
+    console.log(languageCode, eventObject);
+    return messagesMap[message][languageCode];
 }
