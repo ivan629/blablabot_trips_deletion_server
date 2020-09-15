@@ -50,12 +50,6 @@ export const PROPOSE_TRIP_MESSAGES = {
     [en]: '➕ Create trip',
 }
 
-export const FINAL_CITY_IN_THE_TRIP_MESSAGES = {
-    [ua]: '✅ Це кінцеве місто у подорожі',
-    [ru]: '✅ Это конечное город в путешествии',
-    [en]: '✅ This is the final city in travel',
-}
-
 export const CALENDAR_START_TRIP_MESSAGES = {
     [ua]: 'Оберіть дату вашої поїздки будь ласка!',
     [ru]: 'Выберите дату вашей поездки пожалуйста!',

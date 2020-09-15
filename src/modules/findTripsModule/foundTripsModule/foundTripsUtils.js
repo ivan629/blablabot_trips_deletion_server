@@ -3,16 +3,14 @@ import { saveNewFindTripDateToDb, getCustomDateForFindTrips } from '../findTrips
 import { getDoc, getTrip, getFieldFromDoc } from '../../../services/helpers';
 import { API_CONSTANTS } from '../../../common/constants';
 import { findTripsDaysAndCalendarKeyboard, myTripsTripActionKeyboard } from '../../keyboards/keyboards';
-import { NOT_FOUND_TRIPS_MESSAGE } from '../../../common/constants/commonСonstants';
 import { getTripHtmlSummary, parseData, sendMessage } from '../../../common/utils/utils';
+import {getLocalizedMessage, keysActions} from "../../../common/messages";
 
 const delimiter = '〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️';
-// const caption = `🔸🔸🔸 <b>${getFormattedDayMonth(start_date_month, start_date_day)} ${start_date_year}</b> 🔹🔹🔹`;
 
-
-const getTripsListHtml = trips => {
+const getTripsListHtml = (trips, eventObject) => {
     return trips.map(trip => {
-        const tripHtml = getTripHtmlSummary({trip, showCarrierFullInfo: true, carrierInfo: trip});
+        const tripHtml = getTripHtmlSummary({ trip, showCarrierFullInfo: true, carrierInfo: trip, eventObject});
 
         return {
             html: `${tripHtml}`,
@@ -63,21 +61,21 @@ export const findTrips = async (chat_id, customDay) => {
     return await Promise.all(tripsReqs);
 };
 
-export const showTripsList = async (bot, chat_id, trips) => {
-    const bookedTripsIds = await getFieldFromDoc(chat_id,'booked_trips_ids', []);
-    const tripsList = getTripsListHtml(trips);
+export const showTripsList = async (bot, query, chat_id, trips) => {
+    const alreadyBookedTripsIds = await getFieldFromDoc(chat_id,'booked_trips_ids', []);
+    const tripsList = getTripsListHtml(trips, query);
 
-    if (isEmpty(trips)) return sendMessage(bot, chat_id, NOT_FOUND_TRIPS_MESSAGE, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
+    if (isEmpty(trips)) return sendMessage(bot, chat_id, getLocalizedMessage(keysActions.NOT_FOUND_TRIPS_MESSAGES_KEY, query), { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
 
     tripsList.forEach((({ html, trip_id }) =>
-        sendMessage(bot, chat_id, html, { parse_mode: 'HTML', ...myTripsTripActionKeyboard(trip_id, bookedTripsIds, true) })));
+        sendMessage(bot, chat_id, html, { parse_mode: 'HTML', ...myTripsTripActionKeyboard({ trip_id, alreadyBookedTripsIds, query, includeReplyMarkup: true }) })));
 
     sendMessage(bot, chat_id, delimiter, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard })
 };
 
-export const showFoundTrips = async (bot, id, customDay) => {
+export const showFoundTrips = async (bot, query, id, customDay) => {
     const trips = await findTrips(id, customDay);
-    await showTripsList(bot, id, trips);
+    await showTripsList(bot, query, id, trips);
 };
 
 export const handlesSaveNewFindTripDateToDb = async (chat_id, customDay) => {

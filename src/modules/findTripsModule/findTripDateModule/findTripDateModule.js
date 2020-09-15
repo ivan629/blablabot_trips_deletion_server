@@ -1,15 +1,12 @@
-import {
-    CALENDAR_CONGRATS_MESSAGE_START,
-    FIND_TRIP_QUICK_DATE_PICKER,
-} from '../../../common/constants/commonСonstants';
 import { sendMessage } from '../../../common/utils/utils';
 import findTripDateListeners from './findTripDateListeners';
 import { goToMenuKeyboard, findTripsDaysAndCalendarKeyboard } from '../../keyboards/keyboards';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 class findTripDateModule {
     async runStartTripDatePicker(bot, msg) {
-        await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard(msg));
-        await sendMessage(bot, msg.chat.id, CALENDAR_CONGRATS_MESSAGE_START, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
+        await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
+        await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.CALENDAR_CONGRATS_START_MESSAGES_KEY), { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
     }
 
     setListeners(bot) {

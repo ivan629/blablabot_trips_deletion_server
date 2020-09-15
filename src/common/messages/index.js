@@ -4,19 +4,23 @@ import * as tripCitiesKeysActions from './tripCreationMessages/tripCitiesKeysAct
 import * as calendarKeysActions from './tripCreationMessages/calendarKeysActions';
 import * as availableSeatsKeysActions from './tripCreationMessages/availableSeatsKeysActions';
 import * as tripPriceKeysActions from './tripCreationMessages/tripPriceKeysActions';
-import * as languagesKeysActions from './tripCreationMessages/languagesKeysActions';
 import * as phoneNumberKeysActions from './tripCreationMessages/phoneNumberKeysActions';
 import * as tripSummariseKeysActions from './tripCreationMessages/tripSummariseKeysActions';
 import * as mainKeysActions from './main/mainKeysActions';
+import * as myTripsKeysActions from './myTrips/myTripsKeysActions';
+import * as findTripsKeysActions from './findTrips/findTripsKeysActions';
+import * as summaryKeysActions from './summary/summaryKeysActions';
 
 import * as citiesMessages from './tripCreationMessages/citiesMessages';
 import * as calendarMessages from './tripCreationMessages/calendarMessages';
 import * as availableSeatsMessages from './tripCreationMessages/availableSeatsMessages';
 import * as tripPriceMessages from './tripCreationMessages/tripPriceMessages';
-import * as languagesMessages from './tripCreationMessages/languagesMessages';
 import * as phoneNumberMessages from './tripCreationMessages/phoneNumberMessages';
 import * as tripSummariseMessages from './tripCreationMessages/tripSummariseMessages';
 import * as mainMessages from './main/mainMessages';
+import * as myTripsMessages from './myTrips/myTripsMessages';
+import * as findTripsMessages from './findTrips/findTripsMessages';
+import * as summaryMessages from './summary/summaryMessages';
 
 const { ua, ru, en } = LANGUAGES;
 
@@ -26,7 +30,9 @@ const tripCitiesMessagesMap = {
     [tripCitiesKeysActions.NOT_FOUND_CITY_MESSAGE_KEY]: citiesMessages.NOT_FOUND_CITY_MESSAGES,
     [tripCitiesKeysActions.BLOCKED_FINAL_CITY_KEY]: citiesMessages.BLOCKED_FINAL_CITY_MESSAGES,
     [tripCitiesKeysActions.CITIES_ADD_NEW_HELP_TEXT_KEY]: citiesMessages.CITIES_ADD_NEW_HELP_TEXT_MESSAGES,
+    [tripCitiesKeysActions.FINAL_CITY_IN_THE_TRIP_KEY]: citiesMessages.FINAL_CITY_IN_THE_TRIP_MESSAGES,
     [tripCitiesKeysActions.CITIES_INITIAL_HELP_TEXT_KEY]: citiesMessages.CITIES_INITIAL_HELP_TEXT_MESSAGES,
+    [tripCitiesKeysActions.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES]: citiesMessages.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES,
     [tripCitiesKeysActions.CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY]: citiesMessages.CITY_ALREADY_EXISTS_ERROR_MESSAGES,
 }
 
@@ -39,7 +45,6 @@ const calendarMessagesMap = {
     [calendarKeysActions.BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY]: calendarMessages.BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGES,
     [calendarKeysActions.TIME_STOP_CHOOSING_HELP_MESSAGE_KEY]: calendarMessages.TIME_STOP_CHOOSING_HELP_MESSAGES,
     [calendarKeysActions.PROPOSE_TRIP_KEY]: calendarMessages.PROPOSE_TRIP_MESSAGES,
-    [calendarKeysActions.FINAL_CITY_IN_THE_TRIP_KEY]: calendarMessages.FINAL_CITY_IN_THE_TRIP_MESSAGES,
     [calendarKeysActions.CALENDAR_START_TRIP_KEY]: calendarMessages.CALENDAR_START_TRIP_MESSAGES,
     [calendarKeysActions.CALENDAR_CONGRATS_MESSAGE_START_KEY]: calendarMessages.CALENDAR_CONGRATS_MESSAGE_START,
     [calendarKeysActions.CALENDAR_CONGRATS_MESSAGES_STOP_KEY]: calendarMessages.CALENDAR_CONGRATS_MESSAGES_STOP,
@@ -68,12 +73,6 @@ const tripPriceMessagesMap = {
     [tripPriceKeysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY]: tripPriceMessages.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED,
 }
 
-const languagesMessagesMap = {
-    [languagesKeysActions.LANGUAGES_KEY]: languagesMessages.LANGUAGES_MESSAGES,
-    [languagesKeysActions.LANGUAGES_START_SELECTION_HELP_TEXT_KEY]: languagesMessages.LANGUAGES_START_SELECTION_HELP_TEXT,
-    [languagesKeysActions.LANGUAGES_CHANGED_MESSAGES_KEY]: languagesMessages.LANGUAGES_CHANGED_MESSAGES,
-}
-
 const phoneNumberMessagesMap = {
     [phoneNumberKeysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY]: phoneNumberMessages.SHARE_CARRIER_PHONE_NUMBER_MESSAGES,
     [phoneNumberKeysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY]: phoneNumberMessages.GO_TO_TRIP_SUMMARISE_MESSAGES,
@@ -88,13 +87,53 @@ const tripSummariseMessagesMap = {
 
 const mainMessagesMap = {
     [mainKeysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY]: mainMessages.GO_TO_THE_MAIN_MENU_MESSAGES,
+    [mainKeysActions.CHOOSE_ACTION_MESSAGES_KEY]: mainMessages.CHOOSE_ACTION_MESSAGES,
+    [mainKeysActions.MY_TRIPS_MESSAGES_KEY]: mainMessages.MY_TRIPS_MESSAGES,
 }
 
-const messagesMap = {
+const myTripsMessagesMap = {
+    [myTripsKeysActions.SHOW_I_AM_DRIVING_MESSAGES_KEY]: myTripsMessages.SHOW_I_AM_DRIVING_MESSAGES,
+    [myTripsKeysActions.SHOW_BOOKED_TRIPS_MESSAGES_KEY]: myTripsMessages.SHOW_BOOKED_TRIPS_MESSAGES,
+    [myTripsKeysActions.NOT_FOUND_TRIPS_MESSAGES_KEY]: myTripsMessages.NOT_FOUND_TRIPS_MESSAGES,
+    [myTripsKeysActions.MY_TRIPS_CHOOSE_ROLE_MESSAGE_KEY]: myTripsMessages.MY_TRIPS_CHOOSE_ROLE_MESSAGE,
+    [myTripsKeysActions.NOT_FOUND_CARRIER_TRIPS_MESSAGES_KEY]: myTripsMessages.NOT_FOUND_CARRIER_TRIPS_MESSAGES,
+    [myTripsKeysActions.UNBOOK_TRIP_MESSAGES_KEY]: myTripsMessages.UNBOOK_TRIP_MESSAGES,
+    [myTripsKeysActions.TRIP_LIST_CAPTION_MESSAGES_KEY]: myTripsMessages.TRIP_LIST_CAPTION_MESSAGES,
+    [myTripsKeysActions.REMOVE_TRIP_BUTTON_MESSAGES_KEY]: myTripsMessages.REMOVE_TRIP_BUTTON_MESSAGES,
+    [myTripsKeysActions.BOOKED_TRIP_LIST_CAPTION_MESSAGES_KEY]: myTripsMessages.BOOKED_TRIP_LIST_CAPTION_MESSAGES,
+    [myTripsKeysActions.BOOK_TRIPS_MESSAGES_KEY]: myTripsMessages.BOOK_TRIPS_MESSAGES,
+}
+
+const findTripsMessagesMap = {
+    [findTripsKeysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_CONGRATS_STOP_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_CONGRATS_STOP_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_SEARCH_TRIPS_BLOCKED_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_SEARCH_TRIPS_BLOCKED_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_SEARCH_TRIPS_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_SEARCH_TRIPS_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_MAX_CITIES_CONT_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_MAX_CITIES_CONT_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_CITIES_ADD_NEW_HELP_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_CITIES_ADD_NEW_HELP_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_GO_TO_CALENDAR_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_GO_TO_CALENDAR_MESSAGES,
+    [findTripsKeysActions.CHOOSE_FIND_TRIP_CITY_MESSAGES_KEY]: findTripsMessages.CHOOSE_FIND_TRIP_CITY_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_GO_TO_CALENDAR_BLOCKED_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_GO_TO_CALENDAR_BLOCKED_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_GO_TO_CALENDAR_BLOCKED_ACTION_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_GO_TO_CALENDAR_BLOCKED_ACTION_MESSAGES,
+    [findTripsKeysActions.FIND_TRIP_ACTION_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_ACTION_MESSAGES,
+    [findTripsKeysActions.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES_KEY]: findTripsMessages.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES,
+    [findTripsKeysActions.CALENDAR_CONGRATS_START_MESSAGES_KEY]: findTripsMessages.CALENDAR_CONGRATS_START_MESSAGES,
+    [findTripsKeysActions.CITIES_INITIAL_HELP_MESSAGES_KEY]: findTripsMessages.CITIES_INITIAL_HELP_MESSAGES,
+    [findTripsKeysActions.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES_KEY]: findTripsMessages.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES,
+    [findTripsKeysActions.CHOOSE_CITY_MESSAGES_KEY]: findTripsMessages.CHOOSE_CITY_MESSAGES,
+}
+
+const summaryMessagesMap = {
+    [summaryKeysActions.TRIP_SUMMARY_MESSAGES_KEY]: summaryMessages.TRIP_SUMMARY_MESSAGES,
+}
+
+export const messagesMap = {
     ...mainMessagesMap,
+    ...summaryMessagesMap,
+    ...myTripsMessagesMap,
     ...calendarMessagesMap,
-    ...languagesMessagesMap,
     ...tripPriceMessagesMap,
+    ...findTripsMessagesMap,
     ...tripCitiesMessagesMap,
     ...phoneNumberMessagesMap,
     ...tripSummariseMessagesMap,
@@ -103,8 +142,11 @@ const messagesMap = {
 
 export const keysActions = {
     ...mainKeysActions,
-    ...languagesKeysActions,
+    ...summaryKeysActions,
+    ...myTripsMessagesMap,
+    ...myTripsKeysActions,
     ...calendarKeysActions,
+    ...findTripsKeysActions,
     ...tripPriceKeysActions,
     ...tripCitiesKeysActions,
     ...phoneNumberKeysActions,
@@ -113,6 +155,6 @@ export const keysActions = {
 };
 
 export const getLocalizedMessage = (message, eventObject) => {
-    const languageCode = get(eventObject, 'from.language_code', ru);
+    const languageCode = get(eventObject, 'from.language_code', en);
     return messagesMap[message][languageCode];
 }

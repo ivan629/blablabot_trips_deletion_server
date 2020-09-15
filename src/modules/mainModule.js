@@ -18,8 +18,8 @@ import { keysActions, getLocalizedMessage } from '../common/messages';
 const mainModule = (expressApp, bot) => {
     tripCreationModule(bot);
     myTripsModule(bot);
-    userPayModule(bot);
     findTripModule(bot);
+    // userPayModule(bot);
 
     // set shared calendar listeners
     calendarComponentListeners(bot);

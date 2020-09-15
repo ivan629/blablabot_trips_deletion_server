@@ -8,12 +8,8 @@ import {
     handleGetDefaultTripMinCalendarDateThresholdCallback
 } from '../../utils/utils';
 import { MONTHS, WEEK_DAYS } from '../../constants/calendarConstants';
-import {
-    DATE_CHANGED,
-    MONTH_DOWN,
-    MONTH_UP,
-} from '../../constants/commonСonstants';
 import calendarComponent from './calendarComponent';
+import { keysActions } from '../../messages';
 
 export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
 
@@ -59,7 +55,7 @@ export const getDaysButtons = (chat_id, daysForCalendar, alreadyChosenDate, minD
             && alreadyChosenDate.year === calendarYear
 
         const text = isTimeEnable ? `${isAlreadyChosenDate ? '✅' : calendarDay}` : '🚫';
-        const callback_data = isTimeEnable ? createAction(DATE_CHANGED, payload) : 'none';
+        const callback_data = isTimeEnable ? createAction(keysActions.DATE_CHANGED_ACTION, payload) : 'none';
 
         if (calendarDay > 0) result.push({text , callback_data});
         return result;
@@ -74,11 +70,11 @@ export const getMonthPaginationButtons = (currentCalendarMonth, shouldDisableGoT
     const isGoToPreviousMonthButtonEnabled = getIsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
     const goToPreviousMonthButton = {
         text: `${isGoToPreviousMonthButtonEnabled ? '⬅️' : '🤷‍♀️'}`,
-        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(MONTH_DOWN) : 'None',
+        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(keysActions.MONTH_DOWN_ACTION) : 'None',
     };
     const goToNextMonthButton = {
         text: `${shouldDisableGoToNextMonthButton ? '🤷‍♀️' : '➡️'}`,
-        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(MONTH_UP),
+        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(keysActions.MONTH_UP_ACTION),
     };
 
     return [

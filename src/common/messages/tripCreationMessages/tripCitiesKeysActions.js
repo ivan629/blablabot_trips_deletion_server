@@ -10,3 +10,5 @@ export const CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY = 'caeemk';
 // actions
 export const CHOOSE_TRIP_CITY_ACTION = 'ctca';
 export const SHOW_NEXT_CITY_ACTION = 'snca';
+export const FINAL_CITY_IN_THE_TRIP_KEY = 'fcittk';
+export const BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES = 'bfcittm';

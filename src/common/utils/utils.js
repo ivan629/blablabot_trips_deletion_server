@@ -22,25 +22,12 @@ import {
     CITIES_INITIAL_HELP_TEXT_MESSAGES,
 } from '../messages/tripCreationMessages/citiesMessages'
 import { CONFIRM_TRIP_PRICE_MESSAGES } from '../messages/tripCreationMessages/tripPriceMessages'
+import { START_ACTION } from '../messages/main/mainKeysActions'
 
-import {
-    FIND_TRIP,
-    PROPOSE_TRIP,
-    START_MESSAGE,
-    CHOOSE_CITY_MESSAGE,
-    CHOOSE_ROLE_MESSAGE,
-    FIND_TRIP_SEARCH_TRIPS,
-    NEXT_CITY_IN_THE_TRIP,
-    NOT_FOUND_CITY_MESSAGE,
-    FINAL_CITY_IN_THE_TRIP,
-    CITIES_INITIAL_HELP_TEXT,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-} from '../constants/commonСonstants';
 import { getCityDetailsUrl } from '../constants/urlHelpers';
 import { head, isNil, last } from 'lodash';
 
-import { getLocalizedMessage, keysActions } from '../messages';
+import { getLocalizedMessage, keysActions, messagesMap } from '../messages';
 
 const { GO_TO_TIME_PICKER_MESSAGE_KEY } = keysActions;
 const { uk, ru, en } = LANGUAGES;
@@ -141,6 +128,13 @@ const getCarrierObject = ({
     trips: {}
 });
 
+const botMessages = Object.values(messagesMap).reduce((result, obj) => {
+    result.push(...Object.values(obj))
+    return result;
+}, [])
+
+export const getIsBotMessage = messageText => botMessages.includes(messageText);
+
 function isJson(str) {
     try {
         JSON.parse(str);
@@ -177,32 +171,7 @@ export const addNewTrip = async msg => {
 
 export const getCityObject = (city) => city;
 
-export const goToTheMainMenu = async (bot, id, query) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard(query));
-
-export const getIsBotMessage = messageText => [
-    FIND_TRIP,
-    PROPOSE_TRIP,
-    START_MESSAGE,
-    CHOOSE_CITY_MESSAGE,
-    NEXT_CITY_IN_THE_TRIP,
-    FINAL_CITY_IN_THE_TRIP,
-    CITIES_INITIAL_HELP_TEXT,
-    NOT_FOUND_CITY_MESSAGE,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[uk],
-    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[ru],
-    keysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY[en],
-    CITIES_ADD_NEW_HELP_TEXT_MESSAGES[uk],
-    CITIES_ADD_NEW_HELP_TEXT_MESSAGES[ru],
-    CITIES_ADD_NEW_HELP_TEXT_MESSAGES[en],
-    CITIES_INITIAL_HELP_TEXT_MESSAGES[uk],
-    CITIES_INITIAL_HELP_TEXT_MESSAGES[ru],
-    CITIES_INITIAL_HELP_TEXT_MESSAGES[en],
-    CONFIRM_TRIP_PRICE_MESSAGES[uk],
-    CONFIRM_TRIP_PRICE_MESSAGES[ru],
-    CONFIRM_TRIP_PRICE_MESSAGES[en],
-].includes(messageText);
+export const goToTheMainMenu = async (bot, id, query) => sendMessage(bot, id, getLocalizedMessage(keysActions.CHOOSE_ACTION_MESSAGES_KEY, query), initialKeyboard(query));
 
 export const getFormattedDayMonth = (month, day) => {
     const formattedDay = day < 10 ? `0${day}` : day;
@@ -226,7 +195,7 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
 export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
-export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo} ) => {
+export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo, eventObject }) => {
     const sortedCities = getSortedCities(Object.values(trip.cities));
 
     const {
@@ -258,17 +227,31 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
 
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
 
-    const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
-    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
+    // const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+    // const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
+    // const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
+    // const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
+    // const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
+    // const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
+    // const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${availableSeatsCount}/${trip.book.available_seats_count}`;
+    //
+    // return showCarrierFullInfo
+    //     ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`
+    //     : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
+    const formattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
     const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
-    const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
-    const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
-    const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${availableSeatsCount}/${trip.book.available_seats_count}`;
-
-    return showCarrierFullInfo
-        ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`
-        : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
+console.log(keysActions.TRIP_SUMMARY_MESSAGES_KEY);
+    return getLocalizedMessage(keysActions.TRIP_SUMMARY_MESSAGES_KEY, eventObject)({
+        trip,
+        startDate,
+        finishDate,
+        leftPadding,
+        carrierInfo,
+        carrierName,
+        formattedCities,
+        showCarrierFullInfo,
+        availableSeatsCount,
+    })
 };
 
 export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());
@@ -291,7 +274,7 @@ export const handleUserDateChanged = async (bot, query) => {
     if (isFindTripInProgress) {
         await handlesSaveNewFindTripDateToDbFromCalendar(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS, query));
+        sendMessage(bot, chatId, message, calendarKeyboard(getLocalizedMessage(keysActions.FIND_TRIP_SEARCH_TRIPS_MESSAGES_KEY, query), query));
     }
 
     if (isTripCreatingInProgress) {

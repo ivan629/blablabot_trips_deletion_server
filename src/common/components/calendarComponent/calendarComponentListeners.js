@@ -1,28 +1,23 @@
 import {
-    MONTH_UP,
-    MONTH_DOWN,
-    DATE_CHANGED,
-} from '../../constants/commonСonstants';
-import {
     calendarChangedDate,
     calendarChangeMonth,
 } from './calendarComponentUtils';
 import { parseData } from '../../utils/utils';
-
+import { keysActions } from '../../messages';
 
 const calendarComponentListeners = bot => {
     bot.on('callback_query', query => {
         const data = parseData(query.data);
         switch (data.type) {
-            case MONTH_DOWN: {
+            case keysActions.MONTH_DOWN_ACTION: {
                 calendarChangeMonth(query, bot);
             }
                 break;
-            case MONTH_UP: {
+            case keysActions.MONTH_UP_ACTION: {
                 calendarChangeMonth(query, bot, true)
             }
                 break;
-            case DATE_CHANGED: {
+            case keysActions.DATE_CHANGED_ACTION: {
                 calendarChangedDate(query, bot);
             }
                 break;

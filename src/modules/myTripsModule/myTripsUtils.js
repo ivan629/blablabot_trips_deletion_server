@@ -1,11 +1,5 @@
 import { isEmpty } from 'lodash';
 import {
-    TRIP_LIST_CAPTION,
-    NOT_FOUNT_TRIPS_MESSAGES,
-    BOOKED_TRIP_LIST_CAPTION,
-    MY_TRIPS_CHOOSE_ROLE_MESSAGE,
-} from '../../common/constants/commonСonstants';
-import {
     removeTripKeyBoard,
     cancelBookedTripKeyboard,
     myTripsChooseRoleKeyboard,
@@ -21,34 +15,40 @@ import {
 import { API_CONSTANTS } from '../../common/constants';
 import { unBookTripInDb } from '../findTripsModule/foundTripsModule/bookTipUtils';
 import { getTripHtmlSummary, parseData, sendMessage } from '../../common/utils/utils';
+import {getLocalizedMessage, keysActions} from "../../common/messages";
 
-export const getFormattedTripsList = (trips, customCarrierInfo) => {
+export const getFormattedTripsList = (trips, customCarrierInfo, eventObject) => {
     const formattedTrips = Object.values(trips).filter(trip => !isEmpty(trip));
     return formattedTrips.map((trip, index) => {
         const carrierInfo  = customCarrierInfo || trip;
 
         return ({
             trip_id: trip.trip_id,
-            html: `${getTripHtmlSummary({trip, carrierInfo, leftPadding: '\t'}).replace(/,/g, "")}\n`
+            html: `${getTripHtmlSummary({trip, carrierInfo, leftPadding: '\t', eventObject }).replace(/,/g, "")}\n`
         });
     });
 };
 
-const getMyCreatedTrips = async chatId => {
+const getMyCreatedTrips = async (chatId, msg) => {
     const tripsIds = await getMyTripsIds(chatId);
     const tripsReqs = Object.values(tripsIds).map(async tripId => await getDoc(tripId, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME));
     const trips = await Promise.all(tripsReqs);
     const carrierInfo = await getCarrierInfo(chatId);
 
-    return getFormattedTripsList(trips, carrierInfo);
+    return getFormattedTripsList(trips, carrierInfo, msg);
 };
 
 export const sendOwnDrivingTripsList = async (bot, msg) => {
-    const carrierTrips = await getMyCreatedTrips(msg.chat.id);
-    if (isEmpty(carrierTrips)) return sendMessage(bot, msg.chat.id, NOT_FOUNT_TRIPS_MESSAGES);
+    const carrierTrips = await getMyCreatedTrips(msg.chat.id, msg);
+    if (isEmpty(carrierTrips)) return sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.NOT_FOUND_CARRIER_TRIPS_MESSAGES_KEY, msg));
 
-    await sendMessage(bot, msg.chat.id, TRIP_LIST_CAPTION, { parse_mode: 'HTML' });
-    carrierTrips.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...removeTripKeyBoard(trip_id) }));
+    await sendMessage(
+        bot,
+        msg.chat.id,
+        getLocalizedMessage(keysActions.TRIP_LIST_CAPTION_MESSAGES_KEY, msg),
+        { parse_mode: 'HTML' },
+        );
+    carrierTrips.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...removeTripKeyBoard(trip_id, msg) }));
 };
 
 export const sendBookedTripsList = async (bot, msg) => {
@@ -57,10 +57,10 @@ export const sendBookedTripsList = async (bot, msg) => {
 
     const reqs = Object.values(bookedTripsIds).map(async tripId => await getTrip(tripId));
     const bookedTripsObjects = await Promise.all(reqs);
-    const formattedTripsList = getFormattedTripsList(bookedTripsObjects)
+    const formattedTripsList = getFormattedTripsList(bookedTripsObjects, msg)
 
-    await sendMessage(bot, msg.chat.id, BOOKED_TRIP_LIST_CAPTION, { parse_mode: 'HTML' });
-    formattedTripsList.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...cancelBookedTripKeyboard(trip_id) }));
+    await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.BOOKED_TRIP_LIST_CAPTION_MESSAGES_KEY), { parse_mode: 'HTML' });
+    formattedTripsList.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...cancelBookedTripKeyboard(trip_id, msg) }));
 };
 
 export const removeTrip = async (bot, query) => {
@@ -76,5 +76,5 @@ export const cancelTripBooking = async (bot, query) => {
 };
 
 export const handleShowRolesKeyboard = async (bot, msg) => {
-    await sendMessage(bot, msg.chat.id, MY_TRIPS_CHOOSE_ROLE_MESSAGE, myTripsChooseRoleKeyboard(msg));
+    await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.MY_TRIPS_CHOOSE_ROLE_MESSAGE_KEY, msg), myTripsChooseRoleKeyboard(msg));
 };

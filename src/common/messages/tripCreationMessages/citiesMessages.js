@@ -8,6 +8,12 @@ export const CITIES_INITIAL_HELP_TEXT_MESSAGES = {
     [en]: 'Write city of departure, for example <b>Kiev</b> 🏙️',
 }
 
+export const FINAL_CITY_IN_THE_TRIP_MESSAGES = {
+    [ua]: '✅ Це кінцеве місто у подорожі',
+    [ru]: '✅ Это конечное город в путешествии',
+    [en]: '✅ This is the final city in travel',
+}
+
 export const SHOW_NEXT_CITY_MESSAGES = {
     [ua]: '⬇️ Показати наступну локацію',
     [ru]: '⬇️ Показать следующую локацию',
@@ -41,4 +47,10 @@ export const CITY_ALREADY_EXISTS_ERROR_MESSAGES = {
     [ua]: '👿 Це місто вже додане у подорож!',
     [ru]: '👿 Этот город уже добавлено в путешествие!',
     [en]: '👿 This city has already been added to the trip!',
+}
+
+export const BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES = {
+    [ua]: '⛔ Це кінцеве місто у подорожі',
+    [ru]: '⛔ Это конечное город в путешествии',
+    [en]: '⛔ This is the ultimate city to travel',
 }
