@@ -1,5 +1,4 @@
 import { isNil, chunk } from 'lodash';
-import { MONTHS, WEEK_DAYS } from '../../constants/calendarConstants';
 import calendarSchema from '../../../common/components/calendarSchema';
 import {
     getCurrentYear,
@@ -10,8 +9,10 @@ import {
     getCurrentMonthNumber,
     getDefaultTripMinCalendarDateThreshold,
 } from './calendarComponentUtils';
+import { getLocalizedMessage, keysActions } from '../../messages';
 
 const FindTripCalendarComponent = async ({
+                                             eventObject,
                                              chat_id,
                                              customNewYear,
                                              customMonthNumber,
@@ -21,7 +22,9 @@ const FindTripCalendarComponent = async ({
                                          }) => {
 
     const shouldIncludeReplyMarkup = isNil(customMonthNumber);
-    const currentCalendarMonth = shouldIncludeReplyMarkup ? getCurrentMonthValue() : MONTHS[customMonthNumber];
+    const currentCalendarMonth = shouldIncludeReplyMarkup
+        ? getCurrentMonthValue(eventObject)
+        : getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY, eventObject)[customMonthNumber];
     const currentMonthNumber = shouldIncludeReplyMarkup ? getCurrentMonthNumber() : customMonthNumber;
     const currentYear = isNil(customNewYear) ? getCurrentYear() : customNewYear;
     const daysForCalendar = calendarSchema(currentMonthNumber, currentYear);
@@ -29,9 +32,10 @@ const FindTripCalendarComponent = async ({
     const minDateMillisecondsThreshold = await getMinCalendarDateThresholdCallback();
     const daysButtons = getDaysButtons(chat_id, daysForCalendar, alreadyChosenDate, minDateMillisecondsThreshold);
     const monthButton = getMonthButton(currentCalendarMonth, currentYear);
-    const chunkedDaysArrayButtons = chunk(daysButtons, WEEK_DAYS.length);
+    const chunkedDaysArrayButtons = chunk(daysButtons, getLocalizedMessage(keysActions.CALENDAR_WEEK_DAYS_MESSAGES_KEY, eventObject).length);
 
     return getCalendarKeyboards({
+        eventObject,
         monthButton,
         currentMonthNumber,
         chunkedDaysArrayButtons,

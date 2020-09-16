@@ -1,7 +1,7 @@
 import FoundTripsModule from './foundTripsModule/foundTripsModule';
 import FindTripDateModule from './findTripDateModule/findTripDateModule'
 import FindCitiesModule from './findTripCitiesModule/findTripCitiesModule'
-import { FIND_TRIP, FIND_TRIP_GO_TO_CALENDAR } from '../../common/constants/commonСonstants';
+import {getLocalizedMessage, keysActions} from "../../common/messages";
 
 const foundTripsModule = new FoundTripsModule();
 const findCitiesModule = new FindCitiesModule();
@@ -14,11 +14,11 @@ const findTripModule = bot => {
 
     bot.on('message', async msg => {
         switch (msg.text) {
-            case FIND_TRIP: {
+            case getLocalizedMessage(keysActions.FIND_TRIP_ACTION_MESSAGES_KEY, msg): {
                 await findCitiesModule.start(bot, msg);
             }
                 break;
-            case FIND_TRIP_GO_TO_CALENDAR: {
+            case getLocalizedMessage(keysActions.FIND_TRIP_GO_TO_CALENDAR_MESSAGES_KEY, msg): {
                 findTripDateModule.runStartTripDatePicker(bot, msg);
             }
                 break;

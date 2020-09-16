@@ -1,24 +1,19 @@
 import {
-    BOOK_TRIP_ACTION,
-    UNBOOK_TRIP_ACTION,
-    FIND_TRIP_SEARCH_TRIPS,
-    FIND_TRIP_QUICK_DATE_PICKER,
-} from '../../../common/constants/commonСonstants';
-import { FIND_TRIPS_KEYBOARDS_DAY } from '../../../common/constants/findTripConstants';
-import {
     showFoundTrips,
     handlesSaveNewFindTripDateToDb,
 } from './foundTripsUtils';
 import { handleBookTrip, handleUnBookTrip } from './bookTipUtils'
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import { goToMenuKeyboard } from '../../keyboards/keyboards';
+import { BOOK_TRIP_ACTION, UNBOOK_TRIP_ACTION } from '../../../common/messages/myTrips/myTripsKeysActions';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const foundTripsListeners = bot => {
     bot.on('message', async (msg) => {
         switch (msg.text) {
-            case FIND_TRIP_SEARCH_TRIPS: {
-                showFoundTrips(bot, msg.chat.id);
-                await sendMessage(bot, msg.chat.id, FIND_TRIP_QUICK_DATE_PICKER, goToMenuKeyboard);
+            case getLocalizedMessage(keysActions.FIND_TRIP_SEARCH_TRIPS_MESSAGES_KEY, msg): {
+                showFoundTrips(bot, msg, msg.chat.id);
+                await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
             }
                 break;
             default: {
@@ -32,11 +27,11 @@ const foundTripsListeners = bot => {
         const { type, payload } = parseData(data);
 
         switch (type) {
-            case FIND_TRIPS_KEYBOARDS_DAY[0]:
-            case FIND_TRIPS_KEYBOARDS_DAY[1]:
-            case FIND_TRIPS_KEYBOARDS_DAY[2]: {
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[0]:
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[1]:
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[2]: {
                 await handlesSaveNewFindTripDateToDb(id, payload);
-                await showFoundTrips(bot, id, payload);
+                await showFoundTrips(bot, query, id, payload);
             }
                 break;
             case BOOK_TRIP_ACTION: {

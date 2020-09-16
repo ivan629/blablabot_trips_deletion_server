@@ -16,30 +16,15 @@ import {
 } from '../../modules/tripCreationModule/tripDateModule/tripCreationCalendarUtils'
 import { initialKeyboard, calendarKeyboard } from '../../modules/keyboards/keyboards';
 import { handlesSaveNewFindTripDateToDbFromCalendar } from '../../modules/findTripsModule/foundTripsModule/foundTripsUtils';
+import { LANGUAGES } from '../constants/botSettings'
 
-import {
-    FIND_TRIP,
-    PROPOSE_TRIP,
-    START_MESSAGE,
-    GO_TO_TIME_PICKER,
-    CONFIRM_TRIP_PRICE,
-    CHOOSE_CITY_MESSAGE,
-    CHOOSE_ROLE_MESSAGE,
-    GO_TO_THE_MAIN_MENU,
-    FIND_TRIP_SEARCH_TRIPS,
-    NEXT_CITY_IN_THE_TRIP,
-    NOT_FOUND_CITY_MESSAGE,
-    FINAL_CITY_IN_THE_TRIP,
-    CITIES_INITIAL_HELP_TEXT,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    TRIP_PRICE_BLOCKED_MESSAGE,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
-} from '../constants/commonСonstants';
 import { getCityDetailsUrl } from '../constants/urlHelpers';
 import { head, isNil, last } from 'lodash';
+
+import { getLocalizedMessage, keysActions, messagesMap } from '../messages';
+
+const { GO_TO_TIME_PICKER_MESSAGE_KEY } = keysActions;
+const { uk, ru, en } = LANGUAGES;
 
 export const getTripObject = ({
                                   stop_city = null,
@@ -110,6 +95,7 @@ const getCarrierObject = ({
                               phone_numbers = {}
                           }) => ({
     bot: {
+        language: uk,
         is_trip_cities_creating,
         is_find_trip_city_creating,
         keyboard_message_id,
@@ -135,6 +121,13 @@ const getCarrierObject = ({
     booked_trips_ids: {},
     trips: {}
 });
+
+const botMessages = Object.values(messagesMap).reduce((result, obj) => {
+    result.push(...Object.values(obj))
+    return result;
+}, [])
+
+export const getIsBotMessage = messageText => botMessages.includes(messageText);
 
 function isJson(str) {
     try {
@@ -172,30 +165,11 @@ export const addNewTrip = async msg => {
 
 export const getCityObject = (city) => city;
 
-export const goToTheMainMenu = async (bot, id) => sendMessage(bot, id, CHOOSE_ROLE_MESSAGE, initialKeyboard);
-
-export const getIsBotMessage = messageText => [
-    FIND_TRIP,
-    PROPOSE_TRIP,
-    START_MESSAGE,
-    CONFIRM_TRIP_PRICE,
-    CHOOSE_CITY_MESSAGE,
-    GO_TO_THE_MAIN_MENU,
-    NEXT_CITY_IN_THE_TRIP,
-    FINAL_CITY_IN_THE_TRIP,
-    CITIES_INITIAL_HELP_TEXT,
-    NOT_FOUND_CITY_MESSAGE,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    TRIP_PRICE_BLOCKED_MESSAGE,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    SHARE_CARRIER_PHONE_NUMBER_MESSAGE,
-].includes(messageText);
+export const goToTheMainMenu = async (bot, id, query) => sendMessage(bot, id, getLocalizedMessage(keysActions.CHOOSE_ACTION_MESSAGES_KEY, query), initialKeyboard(query));
 
 export const getFormattedDayMonth = (month, day) => {
-    const formattedDay = day < 10 ? `0${day}` : day.toString();
-    const formattedMonth = month < 10 ? `0${month}` : month.toString();
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
     return `${formattedDay}/${formattedMonth}`
 };
 
@@ -204,8 +178,6 @@ const getFormattedHourMinutes = (hour, minutes) => {
     const formattedMinutes = isNil(minutes) ? '00' : minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${formattedHour}:${formattedMinutes}`
 };
-
-export const getFormattedPhoneNumber = number => number.includes('+') ? number : `+${number}`;
 
 export const getFormattedData = ({ day, month, hour, minutes }) =>
     `${getFormattedHourMinutes(hour, minutes)} ${getFormattedDayMonth(month, day)}`;
@@ -217,12 +189,9 @@ export const sendMessage = async (bot, id, message, config) => await bot.sendMes
 export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(id, lat, lng)
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
-export const getFormattedCities = trip => {
+export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo, eventObject }) => {
     const sortedCities = getSortedCities(Object.values(trip.cities));
-    return `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;;
-}
 
-export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo} ) => {
     const {
         start_date_day,
         start_date_hour,
@@ -252,17 +221,19 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
 
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
 
-    const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities(trip)}`;
-    const carrierName = `${leftPadding}👤 <b>${carrierInfo?.carrier_name} ${carrierInfo?.carrier_last_name}</b>`;
-    const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
-    const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo?.phone_numbers).map(number => getFormattedPhoneNumber(number))} `;
-    const allSeats = `️${leftPadding}💺️ <b>Кількість місць:</b> ${trip.book.available_seats_count}`;
-    const availablePlaces = `️${leftPadding}💺️ <b>Кількість доступних місць:</b> ${availableSeatsCount}`;
-
-    return showCarrierFullInfo
-        ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${allSeats}\n${availablePlaces}`
-        : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
+    const formattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+    const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
+    return getLocalizedMessage(keysActions.TRIP_SUMMARY_MESSAGES_KEY, eventObject)({
+        trip,
+        startDate,
+        finishDate,
+        leftPadding,
+        carrierInfo,
+        carrierName,
+        formattedCities,
+        showCarrierFullInfo,
+        availableSeatsCount,
+    })
 };
 
 export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());
@@ -285,13 +256,13 @@ export const handleUserDateChanged = async (bot, query) => {
     if (isFindTripInProgress) {
         await handlesSaveNewFindTripDateToDbFromCalendar(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(FIND_TRIP_SEARCH_TRIPS));
+        sendMessage(bot, chatId, message, calendarKeyboard(getLocalizedMessage(keysActions.FIND_TRIP_SEARCH_TRIPS_MESSAGES_KEY, query), query));
     }
 
     if (isTripCreatingInProgress) {
         await tripCreationUserChangedDate(query);
         const message = await getCurrentTripDateText(chatId);
-        sendMessage(bot, chatId, message, calendarKeyboard(GO_TO_TIME_PICKER));
+        sendMessage(bot, chatId, message, calendarKeyboard(getLocalizedMessage(GO_TO_TIME_PICKER_MESSAGE_KEY, query), query));
     }
 };
 

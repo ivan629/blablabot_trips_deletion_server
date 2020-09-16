@@ -1,10 +1,12 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../../common/utils/utils';
 import { TIME_PICKER_MINUTES } from './tripDateConstants';
-import { SET_TRIP_HOUR, SET_TRIP_MINUTES } from '../../../common/constants/commonСonstants';
+import { keysActions } from '../../../common/messages';
 import { getCurrentTripCreationDate, getIsStartDateCreatingCompleted, getCreatingTrip } from '../../../services/helpers';
 
-// TODO: fix but when trip finish time, show all hours
+const { SET_TRIP_HOUR, SET_TRIP_MINUTES } = keysActions;
+
+// TODO: fix bug when trip finish time, show all hours
 export const timeComponent = async chat_id => {
     const { year, day, month } = await getCurrentTripCreationDate(chat_id);
     const currentMonth = new Date().getMonth();

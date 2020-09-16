@@ -1,3 +1,4 @@
+// todo: find out why we need this import
 import { initialKeyboard } from '../../modules/keyboards/keyboards';
 import CalendarModule from './tripDateModule/tripDateModule';
 import TripCitiesModule from './tripCitiesModule/tripCitiesModule';
@@ -12,20 +13,12 @@ import {
     toggleIsTripCreatingInProgress,
 } from '../../services/helpers';
 import { addNewTrip } from '../../common/utils/utils';
-import {
-    PROPOSE_TRIP,
-    CONFIRM_TRIP_PRICE,
-    GO_TO_TRIP_SUMMARISE,
-    FINISH_TRIP_CREATION,
-    FINAL_CITY_IN_THE_TRIP,
-    GO_TO_TRIP_END_TIME_PICKER,
-    GO_TO_AVAILABLE_SEATS_SETTING,
-} from '../../common/constants/commonСonstants';
+import { getLocalizedMessage, keysActions } from '../../common/messages'
 
-const phoneNumberModule = new PhoneNumberModule();
 const calendarModule = new CalendarModule();
 const tripPriceModule = new TripPriceModule();
 const tripCitiesModule = new TripCitiesModule();
+const phoneNumberModule = new PhoneNumberModule();
 const availableSeatsModule = new AvailableSeatsModule();
 const tripCreationSummariseModule = new TripCreationSummariseModule();
 
@@ -38,40 +31,40 @@ const tripCreationModule = bot => {
     tripCreationSummariseModule.setListeners(bot);
 
     bot.on('message', async msg => {
-        const { chat: { id }, message_id } = msg;
-        addSessionMessagesIdsToDb(id, message_id);
+        const { chat: { id }, text, message_id } = msg;
+        await addSessionMessagesIdsToDb(id, message_id);
 
-        switch (msg.text) {
-            case PROPOSE_TRIP: {
+        switch (text) {
+            case getLocalizedMessage(keysActions.PROPOSE_TRIP_KEY, msg): {
                 await toggleIsTripCreatingInProgress(msg.chat.id, true);
                 await addNewTrip(msg);
                 await tripCitiesModule.start(bot, msg);
             }
                 break;
-            case FINAL_CITY_IN_THE_TRIP: {
+            case getLocalizedMessage(keysActions.FINAL_CITY_IN_THE_TRIP_KEY, msg): {
                 calendarModule.runStartTripDatePicker(bot, msg);
-                await toggleIsTripCitiesCreating(id, false);
+                await toggleIsTripCitiesCreating(id, false); // defect
             }
                 break;
-            case GO_TO_TRIP_END_TIME_PICKER: {
+            case getLocalizedMessage(keysActions.GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
                 await removeSessionMessagesIds(bot, id);
-                calendarModule.runStopTripDatePicker(bot, msg);
+                await calendarModule.runStopTripDatePicker(bot, msg);
             }
                 break;
-            case GO_TO_AVAILABLE_SEATS_SETTING: {
+            case getLocalizedMessage(keysActions.GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, msg): {
                 availableSeatsModule.runAvailableTripSeatsPicker(bot, msg);
             }
                 break;
-            case CONFIRM_TRIP_PRICE: {
-                phoneNumberModule.runPhoneNumberModule(bot, msg);
+            case getLocalizedMessage(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, msg): {
+                await phoneNumberModule.runPhoneNumberModule(bot, msg);
             }
                 break;
-            case GO_TO_TRIP_SUMMARISE: {
-                tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
+            case getLocalizedMessage(keysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY, msg): {
+                await tripCreationSummariseModule.runTripCreationSummariseModule(bot, msg);
             }
                 break;
-            case FINISH_TRIP_CREATION: {
-                tripCreationSummariseModule.saveTrip(bot, msg);
+            case getLocalizedMessage(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg): {
+                await tripCreationSummariseModule.saveTrip(bot, msg);
             }
                 break;
             default: {

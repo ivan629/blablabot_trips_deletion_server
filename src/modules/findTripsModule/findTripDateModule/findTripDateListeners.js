@@ -1,7 +1,6 @@
 import { parseData } from '../../../common/utils/utils';
-import { FIND_TRIPS_KEYBOARDS_DAY } from '../../../common/constants/findTripConstants';
 import { sendFindTripCalendar } from './findTripDateUtils';
-
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const findTripDateListeners = (bot) => {
     bot.on('callback_query', query => {
@@ -9,8 +8,8 @@ const findTripDateListeners = (bot) => {
         const { message: { chat: { id }} } = query;
 
         switch (data.type) {
-            case FIND_TRIPS_KEYBOARDS_DAY[3]: {
-                sendFindTripCalendar(bot, id)
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[3]: {
+                sendFindTripCalendar(bot, id, query)
             }
             default: {
                 break;

@@ -1,22 +1,22 @@
 import {
-    SET_TRIP_HOUR,
-    SET_TRIP_MINUTES,
-    CONFIRM_TRIP_DATE,
-    GO_TO_TIME_PICKER,
-    BLOCKED_GO_TO_TIME_PICKER,
-    BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
-    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-} from '../../../common/constants/commonСonstants';
-import {
     setTripHour,
     setTripMinutes,
-    confirmTripDate,
     showTimeComponent,
     showBlockedGoToTripEnd,
     sendBlockedGoToAvailableMessage,
     showBlockedGoToTimePickerMessage
 } from './tripCreationCalendarUtils';
 import { parseData } from '../../../common/utils/utils';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
+
+const {
+    SET_TRIP_HOUR,
+    SET_TRIP_MINUTES,
+    GO_TO_TIME_PICKER_MESSAGE_KEY,
+    BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY,
+    BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY,
+    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY,
+} = keysActions;
 
 const tripDateListeners = (bot) => {
     bot.on('callback_query', query => {
@@ -39,23 +39,19 @@ const tripDateListeners = (bot) => {
 
     bot.on('message', msg => {
         switch (msg.text) {
-            case CONFIRM_TRIP_DATE: {
-                confirmTripDate(bot, msg);
-            }
-                break;
-            case GO_TO_TIME_PICKER: {
+            case getLocalizedMessage(GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showTimeComponent(bot, msg);
             }
                 break;
-            case BLOCKED_GO_TO_TIME_PICKER: {
+            case getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTimePickerMessage(bot, msg);
             }
                 break;
-            case BLOCKED_GO_TO_TRIP_END_TIME_PICKER: {
+            case getLocalizedMessage(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
                 showBlockedGoToTripEnd(bot, msg);
             }
                 break;
-            case BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS: {
+            case getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, msg): {
                 sendBlockedGoToAvailableMessage(bot, msg);
             }
                 break;

@@ -7,15 +7,10 @@ import {
     handleGetCurrentDateForChosenDayInCalendar,
     handleGetDefaultTripMinCalendarDateThresholdCallback
 } from '../../utils/utils';
-import { MONTHS, WEEK_DAYS } from '../../constants/calendarConstants';
-import {
-    DATE_CHANGED,
-    MONTH_DOWN,
-    MONTH_UP,
-} from '../../constants/commonСonstants';
-import calendarComponent from "./calendarComponent";
+import calendarComponent from './calendarComponent';
+import { getLocalizedMessage, keysActions } from '../../messages';
 
-export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
+export const getMonthNumberByValue = (value, eventObject) => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY, eventObject).findIndex(item => item === value);
 
 export const getCurrentYear = () => new Date().getFullYear();
 
@@ -27,8 +22,8 @@ export const getDefaultTripMinCalendarDateThreshold = () => {
 
 export const getCurrentMonthNumber = () => new Date().getMonth()
 
-export const getCurrentMonthValue = () => {
-    return MONTHS[getCurrentMonthNumber()];
+export const getCurrentMonthValue = eventObject => {
+    return getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY, eventObject)[getCurrentMonthNumber()];
 };
 
 export const getMonthButton = (currentCalendarMonth, currentYear) =>
@@ -59,7 +54,7 @@ export const getDaysButtons = (chat_id, daysForCalendar, alreadyChosenDate, minD
             && alreadyChosenDate.year === calendarYear
 
         const text = isTimeEnable ? `${isAlreadyChosenDate ? '✅' : calendarDay}` : '🚫';
-        const callback_data = isTimeEnable ? createAction(DATE_CHANGED, payload) : 'none';
+        const callback_data = isTimeEnable ? createAction(keysActions.DATE_CHANGED_ACTION, payload) : 'none';
 
         if (calendarDay > 0) result.push({text , callback_data});
         return result;
@@ -70,15 +65,14 @@ const getIsGoToPreviousMonthButtonEnabled = currentCalendarMonth => {
 }
 
 export const getMonthPaginationButtons = (currentCalendarMonth, shouldDisableGoToNextMonthButton) => {
-    // console.log('currentCalendarMonth', currentCalendarMonth);
     const isGoToPreviousMonthButtonEnabled = getIsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
     const goToPreviousMonthButton = {
         text: `${isGoToPreviousMonthButtonEnabled ? '⬅️' : '🤷‍♀️'}`,
-        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(MONTH_DOWN) : 'None',
+        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(keysActions.MONTH_DOWN_ACTION) : 'None',
     };
     const goToNextMonthButton = {
         text: `${shouldDisableGoToNextMonthButton ? '🤷‍♀️' : '➡️'}`,
-        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(MONTH_UP),
+        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(keysActions.MONTH_UP_ACTION),
     };
 
     return [
@@ -89,6 +83,7 @@ export const getMonthPaginationButtons = (currentCalendarMonth, shouldDisableGoT
 }
 
 export const getCalendarKeyboards = ({
+                                         eventObject,
                                          monthButton,
                                          chunkedDaysArrayButtons,
                                          currentMonthNumber,
@@ -100,7 +95,7 @@ export const getCalendarKeyboards = ({
             reply_markup: {
                 inline_keyboard: [
                     monthButton,
-                    WEEK_DAYS,
+                    getLocalizedMessage(keysActions.CALENDAR_WEEK_DAYS_MESSAGES_KEY, eventObject),
                     ...chunkedDaysArrayButtons,
                     getMonthPaginationButtons(currentMonthNumber, shouldDisableGoToNextMonthButton),
                 ]
@@ -109,7 +104,7 @@ export const getCalendarKeyboards = ({
         : ({
             inline_keyboard: [
                 monthButton,
-                WEEK_DAYS,
+                getLocalizedMessage(keysActions.CALENDAR_WEEK_DAYS_MESSAGES_KEY, eventObject),
                 ...chunkedDaysArrayButtons,
                 getMonthPaginationButtons(currentMonthNumber, shouldDisableGoToNextMonthButton),
             ]
@@ -142,6 +137,7 @@ export const calendarChangeMonth = async (query, bot, isUp) => {
     const alreadyChosenDate = await handleGetCurrentDateForChosenDayInCalendar(chat.id);
 
     const calendar = await calendarComponent({
+        eventObject: query,
         customNewYear,
         chat_id: chat.id,
         customMonthNumber,
@@ -159,7 +155,7 @@ export const calendarChangedDate = async (query, bot) => {
     const { id: chat_id } = chat;
 
     const [monthText, dayToSave] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const customMonthNumber = getMonthNumberByValue(monthText);
+    const customMonthNumber = getMonthNumberByValue(monthText, query);
     const { payload: alreadyChosenDate } = parseData(data);
 
     const [monthValue, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
@@ -170,6 +166,7 @@ export const calendarChangedDate = async (query, bot) => {
     if (currentYear !== newYear) shouldDisableGoToNextMonthButton = true;
 
     const calendar = await calendarComponent({
+        eventObject: query,
         chat_id,
         newYear,
         customMonthNumber,

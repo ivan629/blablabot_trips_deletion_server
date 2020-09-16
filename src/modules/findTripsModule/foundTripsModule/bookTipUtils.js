@@ -39,7 +39,7 @@ export const editTripMessage = async (bot, query, isAfterBooked) => {
     const trip = await getTrip(trip_id);
     const tripHtml = await getTripHtmlSummary({trip, showCarrierFullInfo: true, carrierInfo: trip});
     const alreadyBookedTripsIds = isAfterBooked ? [trip_id] : [];
-    const keyBoard = myTripsTripActionKeyboard(trip_id, alreadyBookedTripsIds);
+    const keyBoard = myTripsTripActionKeyboard({ trip_id, alreadyBookedTripsIds, query });
 
     const editMessageConfig = {
         chat_id,

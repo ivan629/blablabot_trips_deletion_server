@@ -2,19 +2,9 @@ import { head, isNil } from 'lodash';
 import { calendarKeyboard } from '../../keyboards/keyboards';
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
-import { MONTHS } from '../../../common/constants/calendarConstants';
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../../keyboards/keyboards';
 import { getDefaultTripMinCalendarDateThreshold, getDateMilliseconds } from '../../../common/components/calendarComponent/calendarComponentUtils';
-import {
-    TIME_CHOOSING_MESSAGE,
-    GO_TO_TRIP_END_TIME_PICKER,
-    TIME_CHOOSING_HELP_MESSAGE,
-    GO_TO_AVAILABLE_SEATS_SETTING,
-    TIME_STOP_CHOOSING_HELP_MESSAGE,
-    BLOCKED_GO_TO_TIME_PICKER_MESSAGE,
-    BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE,
-    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE,
-} from '../../../common/constants/commonСonstants';
 import {
     updateFieldInUserDoc,
     getCreatingTrip,
@@ -23,7 +13,17 @@ import {
     getCurrentTripDateText,
 } from '../../../services/helpers';
 
-export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
+const {
+    TIME_CHOOSING_MESSAGE_KEY,
+    TIME_CHOOSING_HELP_MESSAGE_KEY,
+    TIME_STOP_CHOOSING_HELP_MESSAGE_KEY,
+    BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY,
+    GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY,
+    GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY,
+    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY,
+} = keysActions;
+
+export const getMonthNumberByValue = value => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY).findIndex(item => item === value);
 
 export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {
     const html = await getCurrentTripDateText(id, isOnlyDate);
@@ -58,10 +58,15 @@ export const showTimeComponent = async (bot, msg) => {
     const { chat: { id } } = msg;
     const timePicker = await timeComponent(id);
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(id);
-    const helpMessage = isStartDateCreatingCompleted ? TIME_STOP_CHOOSING_HELP_MESSAGE : TIME_CHOOSING_HELP_MESSAGE;
-    const keyboard = isStartDateCreatingCompleted ? blockedTimeStopPickerKeyboard : blockedTimePickerKeyboard;
 
-    sendMessage(bot, id, TIME_CHOOSING_MESSAGE, timePicker);
+    const helpMessage = isStartDateCreatingCompleted
+        ? getLocalizedMessage(TIME_STOP_CHOOSING_HELP_MESSAGE_KEY, msg)
+        : getLocalizedMessage(TIME_CHOOSING_HELP_MESSAGE_KEY, msg)
+    const keyboard = isStartDateCreatingCompleted
+        ? blockedTimeStopPickerKeyboard(msg)
+        : blockedTimePickerKeyboard(msg);
+
+    sendMessage(bot, id, getLocalizedMessage(TIME_CHOOSING_MESSAGE_KEY, msg), timePicker);
     sendMessage(bot, id, helpMessage, { parse_mode: 'HTML', ...keyboard });
 };
 
@@ -118,35 +123,37 @@ export const setTripHour = async (query, bot) => {
     const { message: { chat: { id: chat_id }}, data } = query;
 
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
-    const keyboardType = isStartDateCreatingCompleted ? GO_TO_AVAILABLE_SEATS_SETTING : GO_TO_TRIP_END_TIME_PICKER;
+    const keyboardType = isStartDateCreatingCompleted
+        ? getLocalizedMessage(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
+        : getLocalizedMessage(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
 
     await setDatePickerDataToDb(chat_id, 'hour', parseData(data).payload);
-    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType));
+    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType, query));
 };
 
 export const setTripMinutes = async (query, bot) => {
     const { message: { chat: { id: chat_id }}, data } = query;
 
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
-    const keyboardType = isStartDateCreatingCompleted ? GO_TO_AVAILABLE_SEATS_SETTING : GO_TO_TRIP_END_TIME_PICKER;
+    const keyboardType = isStartDateCreatingCompleted
+        ? getLocalizedMessage(GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY, query)
+        : getLocalizedMessage(GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, query);
 
     await setDatePickerDataToDb(chat_id, 'minutes', parseData(data).payload);
-    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType));
+    await sendCurrentDateHtml(chat_id, bot, calendarKeyboard(keyboardType, query));
 };
-
-export const confirmTripDate = async (bot, query) => {};
 
 export const showBlockedGoToTimePickerMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, BLOCKED_GO_TO_TIME_PICKER_MESSAGE)
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
 };
 
 export const showBlockedGoToTripEnd = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE)
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg))
 };
 
 export const sendBlockedGoToAvailableMessage = (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE);
+    sendMessage(bot, id, getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY, msg));
 };

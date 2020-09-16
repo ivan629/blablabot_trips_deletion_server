@@ -1,36 +1,28 @@
 import {
-    MY_TRIPS,
-    REMOVE_TRIP_BUTTON,
-    SHOW_I_AM_DRIVING_MESSAGE,
-    SHOW_BOOKED_TRIPS_MESSAGE,
     CANCEL_TRIP_BOOKING_ACTION,
-    TRIP_PASSENGERS_BUTTON_ACTION
-} from '../../common/constants/commonСonstants';
+    REMOVE_TRIP_BUTTON_ACTION,
+} from '../../common/messages/myTrips/myTripsKeysActions';
 import {
     removeTrip,
-    showPassengers,
     cancelTripBooking,
     sendBookedTripsList,
     handleShowRolesKeyboard,
     sendOwnDrivingTripsList,
 } from './myTripsUtils';
 import { parseData } from '../../common/utils/utils';
+import { getLocalizedMessage, keysActions } from '../../common/messages';
 
 const myTripsModule = bot => {
     bot.on('callback_query', query => {
         const data = parseData(query.data);
 
         switch (data.type) {
-            case REMOVE_TRIP_BUTTON: {
+            case REMOVE_TRIP_BUTTON_ACTION: {
                 removeTrip(bot, query);
             }
                 break;
             case CANCEL_TRIP_BOOKING_ACTION: {
                 cancelTripBooking(bot, query);
-            }
-                break;
-            case TRIP_PASSENGERS_BUTTON_ACTION: {
-                showPassengers(bot, query);
             }
                 break;
             default: {
@@ -41,15 +33,15 @@ const myTripsModule = bot => {
 
     bot.on('message', async msg => {
         switch (msg.text) {
-            case MY_TRIPS: {
+            case getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY, msg): {
                 handleShowRolesKeyboard(bot, msg);
             }
                 break;
-            case SHOW_I_AM_DRIVING_MESSAGE: {
+            case getLocalizedMessage(keysActions.SHOW_I_AM_DRIVING_MESSAGES_KEY, msg): {
                 sendOwnDrivingTripsList(bot, msg);
             }
                 break;
-            case SHOW_BOOKED_TRIPS_MESSAGE: {
+            case getLocalizedMessage(keysActions.SHOW_BOOKED_TRIPS_MESSAGES_KEY, msg): {
                 sendBookedTripsList(bot, msg);
             }
                 break;

@@ -1,15 +1,7 @@
-import { tripPriceSettingsKeyboardFinish } from '../../../modules/keyboards/keyboards';
+import { tripPriceSettingsKeyboardFinish } from '../../keyboards/keyboards';
 import { setTripPrice } from '../../../services/helpers';
 import { sendMessage } from '../../../common/utils/utils';
-import {
-    TRIP_PRICE_SETTINGS_FINISH_MESSAGE,
-    TRIP_PRICE_BLOCKED_MESSAGE,
-} from '../../../common/constants/commonСonstants';
-
-
-export const sendInitialMessage = (bot, msg) => {
-    // sendMessage(bot, msg.chat.id, TRIP_PRICE_SETTINGS_INITIAL_MESSAGE, tripPriceSettingsKeyboardInitial)
-};
+import { keysActions, getLocalizedMessage} from "../../../common/messages";
 
 export const handlePriceSetting = async (bot, msg, id) => {
     const isOnlyNumbers = /^(?!(0))\d+$/.test(msg.text);
@@ -17,12 +9,12 @@ export const handlePriceSetting = async (bot, msg, id) => {
 
     if (isOnlyNumbers) {
         await setTripPrice(id, formattedPrice);
-        sendMessage(bot, id, TRIP_PRICE_SETTINGS_FINISH_MESSAGE, { parse_mode: 'HTML', ...tripPriceSettingsKeyboardFinish })
+        sendMessage(bot, id, getLocalizedMessage(keysActions.TRIP_PRICE_SETTINGS_FINISH_MESSAGES_KEY, msg), { parse_mode: 'HTML', ...tripPriceSettingsKeyboardFinish(msg) })
     } else {
-        sendMessage(bot, id, TRIP_PRICE_BLOCKED_MESSAGE);
+        sendMessage(bot, id, getLocalizedMessage(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg));
     }
 };
 
 export const sendTripPriceBlockedMessage = (bot, msg) => {
-    sendMessage(bot, msg.chat.id, TRIP_PRICE_BLOCKED_MESSAGE)
+    sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.TRIP_PRICE_BLOCKED_MESSAGES_KEY, msg))
 };

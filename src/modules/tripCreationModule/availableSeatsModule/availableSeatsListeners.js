@@ -1,9 +1,7 @@
 import  { parseData } from '../../../common/utils/utils'
-import {
-    SET_AVAILABLE_SEATS_CUNT,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
-} from '../../../common/constants/commonСonstants';
-import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from './availableSeatsHelpers';
+import { setAvailableSeatsData, sendAvailableSeatsBlockedMessage } from './availableSeatsUtils';
+import { SET_AVAILABLE_SEATS_CUNT } from '../../../common/messages/tripCreationMessages/availableSeatsKeysActions';
+import { keysActions, getLocalizedMessage } from '../../../common/messages';
 
 const AvailableSeatsListeners = bot => {
     bot.on('callback_query', query => {
@@ -22,7 +20,7 @@ const AvailableSeatsListeners = bot => {
 
     bot.on('message', async (msg) => {
         switch (msg.text) {
-            case GO_TO_TRIP_PRICE_SETTINGS_BLOCKED: {
+            case getLocalizedMessage(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY, msg): {
                 sendAvailableSeatsBlockedMessage(bot, msg);
             }
                 break;

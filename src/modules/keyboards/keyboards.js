@@ -1,116 +1,64 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
-import {
-    LANGUAGE,
-    MY_TRIPS,
-    FIND_TRIP,
-    PROPOSE_TRIP,
-    BOOK_TRIP_TEXT,
-    USER_PAY_START,
-    UNBOOK_TRIP_TEXT,
-    BOOK_TRIP_ACTION,
-    UNBOOK_TRIP_ACTION,
-    REMOVE_TRIP_BUTTON,
-    CONFIRM_TRIP_PRICE,
-    GO_TO_THE_MAIN_MENU,
-    FINISH_TRIP_CREATION,
-    SEND_MY_PHONE_NUMBER,
-    GO_TO_TRIP_SUMMARISE,
-    NEXT_CITY_IN_THE_TRIP,
-    FINAL_CITY_IN_THE_TRIP,
-    SET_AVAILABLE_SEATS_CUNT,
-    FIND_TRIP_GO_TO_CALENDAR,
-    GO_TO_TRIP_PRICE_SETTINGS,
-    SHOW_BOOKED_TRIPS_MESSAGE,
-    SHOW_I_AM_DRIVING_MESSAGE,
-    CONFIRM_TRIP_PRICE_BLOCKED,
-    CANCEL_TRIP_BOOKING_ACTION,
-    TRIP_PASSENGERS_BUTTON_TEXT,
-    TRIP_PASSENGERS_BUTTON_ACTION,
-    BLOCKED_FINAL_CITY_IN_THE_TRIP,
-    FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-    GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
-    BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
-    BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-} from '../../common/constants/commonСonstants';
+import { keysActions, getLocalizedMessage } from '../../common/messages'
+import { SET_AVAILABLE_SEATS_CUNT, BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY } from '../../common/messages/tripCreationMessages/availableSeatsKeysActions';
+import { CANCEL_TRIP_BOOKING_ACTION,  BOOK_TRIP_ACTION, UNBOOK_TRIP_ACTION, } from '../../common/messages/myTrips/myTripsKeysActions';
 
-import { FIND_TRIPS_KEYBOARDS_DAY } from '../../common/constants/findTripConstants';
-
-export const phoneNumberKeyboard = {
+export const phoneNumberKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
             [
                 {
-                    text: SEND_MY_PHONE_NUMBER,
+                    text: getLocalizedMessage(keysActions.SEND_MY_PHONE_NUMBER_MESSAGES_KEY, eventObject),
                     request_contact: true
                 }
             ],
             [
                 {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+                    text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject),
+                    callback_data: createAction(getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject))
                 },
             ]
         ]
     }
-};
+});
 
-export const phoneNumberKeyboardGoToSummarise = {
+export const phoneNumberKeyboardGoToSummarise = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
             [
-                { text: GO_TO_TRIP_SUMMARISE }
+                { text: getLocalizedMessage(keysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY, eventObject) }
             ],
             [
-                { text: GO_TO_THE_MAIN_MENU },
+                { text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) },
             ]
         ]
     }
-};
+});
 
-export const tripPriceSettingsKeyboardInitial = {
+export const tripPriceSettingsKeyboardInitial = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: CONFIRM_TRIP_PRICE_BLOCKED,
-                    callback_data: createAction(CONFIRM_TRIP_PRICE_BLOCKED)
-                },
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
+            [{ text: getLocalizedMessage(keysActions.CONFIRM_TRIP_PRICE_BLOCKED_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }]
         ]
     }
-};
+});
 
-export const tripPriceSettingsKeyboardFinish = {
+export const tripPriceSettingsKeyboardFinish = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: CONFIRM_TRIP_PRICE,
-                    callback_data: createAction(CONFIRM_TRIP_PRICE)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
+            [{ text: getLocalizedMessage(keysActions.CONFIRM_TRIP_PRICE_MESSAGE_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }]
         ]
     }
-};
+});
 
-export const availableSeatsKeyboard = {
+export const availableSeatsKeyboard = eventObject => ({
     reply_markup: {
         inline_keyboard: chunk(new Array(8).fill(null).reduce((result, item, index) => {
             result.push({
@@ -121,111 +69,67 @@ export const availableSeatsKeyboard = {
             return result;
         }, []), 4)
     }
-};
+});
 
-export const tripSummaryKeyboards = {
+export const tripSummaryKeyboards = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FINISH_TRIP_CREATION,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ]
+            [{text: getLocalizedMessage(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, eventObject)}],
+            [{text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject)}]
         ]
     }
-};
+});
 
-export const availableSeatsCongratsKeyboard = {
+export const availableSeatsCongratsKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_TRIP_PRICE_SETTINGS,
-                    callback_data: createAction(GO_TO_TRIP_PRICE_SETTINGS)
-                }
-            ],
-            [
-               {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-               }
-          ],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const availableSeatsKeyboardBlocked = {
+export const availableSeatsKeyboardBlocked = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_TRIP_PRICE_SETTINGS_BLOCKED,
-                    callback_data: createAction(GO_TO_TRIP_PRICE_SETTINGS_BLOCKED)
-                }
-            ],
-            [
-               {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-               }
-          ],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_TRIP_PRICE_SETTINGS_MESSAGES_BLOCKED_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const initialKeyboard = {
+export const initialKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FIND_TRIP,
-                    callback_data: createAction(FIND_TRIP),
-                },
-                {
-                    text: PROPOSE_TRIP,
-                    callback_data: createAction(PROPOSE_TRIP)
-                }
-            ],
-            [
-                {
-                    text: MY_TRIPS,
-                    callback_data: createAction(MY_TRIPS)
-                },
-                {
-                    callback_data: createAction(LANGUAGE),
-                    text: LANGUAGE,
-                }
-            ],
+            [{ text: getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.FIND_TRIP_ACTION_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.PROPOSE_TRIP_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const findTripsDaysAndCalendarKeyboard = {
+export const findTripsDaysAndCalendarKeyboard = eventObject => ({
     reply_markup: {
         inline_keyboard: chunk(new Array(4).fill(null).reduce((result, item, index) => {
             result.push({
-                text: FIND_TRIPS_KEYBOARDS_DAY[index],
-                callback_data: createAction(FIND_TRIPS_KEYBOARDS_DAY[index], index),
+                text: getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index],
+                callback_data: createAction(getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index], index),
             });
 
             return result;
         }, []), 2)
     }
-};
+});
 
-export const myTripsTripActionKeyboard = (trip_id, alreadyBookedTripsIds, includeReplyMarkup = false) => {
-    const text = Object.values(alreadyBookedTripsIds).includes(trip_id) ? UNBOOK_TRIP_TEXT : BOOK_TRIP_TEXT;
+export const myTripsTripActionKeyboard = ({ trip_id, alreadyBookedTripsIds, query, includeReplyMarkup = false }) => {
+    const text = Object.values(alreadyBookedTripsIds).includes(trip_id)
+        ? getLocalizedMessage(keysActions.UNBOOK_TRIP_MESSAGES_KEY, query)
+        : getLocalizedMessage(keysActions.BOOK_TRIPS_MESSAGES_KEY, query);
+
     const callback_data = Object.values(alreadyBookedTripsIds).includes(trip_id)
         ? createAction(UNBOOK_TRIP_ACTION, trip_id)
         : createAction(BOOK_TRIP_ACTION, trip_id);
@@ -245,54 +149,52 @@ export const myTripsTripActionKeyboard = (trip_id, alreadyBookedTripsIds, includ
     return includeReplyMarkup ? { reply_markup: button } : button
 };
 
-export const myTripsChooseRoleKeyboard = {
+export const myTripsChooseRoleKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
             [
                 {
-                    text: SHOW_BOOKED_TRIPS_MESSAGE,
+                    text: getLocalizedMessage(keysActions.SHOW_BOOKED_TRIPS_MESSAGES_KEY, eventObject),
                 },
                 {
-                    text: SHOW_I_AM_DRIVING_MESSAGE,
+                    text: getLocalizedMessage(keysActions.SHOW_I_AM_DRIVING_MESSAGES_KEY, eventObject)
                 }
             ],
             [
                 {
-                    text: GO_TO_THE_MAIN_MENU,
-                },
-            ]
-        ]
-    }
-};
-
-export const calendarKeyboard = nextButtonAction => ({
-    reply_markup: {
-        resize_keyboard: true,
-        keyboard: [
-            [
-                {
-                    text: nextButtonAction,
-                    callback_data: createAction(nextButtonAction)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
+                    text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject),
                 },
             ]
         ]
     }
 });
 
-export const cancelBookedTripKeyboard = tripId => ({
+export const calendarKeyboard = (nextButtonAction, eventObject) => ({
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            [
+                {
+                    text: nextButtonAction,
+                }
+            ],
+            [
+                {
+                    text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject),
+                },
+            ]
+        ]
+    }
+});
+
+export const cancelBookedTripKeyboard = (tripId, eventObject) => ({
     reply_markup: {
         resize_keyboard: true,
         inline_keyboard: [
             [
                 {
-                    text: UNBOOK_TRIP_TEXT,
+                    text: getLocalizedMessage(keysActions.UNBOOK_TRIP_MESSAGES_KEY, eventObject),
                     callback_data: createAction(CANCEL_TRIP_BOOKING_ACTION, tripId)
                 }
             ],
@@ -300,168 +202,94 @@ export const cancelBookedTripKeyboard = tripId => ({
     }
 });
 
-export const myTripActionsKeyBoard = trip_id => ({
+export const removeTripKeyBoard = (trip_id, eventObject) => ({
     reply_markup: {
         resize_keyboard: true,
         inline_keyboard: [
             [
                 {
-                    text: REMOVE_TRIP_BUTTON,
-                    callback_data: createAction(REMOVE_TRIP_BUTTON, trip_id)
-                },
-                {
-                    text: TRIP_PASSENGERS_BUTTON_TEXT,
-                    callback_data: createAction(TRIP_PASSENGERS_BUTTON_ACTION, trip_id)
-                }
-            ],
+                    text: getLocalizedMessage(keysActions.REMOVE_TRIP_BUTTON_MESSAGES_KEY, eventObject),
+                    callback_data: createAction(keysActions.REMOVE_TRIP_BUTTON_ACTION, trip_id)}
+                ],
         ]
     }
 });
 
 
-export const blockedTimePickerKeyboard = {
+export const blockedTimePickerKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: BLOCKED_GO_TO_TRIP_END_TIME_PICKER,
-                    callback_data: createAction(BLOCKED_GO_TO_TRIP_END_TIME_PICKER)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const blockedTimeStopPickerKeyboard = {
+export const blockedTimeStopPickerKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS,
-                    callback_data: createAction(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const goToMenuKeyboard = {
+export const goToMenuKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(NEXT_CITY_IN_THE_TRIP)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const calendarNotCompletedKeyboard = {
+export const calendarNotCompletedKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(NEXT_CITY_IN_THE_TRIP)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const creatingCitiesKeyboards = {
+export const creatingCitiesKeyboards = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FINAL_CITY_IN_THE_TRIP,
-                    callback_data: createAction(FINAL_CITY_IN_THE_TRIP)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.FINAL_CITY_IN_THE_TRIP_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const blockedCitiesKeyboard = {
+export const blockedCitiesKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: BLOCKED_FINAL_CITY_IN_THE_TRIP,
-                    callback_data: createAction(BLOCKED_FINAL_CITY_IN_THE_TRIP)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
+});
 
-export const blockedFindTripCitiesKeyboard = {
+export const blockedFindTripCitiesKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FIND_TRIP_GO_TO_CALENDAR_BLOCKED,
-                    callback_data: createAction(FIND_TRIP_GO_TO_CALENDAR_BLOCKED)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.FIND_TRIP_GO_TO_CALENDAR_BLOCKED_ACTION_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
-};
-export const findTripGoToCalendarKeyboard = {
+});
+
+export const findTripGoToCalendarKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [
-                {
-                    text: FIND_TRIP_GO_TO_CALENDAR,
-                    callback_data: createAction(FIND_TRIP_GO_TO_CALENDAR)
-                }
-            ],
-            [
-                {
-                    text: GO_TO_THE_MAIN_MENU,
-                    callback_data: createAction(GO_TO_THE_MAIN_MENU)
-                },
-            ],
+            [{ text: getLocalizedMessage(keysActions.FIND_TRIP_GO_TO_CALENDAR_MESSAGES_KEY, eventObject) }],
+            [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject)}],
         ]
     }
-};
+});
