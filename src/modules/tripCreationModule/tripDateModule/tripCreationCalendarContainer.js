@@ -3,12 +3,14 @@ import calendarComponent from '../../../common/components/calendarComponent/cale
 
 const FindTripCalendarComponent = async ({
                                              chat_id,
+                                             eventObject,
                                              customNewYear,
                                              alreadyChosenDate,
                                              customMonthNumber,
                                              shouldDisableGoToNextMonthButton,
                                          }) => calendarComponent({
         chat_id,
+        eventObject,
         customNewYear,
         alreadyChosenDate,
         customMonthNumber,

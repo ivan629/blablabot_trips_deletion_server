@@ -1,4 +1,3 @@
-import { FIND_TRIPS_KEYBOARDS_DAY } from '../../../common/constants/findTripConstants';
 import {
     showFoundTrips,
     handlesSaveNewFindTripDateToDb,
@@ -28,9 +27,9 @@ const foundTripsListeners = bot => {
         const { type, payload } = parseData(data);
 
         switch (type) {
-            case FIND_TRIPS_KEYBOARDS_DAY[0]:
-            case FIND_TRIPS_KEYBOARDS_DAY[1]:
-            case FIND_TRIPS_KEYBOARDS_DAY[2]: {
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[0]:
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[1]:
+            case getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, query)[2]: {
                 await handlesSaveNewFindTripDateToDb(id, payload);
                 await showFoundTrips(bot, query, id, payload);
             }

@@ -5,8 +5,16 @@ import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 class findTripDateModule {
     async runStartTripDatePicker(bot, msg) {
-        await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
-        await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.CALENDAR_CONGRATS_START_MESSAGES_KEY), { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
+        await sendMessage(
+            bot,
+            msg.chat.id,
+            getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
+        console.log(findTripsDaysAndCalendarKeyboard(msg).reply_markup.inline_keyboard);
+        await sendMessage(
+            bot,
+            msg.chat.id,
+            getLocalizedMessage(keysActions.CALENDAR_CONGRATS_START_MESSAGES_KEY, msg),
+            { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard(msg) });
     }
 
     setListeners(bot) {

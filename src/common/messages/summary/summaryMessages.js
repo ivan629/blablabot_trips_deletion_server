@@ -56,6 +56,7 @@ export const TRIP_SUMMARY_MESSAGES = {
                showCarrierFullInfo,
                availableSeatsCount,
            }) => {
+        console.log(carrierInfo);
         const cities = `${leftPadding}🚏 <b>Route:</b> ${formattedCities}`;
         const time = `${leftPadding}🕐 <b>Departure time:</b> ${startDate}\n${leftPadding}🕞 <b>Arrival time:</b>  ${finishDate}`;
         const price = `${leftPadding}💰 <b>Price:</b> ${trip.trip_price} UAH`;

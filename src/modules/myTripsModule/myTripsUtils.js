@@ -15,12 +15,12 @@ import {
 import { API_CONSTANTS } from '../../common/constants';
 import { unBookTripInDb } from '../findTripsModule/foundTripsModule/bookTipUtils';
 import { getTripHtmlSummary, parseData, sendMessage } from '../../common/utils/utils';
-import {getLocalizedMessage, keysActions} from "../../common/messages";
+import { getLocalizedMessage, keysActions } from '../../common/messages';
 
-export const getFormattedTripsList = (trips, customCarrierInfo, eventObject) => {
+export const getFormattedTripsList = ({ trips, customCarrierInfo, eventObject }) => {
     const formattedTrips = Object.values(trips).filter(trip => !isEmpty(trip));
     return formattedTrips.map((trip, index) => {
-        const carrierInfo  = customCarrierInfo || trip;
+        const carrierInfo = customCarrierInfo || trip;
 
         return ({
             trip_id: trip.trip_id,
@@ -33,9 +33,9 @@ const getMyCreatedTrips = async (chatId, msg) => {
     const tripsIds = await getMyTripsIds(chatId);
     const tripsReqs = Object.values(tripsIds).map(async tripId => await getDoc(tripId, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME));
     const trips = await Promise.all(tripsReqs);
-    const carrierInfo = await getCarrierInfo(chatId);
+    const customCarrierInfo = await getCarrierInfo(chatId);
 
-    return getFormattedTripsList(trips, carrierInfo, msg);
+    return getFormattedTripsList({ trips, customCarrierInfo, eventObject: msg });
 };
 
 export const sendOwnDrivingTripsList = async (bot, msg) => {
@@ -57,7 +57,7 @@ export const sendBookedTripsList = async (bot, msg) => {
 
     const reqs = Object.values(bookedTripsIds).map(async tripId => await getTrip(tripId));
     const bookedTripsObjects = await Promise.all(reqs);
-    const formattedTripsList = getFormattedTripsList(bookedTripsObjects, msg)
+    const formattedTripsList = getFormattedTripsList({trips: bookedTripsObjects, eventObject: msg })
 
     await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.BOOKED_TRIP_LIST_CAPTION_MESSAGES_KEY), { parse_mode: 'HTML' });
     formattedTripsList.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...cancelBookedTripKeyboard(trip_id, msg) }));

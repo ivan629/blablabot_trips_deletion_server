@@ -45,7 +45,7 @@ const getCitiesButton = ({ data, place_id, nextCityIndex, allCitiesSize, eventOb
 
 export const startTripCitiesSearching = async (bot, msg) => {
     const { chat: { id } } = msg;
-    await sendMessage(bot, id, getLocalizedMessage(keysActions.CITIES_INITIAL_HELP_MESSAGES_KEY), { parse_mode: 'HTML', ...blockedFindTripCitiesKeyboard(msg) });
+    await sendMessage(bot, id, getLocalizedMessage(keysActions.CITIES_INITIAL_HELP_MESSAGES_KEY, msg), { parse_mode: 'HTML', ...blockedFindTripCitiesKeyboard(msg) });
     await toggleIsFindTripCitiesCreating(id, true);
 };
 
@@ -72,7 +72,7 @@ export const addCityToFindTripCities = async (bot, query) => {
     }
 
     if (isAlreadyAdded) {
-        return sendMessage(bot, id, getLocalizedMessage(keysActions.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES_KEY));
+        return sendMessage(bot, id, getLocalizedMessage(keysActions.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES_KEY, query));
     }
 
     if (canBeTheFinalCity) {
@@ -129,6 +129,6 @@ export const handlefindTripsShowCities = async ({ bot, data, customCityIndex, ev
                 })})
         });
     } else {
-        await sendMessage(bot, data.id, getLocalizedMessage(keysActions.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES_KEY));
+        await sendMessage(bot, data.id, getLocalizedMessage(keysActions.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES_KEY, eventObject));
     }
 };

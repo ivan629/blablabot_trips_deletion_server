@@ -1,7 +1,6 @@
 import { head, isNil } from 'lodash';
 import { calendarKeyboard } from '../../keyboards/keyboards';
 import { parseData, sendMessage } from '../../../common/utils/utils';
-import { MONTHS } from '../../../common/constants/calendarConstants';
 import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
 import { getLocalizedMessage, keysActions } from '../../../common/messages';
 import { blockedTimePickerKeyboard, blockedTimeStopPickerKeyboard } from '../../keyboards/keyboards';
@@ -24,7 +23,7 @@ const {
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY,
 } = keysActions;
 
-export const getMonthNumberByValue = value => MONTHS.findIndex(item => item === value);
+export const getMonthNumberByValue = value => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY).findIndex(item => item === value);
 
 export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {
     const html = await getCurrentTripDateText(id, isOnlyDate);

@@ -4,7 +4,7 @@ import { getDoc, getTrip, getFieldFromDoc } from '../../../services/helpers';
 import { API_CONSTANTS } from '../../../common/constants';
 import { findTripsDaysAndCalendarKeyboard, myTripsTripActionKeyboard } from '../../keyboards/keyboards';
 import { getTripHtmlSummary, parseData, sendMessage } from '../../../common/utils/utils';
-import {getLocalizedMessage, keysActions} from "../../../common/messages";
+import { getLocalizedMessage, keysActions } from '../../../common/messages';
 
 const delimiter = '〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️';
 
@@ -65,12 +65,17 @@ export const showTripsList = async (bot, query, chat_id, trips) => {
     const alreadyBookedTripsIds = await getFieldFromDoc(chat_id,'booked_trips_ids', []);
     const tripsList = getTripsListHtml(trips, query);
 
-    if (isEmpty(trips)) return sendMessage(bot, chat_id, getLocalizedMessage(keysActions.NOT_FOUND_TRIPS_MESSAGES_KEY, query), { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard });
+    if (isEmpty(trips)) return sendMessage(
+        bot,
+        chat_id,
+        getLocalizedMessage(keysActions.NOT_FOUND_TRIPS_MESSAGES_KEY, query),
+        { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard(query) }
+        );
 
     tripsList.forEach((({ html, trip_id }) =>
         sendMessage(bot, chat_id, html, { parse_mode: 'HTML', ...myTripsTripActionKeyboard({ trip_id, alreadyBookedTripsIds, query, includeReplyMarkup: true }) })));
 
-    sendMessage(bot, chat_id, delimiter, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard })
+    sendMessage(bot, chat_id, delimiter, { parse_mode: 'HTML', ...findTripsDaysAndCalendarKeyboard(query) })
 };
 
 export const showFoundTrips = async (bot, query, id, customDay) => {

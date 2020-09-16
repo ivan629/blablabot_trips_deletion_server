@@ -33,6 +33,7 @@ class tripDateModule {
         const calendar = await tripCreationCalendarContainer({
             bot: this.bot,
             chat_id: this.msg.chat.id,
+            eventObject: this.msg,
         });
 
         sendMessage(this.bot, this.msg.chat.id, congratsMessage, { parse_mode: 'HTML', ...calendar });

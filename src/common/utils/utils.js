@@ -227,20 +227,8 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
 
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
 
-    // const getFormattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
-    // const cities = `${leftPadding}🚏 <b>Маршрут:</b> ${getFormattedCities}`;
-    // const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
-    // const time = `${leftPadding}🕐 <b>Час відправлення:</b> ${startDate}\n${leftPadding}🕞 <b>Час прибуття:</b>  ${finishDate}`;
-    // const price = `${leftPadding}💰 <b>Ціна:</b> ${trip.trip_price} грн`;
-    // const phoneNumber = `${leftPadding}☎️ <b>Контактний номер</b>  ${Object.values(carrierInfo.phone_numbers).map(number => `+${number}`)} `;
-    // const availablePlaces = `️${leftPadding}💺️ <b>Кількість вільних місць:</b> ${availableSeatsCount}/${trip.book.available_seats_count}`;
-    //
-    // return showCarrierFullInfo
-    //     ? `${carrierName}\n${phoneNumber}\n${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`
-    //     : `${cities.replace(',',' ')}\n${time}\n${price}\n${availablePlaces}`;
     const formattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
     const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
-console.log(keysActions.TRIP_SUMMARY_MESSAGES_KEY);
     return getLocalizedMessage(keysActions.TRIP_SUMMARY_MESSAGES_KEY, eventObject)({
         trip,
         startDate,

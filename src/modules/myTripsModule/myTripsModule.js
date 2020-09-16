@@ -33,7 +33,7 @@ const myTripsModule = bot => {
 
     bot.on('message', async msg => {
         switch (msg.text) {
-            case getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY): {
+            case getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY, msg): {
                 handleShowRolesKeyboard(bot, msg);
             }
                 break;

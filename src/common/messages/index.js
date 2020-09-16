@@ -10,6 +10,7 @@ import * as mainKeysActions from './main/mainKeysActions';
 import * as myTripsKeysActions from './myTrips/myTripsKeysActions';
 import * as findTripsKeysActions from './findTrips/findTripsKeysActions';
 import * as summaryKeysActions from './summary/summaryKeysActions';
+import * as commonKeysActions from './common/commonKeysActions';
 
 import * as citiesMessages from './tripCreationMessages/citiesMessages';
 import * as calendarMessages from './tripCreationMessages/calendarMessages';
@@ -21,6 +22,7 @@ import * as mainMessages from './main/mainMessages';
 import * as myTripsMessages from './myTrips/myTripsMessages';
 import * as findTripsMessages from './findTrips/findTripsMessages';
 import * as summaryMessages from './summary/summaryMessages';
+import * as commonMessages from './common/commonMessages';
 
 const { ua, ru, en } = LANGUAGES;
 
@@ -127,8 +129,15 @@ const summaryMessagesMap = {
     [summaryKeysActions.TRIP_SUMMARY_MESSAGES_KEY]: summaryMessages.TRIP_SUMMARY_MESSAGES,
 }
 
+const commonMessagesMap = {
+    [commonKeysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY]: commonMessages.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES,
+    [commonKeysActions.CALENDAR_WEEK_DAYS_MESSAGES_KEY]: commonMessages.CALENDAR_WEEK_DAYS_MESSAGES,
+    [commonKeysActions.CALENDAR_MONTHS_MESSAGES_KEY]: commonMessages.CALENDAR_MONTHS_MESSAGES,
+}
+
 export const messagesMap = {
     ...mainMessagesMap,
+    ...commonMessagesMap,
     ...summaryMessagesMap,
     ...myTripsMessagesMap,
     ...calendarMessagesMap,
@@ -142,6 +151,7 @@ export const messagesMap = {
 
 export const keysActions = {
     ...mainKeysActions,
+    ...commonKeysActions,
     ...summaryKeysActions,
     ...myTripsMessagesMap,
     ...myTripsKeysActions,

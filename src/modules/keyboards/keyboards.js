@@ -1,6 +1,5 @@
 import { chunk } from 'lodash';
 import { createAction } from '../../common/utils/utils';
-import { FIND_TRIPS_KEYBOARDS_DAY } from '../../common/constants/findTripConstants';
 import { keysActions, getLocalizedMessage } from '../../common/messages'
 import { SET_AVAILABLE_SEATS_CUNT, BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY } from '../../common/messages/tripCreationMessages/availableSeatsKeysActions';
 import { CANCEL_TRIP_BOOKING_ACTION,  BOOK_TRIP_ACTION, UNBOOK_TRIP_ACTION, } from '../../common/messages/myTrips/myTripsKeysActions';
@@ -106,25 +105,25 @@ export const initialKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY) }],
+            [{ text: getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY, eventObject) }],
             [{ text: getLocalizedMessage(keysActions.FIND_TRIP_ACTION_MESSAGES_KEY, eventObject) }],
             [{ text: getLocalizedMessage(keysActions.PROPOSE_TRIP_KEY, eventObject) }],
         ]
     }
 });
 
-export const findTripsDaysAndCalendarKeyboard = {
+export const findTripsDaysAndCalendarKeyboard = eventObject => ({
     reply_markup: {
         inline_keyboard: chunk(new Array(4).fill(null).reduce((result, item, index) => {
             result.push({
-                text: FIND_TRIPS_KEYBOARDS_DAY[index],
-                callback_data: createAction(FIND_TRIPS_KEYBOARDS_DAY[index], index),
+                text: getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index],
+                callback_data: createAction(getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index], index),
             });
 
             return result;
         }, []), 2)
     }
-};
+});
 
 export const myTripsTripActionKeyboard = ({ trip_id, alreadyBookedTripsIds, query, includeReplyMarkup = false }) => {
     const text = Object.values(alreadyBookedTripsIds).includes(trip_id)
