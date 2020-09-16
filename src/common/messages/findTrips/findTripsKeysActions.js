@@ -15,6 +15,5 @@ export const FIND_TRIP_GO_TO_CALENDAR_BLOCKED_ACTION_MESSAGES_KEY = 'mtgtcbamk';
 export const FIND_TRIP_ACTION_MESSAGES_KEY = 'ftamk';
 export const FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES_KEY = 'fcaeemk';
 export const CALENDAR_CONGRATS_START_MESSAGES_KEY = 'ccsmk';
-export const CITIES_INITIAL_HELP_MESSAGES_KEY = 'cihmk';
 export const FIND_TRIPS_NOT_FOUND_CITY_MESSAGES_KEY = 'nfcmk';
 export const CHOOSE_CITY_MESSAGES_KEY = 'csmk';

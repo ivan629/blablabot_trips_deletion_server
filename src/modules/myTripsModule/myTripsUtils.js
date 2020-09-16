@@ -59,7 +59,7 @@ export const sendBookedTripsList = async (bot, msg) => {
     const bookedTripsObjects = await Promise.all(reqs);
     const formattedTripsList = getFormattedTripsList({trips: bookedTripsObjects, eventObject: msg })
 
-    await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.BOOKED_TRIP_LIST_CAPTION_MESSAGES_KEY), { parse_mode: 'HTML' });
+    await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.BOOKED_TRIP_LIST_CAPTION_MESSAGES_KEY, msg), { parse_mode: 'HTML' });
     formattedTripsList.forEach(({ html, trip_id }) => sendMessage(bot, msg.chat.id, html, { parse_mode: 'HTML', ...cancelBookedTripKeyboard(trip_id, msg) }));
 };
 

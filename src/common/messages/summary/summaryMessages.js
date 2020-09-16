@@ -1,9 +1,9 @@
 import { LANGUAGES } from '../../constants/botSettings';
 
-const { ua, ru, en } = LANGUAGES;
+const { uk, ru, en } = LANGUAGES;
 
 export const TRIP_SUMMARY_MESSAGES = {
-    [ua]: ({
+    [uk]: ({
                trip,
                startDate,
                finishDate,

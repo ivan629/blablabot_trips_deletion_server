@@ -1,5 +1,3 @@
-import config from 'config';
-import fetch from 'node-fetch';
 import { isEmpty, isNil, size } from 'lodash';
 import {
     getCreatingTripCities,
@@ -17,16 +15,14 @@ import {
 } from '../../../common/utils/utils';
 import { creatingCitiesKeyboards, blockedCitiesKeyboard } from '../../keyboards/keyboards';
 import { getLocalizedMessage, keysActions } from '../../../common/messages';
+import { fetchCitiesAutocomplete } from '../../../common/utils/fetchUils';
 
 const {
-    SHOW_NEXT_CITY_KEY,
-    CHOOSE_TRIP_CITY_KEY,
     SHOW_NEXT_CITY_ACTION,
     BLOCKED_FINAL_CITY_KEY,
     CHOOSE_TRIP_CITY_ACTION,
-    NOT_FOUND_CITY_MESSAGE_KEY,
     CITIES_ADD_NEW_HELP_TEXT_KEY,
-    CITIES_INITIAL_HELP_TEXT_KEY,
+    CITIES_INITIAL_HELP_MESSAGES_KEY,
     CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY
 } = keysActions;
 
@@ -62,28 +58,13 @@ export const addCityToTrip = async (bot, query) => {
 
 export const startCitiesCreating = async (bot, msg) => {
     const { chat: { id } } = msg;
-    sendMessage(bot, id, getLocalizedMessage(CITIES_INITIAL_HELP_TEXT_KEY, msg), { parse_mode: 'HTML', ...blockedCitiesKeyboard(msg) });
+    sendMessage(bot, id, getLocalizedMessage(CITIES_INITIAL_HELP_MESSAGES_KEY, msg), { parse_mode: 'HTML', ...blockedCitiesKeyboard(msg) });
     await toggleIsTripCitiesCreating(id, true);
 };
 
 export const sendBlockedCityMessage = (bot, msg) => {
     const { chat: { id } } = msg;
     sendMessage(bot, id, getLocalizedMessage(BLOCKED_FINAL_CITY_KEY, msg));
-};
-
-export const fetchCitiesAutocomplete = async city =>  {
-    const mapKey = config.firebaseConfig.apiKey;
-    let result;
-
-    try {
-        const api = encodeURI(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${city}&inputtype=textquery&fields=formatted_address,name,geometry,place_id&key=${mapKey}`);
-        const response = await fetch(api);
-        result = await response.json();
-    } catch (error) {
-        console.log(error);
-    }
-
-    return result;
 };
 
 const getCitiesButton = (data, place_id, nextCityIndex, allCitiesSize, query) => {
@@ -111,7 +92,7 @@ export const handleShowCities = async (bot, data, customCityIndex, msg) =>  {
     if (getIsBotMessage(data.text)) return;
 
     // check if this chat id has creating trp in progress
-    const response = await fetchCitiesAutocomplete(data.text);
+    const response = await fetchCitiesAutocomplete(data.text, msg);
     const isCityFounded = !isNil(response) && !isEmpty(response.candidates);
 
     if (isCityFounded) {
@@ -126,7 +107,8 @@ export const handleShowCities = async (bot, data, customCityIndex, msg) =>  {
         const leftCities = citiesSize - nextCityIndex;
 
         sendLocation(bot, data.id, lat, lng).then(() => {
-            const cityName = `${cityIndex}. <b>${name}</b>\n    <em>${formatted_address}</em>`;
+            const formattedAddress = formatted_address.split(',').splice(1, formatted_address.split(',').length - 1)
+            const cityName = `${cityIndex}. <b>${name}</b>\ -<em>${formattedAddress}</em>`;
             sendMessage(bot, data.id, cityName, {parse_mode: 'HTML', ...getCitiesButton(data, place_id, nextCityIndex, leftCities, msg)})
         });
     } else {

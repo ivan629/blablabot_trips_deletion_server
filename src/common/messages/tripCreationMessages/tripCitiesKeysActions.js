@@ -1,5 +1,4 @@
 // keys
-export const CITIES_INITIAL_HELP_TEXT_KEY = 'cthtk';
 export const SHOW_NEXT_CITY_KEY = 'snck';
 export const CHOOSE_TRIP_CITY_KEY = 'ctck';
 export const NOT_FOUND_CITY_MESSAGE_KEY = 'nfcmk';

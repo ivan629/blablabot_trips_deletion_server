@@ -17,12 +17,6 @@ import {
 import { initialKeyboard, calendarKeyboard } from '../../modules/keyboards/keyboards';
 import { handlesSaveNewFindTripDateToDbFromCalendar } from '../../modules/findTripsModule/foundTripsModule/foundTripsUtils';
 import { LANGUAGES } from '../constants/botSettings'
-import {
-    CITIES_ADD_NEW_HELP_TEXT_MESSAGES,
-    CITIES_INITIAL_HELP_TEXT_MESSAGES,
-} from '../messages/tripCreationMessages/citiesMessages'
-import { CONFIRM_TRIP_PRICE_MESSAGES } from '../messages/tripCreationMessages/tripPriceMessages'
-import { START_ACTION } from '../messages/main/mainKeysActions'
 
 import { getCityDetailsUrl } from '../constants/urlHelpers';
 import { head, isNil, last } from 'lodash';

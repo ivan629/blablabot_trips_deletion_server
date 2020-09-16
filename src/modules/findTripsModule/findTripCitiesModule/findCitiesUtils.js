@@ -1,5 +1,3 @@
-import config from 'config';
-import fetch from 'node-fetch';
 import { isEmpty, isNil, size } from 'lodash';
 import {
     toggleIsFindTripCitiesCreating,
@@ -16,6 +14,7 @@ import {
     createNextCityAction
 } from '../../../common/utils/utils';
 import { getLocalizedMessage, keysActions } from '../../../common/messages';
+import { fetchCitiesAutocomplete } from '../../../common/utils/fetchUils';
 
 export const sendBlockedFindTripCityMessage = (bot, msg) => {
     const { chat: { id } } = msg;
@@ -85,26 +84,11 @@ export const addCityToFindTripCities = async (bot, query) => {
     }
 };
 
-export const fetchCitiesAutocomplete = async city =>  {
-    const mapKey = config.firebaseConfig.apiKey;
-    let result;
-
-    try {
-        const api = encodeURI(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${city}&inputtype=textquery&fields=formatted_address,name,geometry,place_id&key=${mapKey}`);
-        const response = await fetch(api);
-        result = await response.json();
-    } catch (error) {
-        console.log(error);
-    }
-
-    return result;
-};
-
 export const handlefindTripsShowCities = async ({ bot, data, customCityIndex, eventObject }) =>  {
     if (getIsBotMessage(data.text)) return;
 
     // check if this chat id has creating trp in progress
-    const response = await fetchCitiesAutocomplete(data.text);
+    const response = await fetchCitiesAutocomplete(data.text, eventObject);
     const isCityFounded = !isNil(response) && !isEmpty(response.candidates);
 
     if (isCityFounded) {

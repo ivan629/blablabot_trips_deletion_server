@@ -10,7 +10,7 @@ export const sendPhoneNumberInitialData = (bot, msg) => {
     }).then(() => {
         bot.once('contact', async (query) => {
             const { chat, contact } = query;
-            await sendMessage(bot, chat.id, `Дякую! номер <b>${contact.phone_number}</b> збережено 👍`, { parse_mode: 'HTML' });
+            await sendMessage(bot, chat.id, getLocalizedMessage(keysActions.SAVED_PHONE_NUMBER_MESSAGES_KEY, msg)(contact.phone_number), { parse_mode: 'HTML' });
             await saveCarrierPhoneNumberToDb(chat.id, contact.phone_number)
             await sendMessage(
                 bot,

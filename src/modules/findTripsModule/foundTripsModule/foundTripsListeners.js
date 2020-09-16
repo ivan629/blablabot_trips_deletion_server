@@ -12,7 +12,7 @@ const foundTripsListeners = bot => {
     bot.on('message', async (msg) => {
         switch (msg.text) {
             case getLocalizedMessage(keysActions.FIND_TRIP_SEARCH_TRIPS_MESSAGES_KEY, msg): {
-                showFoundTrips(bot, msg.chat.id);
+                showFoundTrips(bot, msg, msg.chat.id);
                 await sendMessage(bot, msg.chat.id, getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
             }
                 break;

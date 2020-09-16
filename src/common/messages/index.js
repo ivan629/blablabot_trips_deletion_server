@@ -24,8 +24,6 @@ import * as findTripsMessages from './findTrips/findTripsMessages';
 import * as summaryMessages from './summary/summaryMessages';
 import * as commonMessages from './common/commonMessages';
 
-const { ua, ru, en } = LANGUAGES;
-
 const tripCitiesMessagesMap = {
     [tripCitiesKeysActions.SHOW_NEXT_CITY_KEY]: citiesMessages.SHOW_NEXT_CITY_MESSAGES,
     [tripCitiesKeysActions.CHOOSE_TRIP_CITY_KEY]: citiesMessages.CHOOSE_TRIP_CITY_MESSAGES,
@@ -33,7 +31,6 @@ const tripCitiesMessagesMap = {
     [tripCitiesKeysActions.BLOCKED_FINAL_CITY_KEY]: citiesMessages.BLOCKED_FINAL_CITY_MESSAGES,
     [tripCitiesKeysActions.CITIES_ADD_NEW_HELP_TEXT_KEY]: citiesMessages.CITIES_ADD_NEW_HELP_TEXT_MESSAGES,
     [tripCitiesKeysActions.FINAL_CITY_IN_THE_TRIP_KEY]: citiesMessages.FINAL_CITY_IN_THE_TRIP_MESSAGES,
-    [tripCitiesKeysActions.CITIES_INITIAL_HELP_TEXT_KEY]: citiesMessages.CITIES_INITIAL_HELP_TEXT_MESSAGES,
     [tripCitiesKeysActions.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES]: citiesMessages.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES,
     [tripCitiesKeysActions.CITY_ALREADY_EXISTS_ERROR_MESSAGE_KEY]: citiesMessages.CITY_ALREADY_EXISTS_ERROR_MESSAGES,
 }
@@ -79,6 +76,7 @@ const phoneNumberMessagesMap = {
     [phoneNumberKeysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY]: phoneNumberMessages.SHARE_CARRIER_PHONE_NUMBER_MESSAGES,
     [phoneNumberKeysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY]: phoneNumberMessages.GO_TO_TRIP_SUMMARISE_MESSAGES,
     [phoneNumberKeysActions.SEND_MY_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SEND_MY_PHONE_NUMBER_MESSAGES,
+    [phoneNumberKeysActions.SAVED_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SAVED_PHONE_NUMBER_MESSAGES,
 }
 
 const tripSummariseMessagesMap = {
@@ -120,7 +118,6 @@ const findTripsMessagesMap = {
     [findTripsKeysActions.FIND_TRIP_ACTION_MESSAGES_KEY]: findTripsMessages.FIND_TRIP_ACTION_MESSAGES,
     [findTripsKeysActions.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES_KEY]: findTripsMessages.FIND_CITY_ALREADY_EXISTS_ERROR_MESSAGES,
     [findTripsKeysActions.CALENDAR_CONGRATS_START_MESSAGES_KEY]: findTripsMessages.CALENDAR_CONGRATS_START_MESSAGES,
-    [findTripsKeysActions.CITIES_INITIAL_HELP_MESSAGES_KEY]: findTripsMessages.CITIES_INITIAL_HELP_MESSAGES,
     [findTripsKeysActions.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES_KEY]: findTripsMessages.FIND_TRIPS_NOT_FOUND_CITY_MESSAGES,
     [findTripsKeysActions.CHOOSE_CITY_MESSAGES_KEY]: findTripsMessages.CHOOSE_CITY_MESSAGES,
 }
@@ -133,6 +130,7 @@ const commonMessagesMap = {
     [commonKeysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY]: commonMessages.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES,
     [commonKeysActions.CALENDAR_WEEK_DAYS_MESSAGES_KEY]: commonMessages.CALENDAR_WEEK_DAYS_MESSAGES,
     [commonKeysActions.CALENDAR_MONTHS_MESSAGES_KEY]: commonMessages.CALENDAR_MONTHS_MESSAGES,
+    [commonKeysActions.CITIES_INITIAL_HELP_MESSAGES_KEY]: commonMessages.CITIES_INITIAL_HELP_TEXT_MESSAGES,
 }
 
 export const messagesMap = {
@@ -165,6 +163,6 @@ export const keysActions = {
 };
 
 export const getLocalizedMessage = (message, eventObject) => {
-    const languageCode = get(eventObject, 'from.language_code', en);
+    const languageCode = get(eventObject, 'from.language_code', LANGUAGES.en);
     return messagesMap[message][languageCode];
 }

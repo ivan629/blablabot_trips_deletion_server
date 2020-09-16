@@ -13,7 +13,7 @@ const findCitiesListeners = bot => {
         const shouldListen = await getIsFindTripCitiesCreating(msg.chat.id);
         if (shouldListen && !getIsBotMessage(msg.text)) {
             const data = { id: msg.chat.id, text: msg.text };
-            await handlefindTripsShowCities({ bot, data, msg });
+            await handlefindTripsShowCities({ bot, data, eventObject: msg });
         }
 
         switch (msg.text) {

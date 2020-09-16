@@ -268,7 +268,7 @@ export const blockedCitiesKeyboard = eventObject => ({
     reply_markup: {
         resize_keyboard: true,
         keyboard: [
-            [{ text: getLocalizedMessage(keysActions.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES) }],
+            [{ text: getLocalizedMessage(keysActions.BLOCKED_FINAL_CITY_IN_THE_TRIP_MESSAGES, eventObject) }],
             [{ text: getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, eventObject) }],
         ]
     }
