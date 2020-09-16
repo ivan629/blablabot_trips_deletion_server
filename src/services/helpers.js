@@ -38,8 +38,8 @@ export const removeDocInCollection = (docName, collection) => {
 };
 
 export const getDoc = async (docName, collectionName = API_CONSTANTS.DB_USERS_COLLECTION_NAME, defaultValue) => {
-    const alreadyUploadedRestaurantSnapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
-    const result = await alreadyUploadedRestaurantSnapshot.data();
+    const snapshot = await firestore.collection(collectionName).doc(docName.toString()).get();
+    const result = await snapshot.data();
     return result || defaultValue;
 };
 
@@ -83,13 +83,13 @@ export const updateFieldInTipsLinkerCollection = (docName, fieldPath, data) => {
         .catch(error => console.error('Error writing document: ', error));
 };
 
-export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSeatsCount, book_user_id) => {
+export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSeatsCount, book_user_id, shouldRemoveUserId) => {
     firestore.collection(API_CONSTANTS.DB_TRIPS_COLLECTION_NAME)
         .doc(docName.toString())
         .update({
             ['book.available_seats_count']: availableSeatsCount,
             ['book.booked_seats_count']: bookedSeatsCount,
-            [`book.booked_users_ids.${book_user_id}`]: book_user_id,
+            [`book.booked_users_ids.${book_user_id}`]: shouldRemoveUserId ? firebase.firestore.FieldValue.delete() : book_user_id,
         })
         .then(() => {
             console.count('Document successfully written!');
@@ -99,6 +99,11 @@ export const updateAvailableSeatsInTip = (docName, availableSeatsCount, bookedSe
 
 export const getFieldFromDoc = async (docName, filedPath, defaultValue = undefined) => {
     const result = await getDoc(docName);
+    return get(result, filedPath, defaultValue);
+};
+
+export const getFieldFromTripsDoc = async (docName, filedPath, defaultValue = undefined) => {
+    const result = await getDoc(docName, API_CONSTANTS.DB_TRIPS_COLLECTION_NAME);
     return get(result, filedPath, defaultValue);
 };
 
@@ -200,14 +205,13 @@ export const getCarrierInfo = async docName => {
 };
 
 export const saveTripInDb = async docName => {
-    const carrier = await getFieldFromDoc(docName, 'carrier');
-    const trip = await getCreatingTrip(docName);
+    const { carrier, create_trip } = await getDoc(docName, API_CONSTANTS.DB_USERS_COLLECTION_NAME);
 
-    await saveTripToLinkerCollection(docName, trip);
-    const newTripObject = { ...trip, ...carrier };
+    await saveTripToLinkerCollection(docName, create_trip);
+    const newTripObject = { ...carrier, ...create_trip };
     await saveTripToTripsCollection(newTripObject);
     await updateFieldInUserDoc(docName,'create_trip', {});
-    await updateFieldInUserDoc(docName,`trips.${trip.trip_id}`, trip.trip_id);
+    await updateFieldInUserDoc(docName,`trips.${create_trip.trip_id}`, create_trip.trip_id);
 };
 
 const saveTripToLinkerCollection = async (docName, {trip_id, cities, start_date }) => {

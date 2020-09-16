@@ -103,7 +103,8 @@ export const handlefindTripsShowCities = async ({ bot, data, customCityIndex, ev
         const allCitiesSize = citiesSize - nextCityIndex;
 
         sendLocation(bot, data.id, lat, lng).then(() => {
-            const cityName = `${cityIndex}. <b>${name}</b>\n    <em>${formatted_address}</em>`;
+            const formattedAddress = formatted_address.split(',').splice(1, formatted_address.split(',').length - 1)
+            const cityName = `${cityIndex}. <b>${name}</b>\ -<em>${formattedAddress}</em>`;
             sendMessage(bot, data.id, cityName, {parse_mode: 'HTML', ...getCitiesButton({
                     data,
                     eventObject,
