@@ -190,8 +190,6 @@ export const sendLocation = async (bot, id, lat, lng) => await bot.sendLocation(
     .then(({ message_id }) => addSessionMessagesIdsToDb(id, message_id));
 
 export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCarrierFullInfo, eventObject }) => {
-    const sortedCities = getSortedCities(Object.values(trip.cities));
-
     const {
         start_date_day,
         start_date_hour,
@@ -220,21 +218,30 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
     });
 
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
+    const allSeats = trip.book.available_seats_count;
 
-    const formattedCities = `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+    const formattedCities = getFormattedCities(trip);
     const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
     return getLocalizedMessage(keysActions.TRIP_SUMMARY_MESSAGES_KEY, eventObject)({
         trip,
         startDate,
         finishDate,
         leftPadding,
-        carrierInfo,
         carrierName,
+        carrierInfo,
         formattedCities,
         showCarrierFullInfo,
         availableSeatsCount,
+        allSeats,
     })
 };
+
+export const getFormattedPhoneNumber = number => number.includes('+') ? number : `+${number}`;
+
+export const getFormattedCities = trip => {
+    const sortedCities = getSortedCities(Object.values(trip.cities));
+    return `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+}
 
 export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());
 

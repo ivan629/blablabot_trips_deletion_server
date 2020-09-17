@@ -209,8 +209,13 @@ export const removeTripKeyBoard = (trip_id, eventObject) => ({
             [
                 {
                     text: getLocalizedMessage(keysActions.REMOVE_TRIP_BUTTON_MESSAGES_KEY, eventObject),
-                    callback_data: createAction(keysActions.REMOVE_TRIP_BUTTON_ACTION, trip_id)}
-                ],
+                    callback_data: createAction(keysActions.REMOVE_TRIP_BUTTON_ACTION, trip_id)
+                },
+                {
+                    text: getLocalizedMessage(keysActions.TRIP_PASSENGERS_BUTTON_MESSAGES_KEY, eventObject),
+                    callback_data: createAction(keysActions.TRIP_PASSENGERS_BUTTON_ACTION, trip_id)
+                }
+            ],
         ]
     }
 });

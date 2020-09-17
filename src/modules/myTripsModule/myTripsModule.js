@@ -1,9 +1,11 @@
 import {
     CANCEL_TRIP_BOOKING_ACTION,
     REMOVE_TRIP_BUTTON_ACTION,
+    TRIP_PASSENGERS_BUTTON_ACTION,
 } from '../../common/messages/myTrips/myTripsKeysActions';
 import {
     removeTrip,
+    showPassengers,
     cancelTripBooking,
     sendBookedTripsList,
     handleShowRolesKeyboard,
@@ -23,6 +25,10 @@ const myTripsModule = bot => {
                 break;
             case CANCEL_TRIP_BOOKING_ACTION: {
                 cancelTripBooking(bot, query);
+            }
+                break;
+            case TRIP_PASSENGERS_BUTTON_ACTION: {
+                showPassengers(bot, query);
             }
                 break;
             default: {
