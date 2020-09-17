@@ -1,4 +1,5 @@
 {
+  "port": 5759,
   "clientApi": "testClientApi",
   "companyName": "Pizza",
   "apiBasePath": "/api",
@@ -12,7 +13,9 @@
   },
   "telegramBotConfig": {
     "token": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE",
-    "tokenOld": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk"
+    "tokenOld": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk",
+    "webhooksServerUrl": "https://cfafa61ddc47.ngrok.io",
+    "isWebhooksActive": false
   },
   "liqpayConfig": {
     "publicKey": "i68498043040",
