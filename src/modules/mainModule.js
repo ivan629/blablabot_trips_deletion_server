@@ -37,7 +37,7 @@ const mainModule = (expressApp, bot) => {
 
     bot.on('message', async msg => {
         const { chat: { id }, message_id } = msg;
-        addSessionMessagesIdsToDb(id, message_id);
+        await addSessionMessagesIdsToDb(id, message_id);
 
         switch (msg.text) {
             case getLocalizedMessage(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg):

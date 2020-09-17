@@ -8,18 +8,10 @@ import { getSortedCities, getCityObject, } from '../common/utils/utils';
 //TODO: find out how to delete all messages without bugs
 export const removeSessionMessagesIds = async (bot, chat_id) => {
     const messagesIds = await getSessionMessagesIds(chat_id);
-    // const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
+    const deleteMessagesReqs = Object.values(messagesIds).map(message_id => bot.deleteMessage(chat_id, message_id));
     try {
-        Object.values(messagesIds).forEach(message_id => {
-            try {
-                bot.deleteMessage(chat_id, message_id)
-            } catch (error) {
-                console.log(error);
-            }
-        });
-        // await Promise.all(deleteMessagesReqs);
+        await Promise.all(deleteMessagesReqs);
     } catch (error) {
-        // console.log(error);
     }
 };
 
