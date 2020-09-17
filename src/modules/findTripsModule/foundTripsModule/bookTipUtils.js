@@ -14,6 +14,7 @@ import {
 } from '../../../services/helpers';
 import { myTripsTripActionKeyboard } from '../../keyboards/keyboards';
 import { API_CONSTANTS } from '../../../common/constants';
+import {getLocalizedMessage, keysActions} from "../../../common/messages";
 
 export const bookTripInDb = async (query, trip) => {
     const { id: chat_id } = query.message.chat;
@@ -37,7 +38,7 @@ export const editTripMessage = async (bot, query, isAfterBooked) => {
     const { id: chat_id } = query.message.chat;
     const { payload: trip_id } = parseData(query.data);
     const trip = await getTrip(trip_id);
-    const tripHtml = await getTripHtmlSummary({trip, showCarrierFullInfo: true, carrierInfo: trip});
+    const tripHtml = await getTripHtmlSummary({ trip, showCarrierFullInfo: true, carrierInfo: trip });
     const alreadyBookedTripsIds = isAfterBooked ? [trip_id] : [];
     const keyBoard = myTripsTripActionKeyboard({ trip_id, alreadyBookedTripsIds, query });
 
@@ -56,10 +57,12 @@ const sendNotificationToUser = async (bot, trip, query, isBooked) => {
     const phoneNumbers = await getFieldFromDoc(chat.id, 'carrier.phone_numbers');
     const formattedPhoneNumbers = Object.values(phoneNumbers).map(phoneNumber => getFormattedPhoneNumber(phoneNumber));
     const message = isBooked
-        ? `👤 <b>${chat.first_name} ${chat.last_name}</b> забронював вашу поїздку. Маршрут: <b>${getFormattedCities(trip)}</b>`
-        : `❌ <b>${chat.first_name} ${chat.last_name}</b> скасував бронювання. Маршрут: <b>${getFormattedCities(trip)}</b>`
-    const phones = `☎️ <b>Контактний номер:</b> ${formattedPhoneNumbers}`
-    const finalMessage = `${message}\n ${phones}`;
+        ? `👤 <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.BOOK_TRIP_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip)}</b>`
+        : `❌ <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip)}</b>`
+    const phones = `☎️ <b>${getLocalizedMessage(keysActions.CONTACT_NUMBER_MESSAGES_KEY, query)}</b> ${formattedPhoneNumbers}`
+    const finalMessage = `${message}\n${phones}`;
+
+    console.log(finalMessage);
 
     sendMessage(bot, trip.chat_id, finalMessage, { parse_mode: 'HTML' });
 }

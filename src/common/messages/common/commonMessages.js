@@ -50,3 +50,21 @@ export const CITIES_INITIAL_HELP_TEXT_MESSAGES = {
     [en]: 'Write city of departure 🏙️\nfor example <b>Kiev</b>',
 }
 
+
+export const BOOK_TRIP_USER_NOTIFICATION_MESSAGES = {
+    [uk]: 'забронював вашу поїздку. Маршрут:',
+    [ru]: 'забронировал вашу поездку. Маршрут:',
+    [en]: 'booked your trip. Route:',
+}
+
+export const CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES = {
+    [uk]: 'скасував бронювання. Маршрут:',
+    [ru]: 'отменил бронирование. маршрут:',
+    [en]: 'canceled the reservation. Route:',
+}
+
+export const CONTACT_NUMBER_MESSAGES = {
+    [uk]: 'Контактний номер:',
+    [ru]: 'Контактный номер:',
+    [en]: 'Phone number:',
+}

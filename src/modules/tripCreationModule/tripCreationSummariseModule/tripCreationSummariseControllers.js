@@ -6,5 +6,5 @@ export const getTripSummary = async (chat_id, eventObject) => {
     const trip = await getCreatingTrip(chat_id);
     const carrierInfo = await getCarrierInfo(chat_id);
     if (isNil(trip)) return;
-    return getTripHtmlSummary({ trip, carrierInfo, leftPadding: '\t', eventObject})
+    return getTripHtmlSummary({ trip, carrierInfo, leftPadding: '\t', eventObject, showCarrierFullInfo: true })
 };

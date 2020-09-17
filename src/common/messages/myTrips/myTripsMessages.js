@@ -29,7 +29,7 @@ export const NOT_FOUND_TRIPS_MESSAGES = {
 export const MY_TRIPS_CHOOSE_ROLE_MESSAGE = {
     [uk]: 'Виберіть ролль 💡',
     [ru]: 'Выберите Ролль 💡',
-    [en]: 'Select a roll 💡',
+    [en]: 'Select a role 💡',
 }
 
 export const UNBOOK_TRIP_MESSAGES = {
@@ -60,4 +60,22 @@ export const BOOKED_TRIP_LIST_CAPTION_MESSAGES = {
     [uk]: '🔸🔸🔸Заброньовані поїздки!🔹🔹🔹',
     [ru]: '🔸🔸🔸забронированы поездки🔹🔹🔹',
     [en]: '🔸🔸🔸Booked trips!🔹🔹🔹',
+}
+
+export const TRIP_PASSENGERS_BUTTON_MESSAGES = {
+    [uk]: '👥 Пасажири',
+    [ru]: '👥 Пассажиры',
+    [en]: '👥 Passengers',
+}
+
+export const NO_PASSENGERS_MESSAGES = {
+    [uk]: 'В цій поїздці немає пасажирів 🤷',
+    [ru]: 'В этой поездке нет пассажиров 🤷',
+    [en]: 'There are no passengers on this trip 🤷',
+}
+
+export const NOT_FOUNT_BOOKED_TRIPS_MESSAGES = {
+    [uk]: 'У вас немає заброньованих поїздок 🤷',
+    [ru]: 'В вас нет забронированных поездок 🤷',
+    [en]: 'You have no booked trips 🤷',
 }
