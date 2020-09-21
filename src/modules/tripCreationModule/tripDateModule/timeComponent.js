@@ -48,8 +48,10 @@ export const timeComponent = async chat_id => {
 
         if (isNotValidHour) return result;
 
+        const text =  formattedCalendarHour > 12 ? `${formattedCalendarHour} pm` : `${formattedCalendarHour} am`;
+
         result.push({
-            text: `${formattedCalendarHour}`,
+            text,
             callback_data: createAction(SET_TRIP_HOUR, formattedCalendarHour)
         });
 

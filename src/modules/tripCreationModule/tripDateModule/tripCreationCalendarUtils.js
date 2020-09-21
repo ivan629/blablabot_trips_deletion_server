@@ -34,7 +34,6 @@ export const getTripCreationMinCalendarDateThreshold = async chat_id => {
     let minDateMillisecondsThreshold = getDefaultTripMinCalendarDateThreshold();
     const isStartDateCreatingCompleted = await getIsStartDateCreatingCompleted(chat_id);
 
-
     if (isStartDateCreatingCompleted) {
         const { start_date: { start_date_hour, start_date_day, start_date_year, start_date_month } } = await getCreatingTrip(chat_id);
         // we allow to set the same trip end day, with min hours threshold
