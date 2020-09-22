@@ -117,7 +117,12 @@ export const findTripsDaysAndCalendarKeyboard = eventObject => ({
         inline_keyboard: chunk(new Array(4).fill(null).reduce((result, item, index) => {
             result.push({
                 text: getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index],
-                callback_data: createAction(getLocalizedMessage(keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY, eventObject)[index], index),
+                callback_data: createAction(
+                    index < 3
+                    ? keysActions.FIND_TRIPS_KEYBOARDS_DAY_MESSAGES_KEY
+                    : keysActions.FIND_TRIPS_KEYBOARDS_CALENDAR_MESSAGES_KEY,
+                    index
+                ),
             });
 
             return result;

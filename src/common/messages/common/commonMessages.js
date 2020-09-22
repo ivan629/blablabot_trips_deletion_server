@@ -68,3 +68,9 @@ export const CONTACT_NUMBER_MESSAGES = {
     [ru]: 'Контактный номер:',
     [en]: 'Phone number:',
 }
+
+export const START_MESSAGES = {
+    [uk]: '/start',
+    [ru]: '/start',
+    [en]: '/start',
+}

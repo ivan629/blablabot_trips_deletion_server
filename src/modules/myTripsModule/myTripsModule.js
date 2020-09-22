@@ -12,7 +12,8 @@ import {
     sendOwnDrivingTripsList,
 } from './myTripsUtils';
 import { parseData } from '../../common/utils/utils';
-import { getLocalizedMessage, keysActions } from '../../common/messages';
+import { listenerCase } from '../../common/utils/listenersUtils';
+import { keysActions } from '../../common/messages';
 
 const myTripsModule = bot => {
     bot.on('callback_query', query => {
@@ -38,22 +39,16 @@ const myTripsModule = bot => {
     });
 
     bot.on('message', async msg => {
-        switch (msg.text) {
-            case getLocalizedMessage(keysActions.MY_TRIPS_MESSAGES_KEY, msg): {
-                handleShowRolesKeyboard(bot, msg);
-            }
-                break;
-            case getLocalizedMessage(keysActions.SHOW_I_AM_DRIVING_MESSAGES_KEY, msg): {
-                sendOwnDrivingTripsList(bot, msg);
-            }
-                break;
-            case getLocalizedMessage(keysActions.SHOW_BOOKED_TRIPS_MESSAGES_KEY, msg): {
-                sendBookedTripsList(bot, msg);
-            }
-                break;
-            default: {
-                break;
-            }
+        if (listenerCase(keysActions.MY_TRIPS_MESSAGES_KEY, msg.text)) {
+            return handleShowRolesKeyboard(bot, msg);
+        }
+
+        if (listenerCase(keysActions.SHOW_I_AM_DRIVING_MESSAGES_KEY, msg.text)) {
+            return sendOwnDrivingTripsList(bot, msg);
+        }
+
+        if (listenerCase(keysActions.SHOW_BOOKED_TRIPS_MESSAGES_KEY, msg.text)) {
+            return sendBookedTripsList(bot, msg);
         }
     });
 };

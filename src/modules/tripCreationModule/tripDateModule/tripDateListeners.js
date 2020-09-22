@@ -6,8 +6,9 @@ import {
     sendBlockedGoToAvailableMessage,
     showBlockedGoToTimePickerMessage
 } from './tripCreationCalendarUtils';
+import { keysActions } from '../../../common/messages';
 import { parseData } from '../../../common/utils/utils';
-import { getLocalizedMessage, keysActions } from '../../../common/messages';
+import { listenerCase } from '../../../common/utils/listenersUtils';
 
 const {
     SET_TRIP_HOUR,
@@ -38,26 +39,21 @@ const tripDateListeners = (bot) => {
     });
 
     bot.on('message', msg => {
-        switch (msg.text) {
-            case getLocalizedMessage(GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
-                showTimeComponent(bot, msg);
-            }
-                break;
-            case getLocalizedMessage(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, msg): {
-                showBlockedGoToTimePickerMessage(bot, msg);
-            }
-                break;
-            case getLocalizedMessage(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, msg): {
-                showBlockedGoToTripEnd(bot, msg);
-            }
-                break;
-            case getLocalizedMessage(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, msg): {
-                sendBlockedGoToAvailableMessage(bot, msg);
-            }
-                break;
-            default: {
-                break;
-            }
+        const { text } = msg;
+        if (listenerCase(BLOCKED_GO_TO_TIME_PICKER_MESSAGE_KEY, text)) {
+            return showBlockedGoToTimePickerMessage(bot, msg);
+        }
+
+        if (listenerCase(BLOCKED_GO_TO_TRIP_END_TIME_PICKER_MESSAGE_KEY, text)) {
+            return showBlockedGoToTripEnd(bot, msg);
+        }
+
+        if (listenerCase(BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_ACTION_KEY, text)) {
+            return sendBlockedGoToAvailableMessage(bot, msg);
+        }
+
+        if (listenerCase(GO_TO_TIME_PICKER_MESSAGE_KEY, text)) {
+            return showTimeComponent(bot, msg);
         }
     })
 };

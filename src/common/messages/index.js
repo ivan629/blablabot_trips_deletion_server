@@ -137,6 +137,7 @@ const commonMessagesMap = {
     [commonKeysActions.BOOK_TRIP_USER_NOTIFICATION_MESSAGES_KEY]: commonMessages.BOOK_TRIP_USER_NOTIFICATION_MESSAGES,
     [commonKeysActions.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES_KEY]: commonMessages.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES,
     [commonKeysActions.CONTACT_NUMBER_MESSAGES_KEY]: commonMessages.CONTACT_NUMBER_MESSAGES,
+    [commonKeysActions.START_MESSAGE_KEY]: commonMessages.START_MESSAGES,
 }
 
 export const messagesMap = {
