@@ -18,10 +18,11 @@ import { initialKeyboard, calendarKeyboard } from '../../modules/keyboards/keybo
 import { handlesSaveNewFindTripDateToDbFromCalendar } from '../../modules/findTripsModule/foundTripsModule/foundTripsUtils';
 import { LANGUAGES } from '../constants/botSettings'
 
-import { getCityDetailsUrl } from '../constants/urlHelpers';
-import { head, isNil, last } from 'lodash';
+import {getCityDetailsUrl, getCityNameAndAddressUrl} from '../constants/urlHelpers';
+import {get, head, isNil, last} from 'lodash';
 
 import { getLocalizedMessage, keysActions, messagesMap } from '../messages';
+import {customFetch} from "./fetchUils";
 
 const { GO_TO_TIME_PICKER_MESSAGE_KEY } = keysActions;
 const { uk, ru, en } = LANGUAGES;
@@ -163,7 +164,20 @@ export const addNewTrip = async msg => {
     await addNewCreatingTrip(chat_id, tripObject, trip_id)
 };
 
-export const getCityObject = (city) => city;
+export const getCityObjectWithAllLanguages = async city => {
+    const reqs = Object.values(LANGUAGES).map(language => customFetch(getCityNameAndAddressUrl(city.place_id, language)))
+    const localizedCities = await Promise.all(reqs);
+    const [ukCity, ruCity, enCity] = localizedCities
+
+    return {
+        ...city,
+        localized_info: {
+            [LANGUAGES.uk]: ukCity.result,
+            [LANGUAGES.ru]: ruCity.result,
+            [LANGUAGES.en]: enCity.result,
+        }
+    }
+};
 
 export const goToTheMainMenu = async (bot, id, query) => sendMessage(bot, id, getLocalizedMessage(keysActions.CHOOSE_ACTION_MESSAGES_KEY, query), initialKeyboard(query));
 
@@ -220,7 +234,7 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
     const availableSeatsCount = trip.book.available_seats_count - trip.book.booked_seats_count;
     const allSeats = trip.book.available_seats_count;
 
-    const formattedCities = getFormattedCities(trip);
+    const formattedCities = getFormattedCities(trip, eventObject);
     const carrierName = `${leftPadding}👤 <b>${carrierInfo.carrier_name} ${carrierInfo.carrier_last_name}</b>`;
     return getLocalizedMessage(keysActions.TRIP_SUMMARY_MESSAGES_KEY, eventObject)({
         trip,
@@ -238,9 +252,10 @@ export const getTripHtmlSummary = ({ trip, carrierInfo, leftPadding = '', showCa
 
 export const getFormattedPhoneNumber = number => number.includes('+') ? number : `+${number}`;
 
-export const getFormattedCities = trip => {
+export const getFormattedCities = (trip, eventObject) => {
     const sortedCities = getSortedCities(Object.values(trip.cities));
-    return `${head(sortedCities)?.name} <i>${sortedCities.slice(1, -1).map(({ name }) => `- ${name}`)}</i> - ${last(sortedCities)?.vicinity}`;
+    const languageCode = get(eventObject, 'from.language_code', LANGUAGES.en);
+    return `${head(sortedCities).localized_info[languageCode].name} <i>${sortedCities.slice(1, -1).map(({ localized_info }) => `- ${localized_info[languageCode].name}`)}</i> - ${last(sortedCities).localized_info[languageCode].vicinity}`;
 }
 
 export const getCityDetails = async placeId => await fetch(getCityDetailsUrl(placeId)).then(response => response.json());

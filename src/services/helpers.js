@@ -3,7 +3,7 @@ import { isNil, get } from 'lodash';
 import firebase from 'firebase';
 import { firestore } from './firebaseService';
 import { API_CONSTANTS } from '../common/constants';
-import { getSortedCities, getCityObject, } from '../common/utils/utils';
+import { getSortedCities, getCityObjectWithAllLanguages, } from '../common/utils/utils';
 
 //TODO: find out how to delete all messages without bugs
 export const removeSessionMessagesIds = async (bot, chat_id) => {
@@ -228,7 +228,8 @@ const saveTripToTripsCollection = async trip => {
 };
 
 export const addCityToTripInDB = async (id, city) => {
-    const cityObject = getCityObject(city);
+    const cityObject = await getCityObjectWithAllLanguages(city);
+    console.log('console.log(cityObject);', cityObject);
     updateFieldInUserDoc(id, `create_trip.cities.${cityObject.place_id}`, cityObject)
 };
 

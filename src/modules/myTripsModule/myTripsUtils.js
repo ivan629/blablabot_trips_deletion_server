@@ -15,11 +15,11 @@ import {
 import { API_CONSTANTS } from '../../common/constants';
 import { unBookTripInDb, handleUnBookTrip } from '../findTripsModule/foundTripsModule/bookTipUtils';
 import {
-    getFormattedCities,
-    getFormattedPhoneNumber,
-    getTripHtmlSummary,
     parseData,
-    sendMessage
+    sendMessage,
+    getFormattedCities,
+    getTripHtmlSummary,
+    getFormattedPhoneNumber
 } from '../../common/utils/utils';
 import { getLocalizedMessage, keysActions } from '../../common/messages';
 
@@ -64,7 +64,7 @@ export const notificateUsers = async (bot, query, tripId) => {
 
     if(isNil(trip)) return;
 
-    const message = `❌ <b>${first_name} ${last_name}</b> видалив поїздку <b>${getFormattedCities(trip)}</b>`;
+    const message = `❌ <b>${first_name} ${last_name}</b> видалив поїздку <b>${getFormattedCities(trip, query)}</b>`;
     const messagesReqs = Object.values(trip.book.booked_users_ids).map(async (userId) => {
         await sendMessage(bot, userId, message, { parse_mode: 'HTML' });
         await removeFieldInCollection(userId, `booked_trips_ids.${tripId}`, API_CONSTANTS.DB_USERS_COLLECTION_NAME);

@@ -70,7 +70,7 @@ export const timeComponent = async chat_id => {
     return {
         reply_markup: {
             inline_keyboard: [
-                ...chunk(hours, 8),
+                ...chunk(hours, 6),
                 minutes,
             ]
         }
