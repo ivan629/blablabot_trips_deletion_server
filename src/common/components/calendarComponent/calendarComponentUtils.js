@@ -133,7 +133,6 @@ export const calendarChangeMonth = async (query, bot, isUp) => {
         }
     }
 
-
     const alreadyChosenDate = await handleGetCurrentDateForChosenDayInCalendar(chat.id);
 
     const calendar = await calendarComponent({
