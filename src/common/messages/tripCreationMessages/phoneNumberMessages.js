@@ -14,6 +14,12 @@ export const GO_TO_TRIP_SUMMARISE_MESSAGES = {
     [en]: '🧐 Check the information',
 }
 
+export const GO_TO_TRIP_SUMMARISE_HELP_TEXT_MESSAGES = {
+    [uk]: 'Продовжити натісніть <b>🧐 Перевірити інформацію</b>',
+    [ru]: 'Продолжить нажмите <b>🧐 Проверить информацию</b>',
+    [en]: 'Continue to click <b>🧐 Check the information</b>',
+}
+
 export const SEND_MY_PHONE_NUMBER_MESSAGES = {
     [uk]: '☎️ Надіслати мій номер телефону',
     [ru]: '☎️ Отправить мой номер телефона',
