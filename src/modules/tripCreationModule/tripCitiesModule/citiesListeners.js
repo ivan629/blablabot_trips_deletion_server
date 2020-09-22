@@ -5,7 +5,8 @@ import {
     handleShowCities,
     sendBlockedCityMessage,
 } from './citiesUtils';
-import { getLocalizedMessage, keysActions } from '../../../common/messages';
+import { keysActions } from '../../../common/messages';
+import { listenerCase } from '../../../common/utils/listenersUtils';
 
 const {
     PROPOSE_TRIP_KEY,
@@ -18,19 +19,13 @@ const citiesListeners = bot => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
 
-        if (shouldListen && msg.text !== getLocalizedMessage(PROPOSE_TRIP_KEY, msg)) {
+        if (shouldListen && !listenerCase(PROPOSE_TRIP_KEY, msg.text)) {
             const formattedData = { id: msg.chat.id, text: msg.text };
-            await handleShowCities(bot, formattedData, null, msg);
+            return handleShowCities(bot, formattedData, null, msg);
         }
 
-        switch (msg.text) {
-            case getLocalizedMessage(BLOCKED_FINAL_CITY_KEY, msg): {
-                sendBlockedCityMessage(bot, msg);
-            }
-                break;
-            default: {
-                break;
-            }
+        if (listenerCase(BLOCKED_FINAL_CITY_KEY, msg.text)) {
+            return sendBlockedCityMessage(bot, msg);
         }
     });
 
@@ -42,12 +37,11 @@ const citiesListeners = bot => {
 
         if (shouldListen && nextCityType === SHOW_NEXT_CITY_ACTION) {
             const formattedData = { id, text: currentCity };
-            await handleShowCities(bot, formattedData, nextCityIndex, query);
-            return;
+            return handleShowCities(bot, formattedData, nextCityIndex, query);
         }
 
         if (addCityAction === CHOOSE_TRIP_CITY_ACTION) {
-            await addCityToTrip(bot, query);
+            return addCityToTrip(bot, query);
         }
     });
 };

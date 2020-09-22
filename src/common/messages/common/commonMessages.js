@@ -9,7 +9,7 @@ export const FIND_TRIPS_KEYBOARDS_DAY_MESSAGES = {
 }
 
 export const CALENDAR_MONTHS_MESSAGES = {
-    [uk]: ['январь', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+    [uk]: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
     [ru]: ['Январь', 'Февраль', 'Март', 'Квітень', 'Апрель', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     [en]: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 }
@@ -67,4 +67,10 @@ export const CONTACT_NUMBER_MESSAGES = {
     [uk]: 'Контактний номер:',
     [ru]: 'Контактный номер:',
     [en]: 'Phone number:',
+}
+
+export const START_MESSAGES = {
+    [uk]: '/start',
+    [ru]: '/start',
+    [en]: '/start',
 }

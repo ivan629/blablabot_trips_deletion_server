@@ -62,8 +62,6 @@ const sendNotificationToUser = async (bot, trip, query, isBooked) => {
     const phones = `☎️ <b>${getLocalizedMessage(keysActions.CONTACT_NUMBER_MESSAGES_KEY, query)}</b> ${formattedPhoneNumbers}`
     const finalMessage = `${message}\n${phones}`;
 
-    console.log(finalMessage);
-
     sendMessage(bot, trip.chat_id, finalMessage, { parse_mode: 'HTML' });
 }
 

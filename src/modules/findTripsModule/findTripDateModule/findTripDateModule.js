@@ -8,8 +8,9 @@ class findTripDateModule {
         await sendMessage(
             bot,
             msg.chat.id,
-            getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg), goToMenuKeyboard(msg));
-        // console.log(findTripsDaysAndCalendarKeyboard(msg).reply_markup.inline_keyboard);
+            getLocalizedMessage(keysActions.FIND_TRIP_QUICK_DATE_PICKER_MESSAGES_KEY, msg),
+            goToMenuKeyboard(msg));
+
         await sendMessage(
             bot,
             msg.chat.id,

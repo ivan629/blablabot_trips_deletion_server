@@ -23,6 +23,7 @@ const {
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY,
 } = keysActions;
 
+// TODO: defect here, bad findIndex when in other language
 export const getMonthNumberByValue = value => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY).findIndex(item => item === value);
 
 export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {

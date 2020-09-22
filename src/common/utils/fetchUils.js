@@ -10,7 +10,6 @@ export const fetchCitiesAutocomplete = async (city, eventObject) =>  {
         const api = getCitiesAutocompleteUrl(city, language);
         const response = await fetch(api);
         result = await response.json();
-        console.log(result);
     } catch (error) {
         console.log(error);
     }

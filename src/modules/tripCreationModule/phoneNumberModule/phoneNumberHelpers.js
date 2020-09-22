@@ -15,7 +15,7 @@ export const sendPhoneNumberInitialData = (bot, msg) => {
             await sendMessage(
                 bot,
                 chat.id,
-                getLocalizedMessage(keysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY, query),
+                getLocalizedMessage(keysActions.GO_TO_TRIP_SUMMARISE_HELP_TEXT_MESSAGES_KEY, query),
                 { parse_mode: 'HTML', ...phoneNumberKeyboardGoToSummarise(msg) },
                 );
         })

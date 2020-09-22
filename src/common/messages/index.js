@@ -73,10 +73,11 @@ const tripPriceMessagesMap = {
 }
 
 const phoneNumberMessagesMap = {
-    [phoneNumberKeysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY]: phoneNumberMessages.SHARE_CARRIER_PHONE_NUMBER_MESSAGES,
+    [phoneNumberKeysActions.SAVED_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SAVED_PHONE_NUMBER_MESSAGES,
     [phoneNumberKeysActions.GO_TO_TRIP_SUMMARISE_MESSAGES_KEY]: phoneNumberMessages.GO_TO_TRIP_SUMMARISE_MESSAGES,
     [phoneNumberKeysActions.SEND_MY_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SEND_MY_PHONE_NUMBER_MESSAGES,
-    [phoneNumberKeysActions.SAVED_PHONE_NUMBER_MESSAGES_KEY]: phoneNumberMessages.SAVED_PHONE_NUMBER_MESSAGES,
+    [phoneNumberKeysActions.SHARE_CARRIER_PHONE_NUMBER_MESSAGE_KEY]: phoneNumberMessages.SHARE_CARRIER_PHONE_NUMBER_MESSAGES,
+    [phoneNumberKeysActions.GO_TO_TRIP_SUMMARISE_HELP_TEXT_MESSAGES_KEY]: phoneNumberMessages.GO_TO_TRIP_SUMMARISE_HELP_TEXT_MESSAGES,
 }
 
 const tripSummariseMessagesMap = {
@@ -137,6 +138,7 @@ const commonMessagesMap = {
     [commonKeysActions.BOOK_TRIP_USER_NOTIFICATION_MESSAGES_KEY]: commonMessages.BOOK_TRIP_USER_NOTIFICATION_MESSAGES,
     [commonKeysActions.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES_KEY]: commonMessages.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES,
     [commonKeysActions.CONTACT_NUMBER_MESSAGES_KEY]: commonMessages.CONTACT_NUMBER_MESSAGES,
+    [commonKeysActions.START_MESSAGE_KEY]: commonMessages.START_MESSAGES,
 }
 
 export const messagesMap = {

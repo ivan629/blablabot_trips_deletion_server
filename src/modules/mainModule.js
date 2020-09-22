@@ -13,6 +13,7 @@ import {
     clearSessionMessagesIdsInDb,
 } from '../services/helpers';
 import { addNewUserToDb, goToTheMainMenu } from '../common/utils/utils';
+import { listenerCase } from '../common/utils/listenersUtils';
 import { keysActions, getLocalizedMessage } from '../common/messages';
 
 const mainModule = (expressApp, bot) => {
@@ -39,18 +40,15 @@ const mainModule = (expressApp, bot) => {
         const { chat: { id }, message_id } = msg;
         await addSessionMessagesIdsToDb(id, message_id);
 
-        switch (msg.text) {
-            case getLocalizedMessage(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg):
-            case getLocalizedMessage(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg): {
+            if (
+                listenerCase(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg.text)
+                || listenerCase(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg.text)
+            ) {
                 await removeSessionMessagesIds(bot, id);
                 await clearSessionMessagesIdsInDb(id);
                 await resetSessionDataInDb(id);
                 await clearFindTrip(id);
                 await goToTheMainMenu(bot, id, msg);
-            }
-            default: {
-                break;
-            }
         }
     });
 };
