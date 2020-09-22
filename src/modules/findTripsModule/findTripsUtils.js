@@ -1,5 +1,5 @@
 import { getFieldFromDoc, updateFieldInUserDoc } from '../../services/helpers';
-import { getCityObject } from '../../common/utils/utils';
+import { getCityObjectWithAllLanguages } from '../../common/utils/utils';
 
 export const getCustomDateForFindTrips = customDayMessage => {
     const date = new Date();
@@ -54,8 +54,7 @@ export const getFindTripCities = async chat_id => {
 };
 
 export const addCityToFindTripInDB = async (id, city) => {
-    const cityObject = getCityObject(city);
-    updateFieldInUserDoc(id, `find_trip.cities.${cityObject.place_id}`, cityObject)
+    updateFieldInUserDoc(id, `find_trip.cities.${city.place_id}`, city)
 };
 
 export const clearFindTrip = async (id, city) => await updateFieldInUserDoc(id, 'find_trip', {});

@@ -57,8 +57,8 @@ const sendNotificationToUser = async (bot, trip, query, isBooked) => {
     const phoneNumbers = await getFieldFromDoc(chat.id, 'carrier.phone_numbers');
     const formattedPhoneNumbers = Object.values(phoneNumbers).map(phoneNumber => getFormattedPhoneNumber(phoneNumber));
     const message = isBooked
-        ? `👤 <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.BOOK_TRIP_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip)}</b>`
-        : `❌ <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip)}</b>`
+        ? `👤 <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.BOOK_TRIP_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip, query)}</b>`
+        : `❌ <b>${chat.first_name} ${chat.last_name}</b> ${getLocalizedMessage(keysActions.CANCEL_TRIP_BOOKING_USER_NOTIFICATION_MESSAGES_KEY, query)} <b>${getFormattedCities(trip, query)}</b>`
     const phones = `☎️ <b>${getLocalizedMessage(keysActions.CONTACT_NUMBER_MESSAGES_KEY, query)}</b> ${formattedPhoneNumbers}`
     const finalMessage = `${message}\n${phones}`;
 
