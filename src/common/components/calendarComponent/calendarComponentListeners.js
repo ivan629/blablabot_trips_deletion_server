@@ -7,8 +7,8 @@ import { keysActions } from '../../messages';
 
 const calendarComponentListeners = bot => {
     bot.on('callback_query', query => {
-        const data = parseData(query.data);
-        switch (data.type) {
+        const { type } = parseData(query.data);
+        switch (type) {
             case keysActions.MONTH_DOWN_ACTION: {
                 calendarChangeMonth(query, bot);
             }

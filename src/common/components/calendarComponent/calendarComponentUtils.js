@@ -10,8 +10,6 @@ import {
 import calendarComponent from './calendarComponent';
 import { getLocalizedMessage, keysActions } from '../../messages';
 
-export const getMonthNumberByValue = (value, eventObject) => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY, eventObject).findIndex(item => item === value);
-
 export const getCurrentYear = () => new Date().getFullYear();
 
 export const getDefaultTripMinCalendarDateThreshold = () => {
@@ -68,11 +66,11 @@ export const getMonthPaginationButtons = (currentCalendarMonth, shouldDisableGoT
     const isGoToPreviousMonthButtonEnabled = getIsGoToPreviousMonthButtonEnabled(currentCalendarMonth);
     const goToPreviousMonthButton = {
         text: `${isGoToPreviousMonthButtonEnabled ? '⬅️' : '🤷‍♀️'}`,
-        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(keysActions.MONTH_DOWN_ACTION) : 'None',
+        callback_data: isGoToPreviousMonthButtonEnabled ? createAction(keysActions.MONTH_DOWN_ACTION, currentCalendarMonth) : 'None',
     };
     const goToNextMonthButton = {
         text: `${shouldDisableGoToNextMonthButton ? '🤷‍♀️' : '➡️'}`,
-        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(keysActions.MONTH_UP_ACTION),
+        callback_data: shouldDisableGoToNextMonthButton ? 'None' : createAction(keysActions.MONTH_UP_ACTION, currentCalendarMonth),
     };
 
     return [
@@ -112,9 +110,9 @@ export const getCalendarKeyboards = ({
 
 
 export const calendarChangeMonth = async (query, bot, isUp) => {
+    const { payload: oldMonthNumber } = parseData(query.data);
     const {chat, reply_markup, message_id} = query.message;
-    const [oldMonth, oldYear] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const oldMonthNumber = getMonthNumberByValue(oldMonth);
+    const [mock, oldYear] = head(reply_markup.inline_keyboard)[0].text.split(' ');
     let customMonthNumber = isUp ? oldMonthNumber + 1 : oldMonthNumber - 1;
     let customNewYear = oldYear;
 
@@ -153,24 +151,22 @@ export const calendarChangedDate = async (query, bot) => {
     const { chat, reply_markup, message_id } = message;
     const { id: chat_id } = chat;
 
-    const [monthText, dayToSave] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const customMonthNumber = getMonthNumberByValue(monthText, query);
     const { payload: alreadyChosenDate } = parseData(data);
 
-    const [monthValue, year] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    const newYear = +year;
+    const [mock, calendarYear] = head(reply_markup.inline_keyboard)[0].text.split(' ');
+    const customNewYear = +calendarYear;
 
     let shouldDisableGoToNextMonthButton = false;
     const currentYear = new Date().getFullYear();
-    if (currentYear !== newYear) shouldDisableGoToNextMonthButton = true;
+    if (currentYear !== customNewYear) shouldDisableGoToNextMonthButton = true;
 
     const calendar = await calendarComponent({
-        eventObject: query,
         chat_id,
-        newYear,
-        customMonthNumber,
+        customNewYear,
         alreadyChosenDate,
+        eventObject: query,
         shouldDisableGoToNextMonthButton,
+        customMonthNumber: alreadyChosenDate.month,
         getMinCalendarDateThresholdCallback: () => handleGetDefaultTripMinCalendarDateThresholdCallback(chat_id),
     });
 

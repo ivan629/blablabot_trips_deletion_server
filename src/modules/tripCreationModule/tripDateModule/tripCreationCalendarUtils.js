@@ -1,4 +1,4 @@
-import { head, isNil } from 'lodash';
+import { isNil } from 'lodash';
 import { calendarKeyboard } from '../../keyboards/keyboards';
 import { parseData, sendMessage } from '../../../common/utils/utils';
 import timeComponent from '../../../modules/tripCreationModule/tripDateModule/timeComponent';
@@ -22,9 +22,6 @@ const {
     GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGES_KEY,
     BLOCKED_GO_TO_AVAILABLE_SEATS_SETTINGS_MESSAGE_KEY,
 } = keysActions;
-
-// TODO: defect here, bad findIndex when in other language
-export const getMonthNumberByValue = value => getLocalizedMessage(keysActions.CALENDAR_MONTHS_MESSAGES_KEY).findIndex(item => item === value);
 
 export const sendCurrentDateHtml = async (id, bot, calendarKeyboard, isOnlyDate) => {
     const html = await getCurrentTripDateText(id, isOnlyDate);
@@ -79,30 +76,6 @@ const setDatePickerDataToDb = async (chat_id, field, data) => {
     const tripDateType = isStartDateCreatingCompleted ? 'stop_date' : 'start_date';
     const readyField = isStartDateCreatingCompleted ? `stop_date_${field}` : `start_date_${field}`;
     await updateFieldInUserDoc(chat_id, `create_trip.${tripDateType}.${readyField}`, data);
-};
-
-export const changeCalendarMonth = async (query, bot, isUp) => {
-    const {chat, reply_markup, message_id} = query.message;
-    const [oldMonth, oldYear] = head(reply_markup.inline_keyboard)[0].text.split(' ');
-    let newYear;
-    const oldMonthNumber = getMonthNumberByValue(oldMonth);
-    let customMonthNumber = isUp ? oldMonthNumber + 1 : oldMonthNumber - 1;
-
-    // TODO: we don't allow to choose more then 1 month in next year for now, because need to save ald year in DB
-    let shouldDisableGoToNextMonthButton = false;
-
-    if (customMonthNumber > 12) {
-        customMonthNumber = 1;
-        newYear = +oldYear + 1;
-        shouldDisableGoToNextMonthButton = true;
-    } else if (customMonthNumber < 1) {
-        customMonthNumber = 12;
-        newYear = +oldYear - 1;
-    }
-
-    const calendar = await calendarComponent.getCalendar({ customMonthNumber, newYear, shouldDisableGoToNextMonthButton, chat_id: chat.id });
-
-    bot.editMessageReplyMarkup(calendar, {chat_id: chat.id, message_id});
 };
 
 export const tripCreationUserChangedDate = async query => {

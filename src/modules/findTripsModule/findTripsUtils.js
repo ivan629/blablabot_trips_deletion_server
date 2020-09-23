@@ -1,5 +1,4 @@
 import { getFieldFromDoc, updateFieldInUserDoc } from '../../services/helpers';
-import { getCityObjectWithAllLanguages } from '../../common/utils/utils';
 
 export const getCustomDateForFindTrips = customDayMessage => {
     const date = new Date();
