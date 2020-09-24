@@ -17,7 +17,7 @@ RUN npm install
 # копируем исходный код
 COPY . .
 
-CMD npm run dev
+CMD npm run prod
 
 EXPOSE 8080
 
