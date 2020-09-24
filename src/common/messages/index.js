@@ -253,6 +253,6 @@ export const keysActions = {
 };
 
 export const getLocalizedMessage = (message, eventObject) => {
-    const languageCode = get(eventObject, 'from.language_code', LANGUAGES.en);
+    const languageCode = get(eventObject, 'from.language_code', LANGUAGES.ru);
     return messagesMap[message][languageCode];
 };

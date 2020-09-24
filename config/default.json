@@ -15,7 +15,7 @@
     "token": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE",
     "tokenOld": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk",
     "webhooksServerUrl": "https://cfafa61ddc47.ngrok.io",
-    "isWebhooksActive": false
+    "isWebhooksActive": true
   },
   "liqpayConfig": {
     "publicKey": "i68498043040",

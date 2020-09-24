@@ -335,7 +335,6 @@ const saveTripToTripsCollection = async (trip) => {
 
 export const addCityToTripInDB = async (id, city) => {
     const cityObject = await getCityObjectWithAllLanguages(city);
-    console.log('console.log(cityObject);', cityObject);
     updateFieldInUserDoc(
         id,
         `create_trip.cities.${cityObject.place_id}`,
