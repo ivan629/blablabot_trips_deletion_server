@@ -1,14 +1,13 @@
-import citiesListeners from '../../../modules/tripCreationModule/tripCitiesModule/citiesListeners';
 import { startCitiesCreating } from './citiesUtils';
+import citiesListeners from '../../../modules/tripCreationModule/tripCitiesModule/citiesListeners';
 
 class TripCitiesModule {
-
     async start(bot, msg) {
-        await startCitiesCreating(bot, msg)
+        await startCitiesCreating(bot, msg);
     }
 
     setListeners(bot) {
-        citiesListeners(bot)
+        citiesListeners(bot);
     }
 }
 

@@ -1,8 +1,8 @@
 import tripPriceListeners from '../../../modules/tripCreationModule/tripPriceModule/tripPriceListeners';
 
 class PriceModule {
-    setListeners (bot) {
-        tripPriceListeners(bot)
+    setListeners(bot) {
+        tripPriceListeners(bot);
     }
 }
 

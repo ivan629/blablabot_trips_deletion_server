@@ -1,5 +1,5 @@
-import availableSeatsListeners from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsListeners';
 import { sendInitialData } from './availableSeatsUtils';
+import availableSeatsListeners from '../../../modules/tripCreationModule/availableSeatsModule/availableSeatsListeners';
 
 class AvailableSeatsModule {
     runAvailableTripSeatsPicker(bot, msg) {

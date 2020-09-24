@@ -12,17 +12,21 @@ import { apiUrlResolver, telegramBot } from './services';
 const expressApp = express();
 const corsOptions = { origin: '*' };
 
-export const startHttpServer = () => new Promise((resolve) => {
-    expressApp.use(cors(corsOptions));
-    expressApp.use(bodyParser.json());
-    expressApp.use(express.static(path.join(__dirname, '../views')));
+export const startHttpServer = () =>
+    new Promise((resolve) => {
+        expressApp.use(cors(corsOptions));
+        expressApp.use(bodyParser.json());
+        expressApp.use(express.static(path.join(__dirname, '../views')));
 
-    mainModule(expressApp, telegramBot);
+        mainModule(expressApp, telegramBot);
 
-    const server = createServer(expressApp)
-        .listen(process.env.PORT || config.port, config.host, () => {
-            logger.info(`Server is listening: ${apiUrlResolver.getHost()}`);
-        });
+        const server = createServer(expressApp).listen(
+            process.env.PORT || config.port,
+            config.host,
+            () => {
+                logger.info(`Server is listening: ${apiUrlResolver.getHost()}`);
+            }
+        );
 
-    resolve(server);
-});
+        resolve(server);
+    });

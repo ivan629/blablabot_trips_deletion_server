@@ -1,3 +1,4 @@
-export const initializeDatabase = () => new Promise((resolve, reject) => {
-    resolve();
-});
+export const initializeDatabase = () =>
+    new Promise((resolve, reject) => {
+        resolve();
+    });

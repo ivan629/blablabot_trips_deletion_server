@@ -1,11 +1,11 @@
-import { getIsTripCitiesCreating } from '../../../services/helpers';
-import { parseCityAction } from '../../../common/utils/utils';
 import {
     addCityToTrip,
     handleShowCities,
     sendBlockedCityMessage,
 } from './citiesUtils';
 import { keysActions } from '../../../common/messages';
+import { parseCityAction } from '../../../common/utils/utils';
+import { getIsTripCitiesCreating } from '../../../services/helpers';
 import { listenerCase } from '../../../common/utils/listenersUtils';
 
 const {
@@ -15,7 +15,7 @@ const {
     CHOOSE_TRIP_CITY_ACTION,
 } = keysActions;
 
-const citiesListeners = bot => {
+const citiesListeners = (bot) => {
     bot.on('message', async (msg) => {
         const shouldListen = await getIsTripCitiesCreating(msg.chat.id);
 
@@ -29,8 +29,13 @@ const citiesListeners = bot => {
         }
     });
 
-    bot.on('callback_query', async query => {
-        const { message: { chat: { id }}, data } = query;
+    bot.on('callback_query', async (query) => {
+        const {
+            message: {
+                chat: { id },
+            },
+            data,
+        } = query;
         const [addCityAction] = parseCityAction(data);
         const shouldListen = await getIsTripCitiesCreating(id);
         const [nextCityType, currentCity, nextCityIndex] = data.split('|');

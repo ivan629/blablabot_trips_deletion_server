@@ -1,9 +1,9 @@
 // actions
-export const CANCEL_TRIP_BOOKING_ACTION = 'cbt'
-export const BOOK_TRIP_ACTION  = 'bta';
-export const UNBOOK_TRIP_ACTION  = 'ubta';
-export const REMOVE_TRIP_BUTTON_ACTION  = 'rtba';
-export const TRIP_PASSENGERS_BUTTON_ACTION  = 'tpba';
+export const CANCEL_TRIP_BOOKING_ACTION = 'cbt';
+export const BOOK_TRIP_ACTION = 'bta';
+export const UNBOOK_TRIP_ACTION = 'ubta';
+export const REMOVE_TRIP_BUTTON_ACTION = 'rtba';
+export const TRIP_PASSENGERS_BUTTON_ACTION = 'tpba';
 
 // keys
 export const SHOW_I_AM_DRIVING_MESSAGES_KEY = 'siadmk';

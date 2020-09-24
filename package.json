@@ -11,6 +11,11 @@
   "engines": {
     "node": "12.x"
   },
+  "prettier": {
+    "tabWidth": 4,
+    "trailingComma": "es5",
+    "singleQuote": true
+  },
   "dependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",

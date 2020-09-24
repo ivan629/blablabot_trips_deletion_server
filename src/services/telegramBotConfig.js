@@ -15,8 +15,8 @@ if (isWebhooksActive) {
             autoStart: true,
             params: {
                 timeout: 10,
-            }
-        }
+            },
+        },
     });
 }
 
