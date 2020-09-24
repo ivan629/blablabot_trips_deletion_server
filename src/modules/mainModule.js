@@ -51,10 +51,12 @@ const mainModule = (expressApp, bot) => {
             listenerCase(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg.text)
         ) {
             await removeSessionMessagesIds(bot, id);
-            await clearSessionMessagesIdsInDb(id);
             await resetSessionDataInDb(id);
             await clearFindTrip(id);
             await goToTheMainMenu(bot, id, msg);
+
+            // TODO: find out how to delete all messages always defect
+            await clearSessionMessagesIdsInDb(id);
         }
     });
 };

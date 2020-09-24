@@ -1,11 +1,11 @@
 // todo: find out why we need this import
 import { initialKeyboard } from '../../modules/keyboards/keyboards';
 import CalendarModule from './tripDateModule/tripDateModule';
-import TripPriceModule from './tripPriceModule/tripPriceModule';
 import TripCitiesModule from './tripCitiesModule/tripCitiesModule';
-import PhoneNumberModule from './phoneNumberModule/phoneNumberModule';
-import AvailableSeatsModule from './availableSeatsModule/availableSeatsModule';
+import TripPriceModule from './tripPriceModule/tripPriceModule';
 import TripCreationSummariseModule from './tripCreationSummariseModule/tripCreationSummariseModule';
+import AvailableSeatsModule from './availableSeatsModule/availableSeatsModule';
+import PhoneNumberModule from './phoneNumberModule/phoneNumberModule';
 import {
     addSessionMessagesIdsToDb,
     removeSessionMessagesIds,
