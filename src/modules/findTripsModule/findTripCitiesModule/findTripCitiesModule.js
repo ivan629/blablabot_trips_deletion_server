@@ -5,11 +5,11 @@ import { toggleIsFindTripProgress } from '../../../services/helpers';
 class FindTripCitiesModule {
     async start(bot, msg) {
         await toggleIsFindTripProgress(msg.chat.id, true);
-        await startTripCitiesSearching(bot, msg)
+        await startTripCitiesSearching(bot, msg);
     }
 
     setListeners(bot) {
-        citiesListeners(bot)
+        citiesListeners(bot);
     }
 }
 

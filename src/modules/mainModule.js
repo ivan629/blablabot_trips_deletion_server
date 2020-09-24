@@ -1,9 +1,8 @@
 import appRouters from '../routers';
-import tripCreationModule from '../modules/tripCreationModule/tripCreationModule';
-import myTripsModule from '../modules/myTripsModule/myTripsModule';
-import userPayModule from '../modules/userPayModule/userPayModule';
-import findTripModule from '../modules/findTripsModule/findTripModule';
 import { clearFindTrip } from './findTripsModule/findTripsUtils';
+import myTripsModule from '../modules/myTripsModule/myTripsModule';
+import findTripModule from '../modules/findTripsModule/findTripModule';
+import tripCreationModule from '../modules/tripCreationModule/tripCreationModule';
 import calendarComponentListeners from '../common/components/calendarComponent/calendarComponentListeners';
 
 import {
@@ -14,13 +13,12 @@ import {
 } from '../services/helpers';
 import { addNewUserToDb, goToTheMainMenu } from '../common/utils/utils';
 import { listenerCase } from '../common/utils/listenersUtils';
-import { keysActions, getLocalizedMessage } from '../common/messages';
+import { keysActions } from '../common/messages';
 
 const mainModule = (expressApp, bot) => {
     tripCreationModule(bot);
     myTripsModule(bot);
     findTripModule(bot);
-    // userPayModule(bot);
 
     // set shared calendar listeners
     calendarComponentListeners(bot);
@@ -28,27 +26,35 @@ const mainModule = (expressApp, bot) => {
     // routers
     appRouters(expressApp, bot);
 
-    bot.onText(/\/start/, async query => {
-        const {chat: {id}} = query;
+    bot.onText(/\/start/, async (query) => {
+        const {
+            chat: { id },
+        } = query;
         await addNewUserToDb(query);
         await clearSessionMessagesIdsInDb(id);
         await goToTheMainMenu(bot, id, query);
         await resetSessionDataInDb(id);
     });
 
-    bot.on('message', async msg => {
-        const { chat: { id }, message_id } = msg;
+    bot.on('message', async (msg) => {
+        const {
+            chat: { id },
+            message_id,
+        } = msg;
         await addSessionMessagesIdsToDb(id, message_id);
 
-            if (
-                listenerCase(keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY, msg.text)
-                || listenerCase(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg.text)
-            ) {
-                await removeSessionMessagesIds(bot, id);
-                await clearSessionMessagesIdsInDb(id);
-                await resetSessionDataInDb(id);
-                await clearFindTrip(id);
-                await goToTheMainMenu(bot, id, msg);
+        if (
+            listenerCase(
+                keysActions.FINISH_TRIP_CREATION_MESSAGES_KEY,
+                msg.text
+            ) ||
+            listenerCase(keysActions.GO_TO_THE_MAIN_MENU_MESSAGES_KEY, msg.text)
+        ) {
+            await removeSessionMessagesIds(bot, id);
+            await clearSessionMessagesIdsInDb(id);
+            await resetSessionDataInDb(id);
+            await clearFindTrip(id);
+            await goToTheMainMenu(bot, id, msg);
         }
     });
 };

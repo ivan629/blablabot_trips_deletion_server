@@ -1,6 +1,5 @@
-import phoneNumberListeners  from '../../../modules/tripCreationModule/phoneNumberModule/phoneNumberListeners';
-import { sendPhoneNumberInitialData }  from './phoneNumberHelpers';
-
+import { sendPhoneNumberInitialData } from './phoneNumberHelpers';
+import phoneNumberListeners from '../../../modules/tripCreationModule/phoneNumberModule/phoneNumberListeners';
 
 class phoneNumberModule {
     async runPhoneNumberModule(bot, msg) {
@@ -8,7 +7,7 @@ class phoneNumberModule {
     }
 
     setListeners(bot) {
-        phoneNumberListeners(bot)
+        phoneNumberListeners(bot);
     }
 }
 

@@ -52,9 +52,9 @@ async function logIntro() {
 
 (async () => {
     try {
-       await logIntro();
-       await initializeDatabase();
-       await startHttpServer()
+        await logIntro();
+        await initializeDatabase();
+        await startHttpServer();
     } catch (err) {
         try {
             logger.error(err);
