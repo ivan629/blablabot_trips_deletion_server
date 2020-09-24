@@ -1,7 +1,7 @@
-FROM node:12
+# Use the official lightweight Node.js 10 image.
+# https://hub.docker.com/_/node
+FROM node:12-slim
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-RUN apt-get install -y nodejs
 # создание директории приложения
 WORKDIR /usr/src/app
 
