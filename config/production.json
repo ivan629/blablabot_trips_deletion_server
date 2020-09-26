@@ -8,7 +8,6 @@
   },
   "telegramBotConfig": {
     "token": "1380088190:AAHRHUyxyQ42vemVk8zrkczjeq3MXzh-jYE",
-    "tokenOld": "780908981:AAEeccadnLGpnirsqJunExhh7fnAKsfCujk",
     "webhooksServerUrl": "https://blablacarbot-m27xpziovq-ew.a.run.app",
     "isWebhooksActive": false
   }
