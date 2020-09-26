@@ -1,7 +1,7 @@
 import { getTripCreationMinCalendarDateThreshold } from './tripCreationCalendarUtils';
 import calendarComponent from '../../../common/components/calendarComponent/calendarComponent';
 
-const FindTripCalendarComponent = async ({
+const tripCreationCalendarContainer = async ({
     chat_id,
     eventObject,
     customNewYear,
@@ -20,4 +20,4 @@ const FindTripCalendarComponent = async ({
             getTripCreationMinCalendarDateThreshold(chat_id),
     });
 
-export default FindTripCalendarComponent;
+export default tripCreationCalendarContainer;
