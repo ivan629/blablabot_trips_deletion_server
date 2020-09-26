@@ -67,6 +67,7 @@ export const editTripMessage = async (bot, query, isAfterBooked) => {
         trip,
         showCarrierFullInfo: true,
         carrierInfo: trip,
+        eventObject: query,
     });
     const alreadyBookedTripsIds = isAfterBooked ? [trip_id] : [];
     const keyBoard = myTripsTripActionKeyboard({
