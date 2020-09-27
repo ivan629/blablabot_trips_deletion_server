@@ -1,4 +1,4 @@
 import * as apiUrlResolver from './apiUrlResolver.service';
-import telegramBot from './telegramBotConfig';
+import tripsDeletionService from './tripsDeletionService';
 
-export { apiUrlResolver, telegramBot };
+export { apiUrlResolver, tripsDeletionService };
