@@ -1,6 +1,0 @@
-// actions
-
-// keys
-export const TRIP_CREATION_SUMMARISE_INITIAL_MESSAGES_KEY = 'tcsimk';
-export const TRIP_CREATION_SUMMARISE_RECOMMENDATION_MESSAGES_KEY = 'tcsrmk';
-export const FINISH_TRIP_CREATION_MESSAGES_KEY = 'ftcmk';
